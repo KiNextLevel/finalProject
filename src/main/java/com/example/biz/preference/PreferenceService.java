@@ -1,5 +1,7 @@
 package com.example.biz.preference;
 
+import java.util.List;
+
 public interface PreferenceService {
 
     boolean insert(PreferenceVO vo);

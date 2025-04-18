@@ -1,9 +1,12 @@
 package com.example.biz.alert.impl;
 
 import com.example.biz.alert.AlertService;
+import com.example.biz.alert.AlertVO;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service("alertService")
 public class AlertSerivceImpl implements AlertService {
     @Override
     public boolean insert(AlertVO vo) {

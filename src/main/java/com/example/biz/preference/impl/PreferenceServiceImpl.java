@@ -1,9 +1,12 @@
 package com.example.biz.preference.impl;
 
 import com.example.biz.preference.PreferenceService;
+import com.example.biz.preference.PreferenceVO;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service("preferenceService")
 public class PreferenceServiceImpl implements PreferenceService {
     @Override
     public boolean insert(PreferenceVO vo) {

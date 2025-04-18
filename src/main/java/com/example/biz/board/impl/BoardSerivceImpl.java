@@ -1,6 +1,7 @@
 package com.example.biz.board.impl;
 
 import com.example.biz.board.BoardService;
+import com.example.biz.board.BoardVO;
 
 import java.util.List;
 
