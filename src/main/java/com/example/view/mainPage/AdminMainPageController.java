@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class AdminMainPageAction {
+public class AdminMainPageController {
     @GetMapping("/adminPage.do")
     public String adminMainPage(HttpSession session, Model model) {
         System.out.println("AdminMainPageAction 로그: 도착");

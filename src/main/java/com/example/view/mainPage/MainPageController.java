@@ -6,7 +6,6 @@ import com.example.biz.preference.PreferenceService;
 import com.example.biz.preference.PreferenceVO;
 import com.example.biz.user.UserService;
 import com.example.biz.user.UserVO;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -15,11 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-public class MainPageAction{
+public class MainPageController {
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -27,7 +25,7 @@ public class MainPageAction{
 	@Autowired
 	private AlertService alertService;
 
-	@GetMapping("main")
+	@GetMapping("mainPage.do")
 	public String mainPage(HttpSession session, PreferenceVO preferenceVO, AlertVO alertVO, UserVO userVO , Model model) {
 		System.out.println("CONT 로그: MAINPAGE ACTION 도착");
 		String userEmail = (String) session.getAttribute("userEmail");
