@@ -1,39 +1,32 @@
 package com.example.biz.preference.impl;
 
 import com.example.biz.preference.PreferenceService;
-import com.example.biz.preference.PreferenceVO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service("preferenceService")
 public class PreferenceServiceImpl implements PreferenceService {
-    @Autowired
-    private PreferenceDAO preferenceDAO;
-
     @Override
-    public boolean insert(PreferenceVO preferenceVO) {
-        return preferenceDAO.insert(preferenceVO);
+    public boolean insert(PreferenceVO vo) {
+        return false;
     }
 
     @Override
-    public boolean update(PreferenceVO preferenceVO) {
-        return preferenceDAO.update(preferenceVO);
+    public boolean update(PreferenceVO vo) {
+        return false;
     }
 
     @Override
-    public boolean delete(PreferenceVO preferenceVO) {
-        return preferenceDAO.delete(preferenceVO);
+    public boolean delete(PreferenceVO vo) {
+        return false;
     }
 
     @Override
-    public PreferenceVO getPreference(PreferenceVO preferenceVO) {
-        return preferenceDAO.getMember(preferenceVO);
+    public PreferenceVO getPreference(PreferenceVO vo) {
+        return null;
     }
 
     @Override
-    public List<PreferenceVO> getPreferenceList(PreferenceVO preferenceVO) {
-        return preferenceDAO.insert(preferenceVO);
+    public List<PreferenceVO> getPreferenceList(PreferenceVO vo) {
+        return List.of();
     }
 }
