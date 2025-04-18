@@ -1,25 +1,23 @@
 package com.example.biz.alert.impl;
 
 import com.example.biz.alert.AlertVO;
-import com.example.common.JDBCUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.List;
 
 public class AlertDAO {
     // 00유저의 알림번호, 알림내용, 알림 날짜, 알림여부 불러오기
     // 사용자의 알림이 여러개가 있을 수 있으니까 SELECTALL
-    private final String SELECTALL = "SELECT ALERT_NUM, ALERT_CONTENT, ALERT_DATE, ALERT_ISWATCH FROM ALERT WHERE ALERT_MEMBER_EMAIL = ? ORDER BY ALERT_NUM DESC";
+    private final String SELECTALL = "SELECT ALERT_NUM, ALERT_CONTENT, ALERT_DATE, ALERT_ISWATCH FROM ALERT WHERE ALERT_USER_EMAIL = ? ORDER BY ALERT_NUM DESC";
 
     private final String SELECTONE = ""; // 기능 없음
 
     // (관리자) - 유저에게 경고 알림 보내기
     // 유저 이메일, 내용, 알림보낸날짜, 읽음 여부
-    private final String INSERT = "INSERT INTO ALERT (ALERT_MEMBER_EMAIL, ALERT_CONTENT, ALERT_DATE, ALERT_ISWATCH) " +
-            "VALUES (?, ?, CURRENT_TIMESTAMP, 0);";
+    private final String INSERT = "INSERT INTO ALERT (ALERT_USER_EMAIL, ALERT_CONTENT, ALERT_DATE, ALERT_ISWATCH) "
+            + "VALUES (?, ?, NOW(), false)";
 
     // 유저 알림 열람여부(읽음, 안읽음) 0 == 안읽음, 1 == 읽음
     // 한 알림만 읽음 처리해야 하기 때문에, WHERE ALERT_NUM
@@ -29,8 +27,8 @@ public class AlertDAO {
 
     private final String DELETE = ""; // 기능 없음
 
-    public List<AlertVO> getAlertList(AlertVO AlertVO) {
-        List<AlertVO> datas = new ArrayList<>();
+    public ArrayList<AlertVO> selectAll(AlertVO AlertVO) {
+        ArrayList<AlertVO> datas = new ArrayList<>();
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -45,6 +43,7 @@ public class AlertDAO {
                 data.setAlertDate(rs.getDate("ALERT_DATE"));  //알림 날짜 추가
                 data.setAlertContent(rs.getString("ALERT_CONTENT"));  //알림 내용
                 data.setAlertIsWatch(rs.getBoolean("ALERT_ISWATCH"));  //알림 읽음 여부
+                data.setAlertDate(rs.getDate("ALERT_DATE"));    //알림 날짜
                 datas.add(data);
             }
             return datas;
@@ -63,7 +62,7 @@ public class AlertDAO {
     }
     // 기능 없음
     private
-    AlertVO getAlert(AlertVO AlertVO) {
+    AlertVO selectOne(AlertVO AlertVO) {
         throw new UnsupportedOperationException("단일 알림 조회는 제공되지 않습니다.");
     }
 
