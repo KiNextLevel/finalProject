@@ -162,9 +162,9 @@
                                 <h5 class="option-title">토큰 패키지 선택</h5>
                                 <!-- 기본 패키지 -->
                                 <form action="tossPaymentPage.do" method="POST">
-                                    <input type="hidden" name="Product_Num" value="2">
-                                    <input type="hidden" name="Product_Name" value="기본 패키지">
-                                    <input type="hidden" name="Product_Price" value="1100">
+                                    <input type="hidden" name="productNumber" value="2">
+                                    <input type="hidden" name="productName" value="기본 패키지">
+                                    <input type="hidden" name="productPrice" value="1100">
                                     <input type="hidden" name="action" value="TOKENPAYMENT">
                                     <button type="submit" class="btn btn-primary btn-lg">
                                         <i class="fa fa-credit-card"></i> 기본 패키지 - 1개 (₩1,100)
@@ -173,9 +173,9 @@
 
                                 <!-- 인기 패키지 -->
                                 <form action="tossPaymentPage.do" method="POST">
-                                    <input type="hidden" name="Product_Num" value="3">
-                                    <input type="hidden" name="Product_Name" value="인기 패키지">
-                                    <input type="hidden" name="Product_Price" value="5000">
+                                    <input type="hidden" name="productNumber" value="3">
+                                    <input type="hidden" name="productName" value="인기 패키지">
+                                    <input type="hidden" name="productPrice" value="5000">
                                     <input type="hidden" name="action" value="TOKENPAYMENT">
                                     <button type="submit" class="btn btn-primary btn-lg">
                                         <i class="fa fa-credit-card"></i> 인기 패키지 - 5개 (₩5,000)
@@ -183,9 +183,9 @@
                                 </form>
                                 <!-- 프리미엄 패키지 -->
                                 <form action="tossPaymentPage.do" method="POST">
-                                    <input type="hidden" name="Product_Num" value="4">
-                                    <input type="hidden" name="Product_Name" value="프리미엄 패키지">
-                                    <input type="hidden" name="Product_Price" value="8800">
+                                    <input type="hidden" name="productNumber" value="4">
+                                    <input type="hidden" name="productName" value="프리미엄 패키지">
+                                    <input type="hidden" name="productPrice" value="8800">
                                     <input type="hidden" name="action" value="TOKENPAYMENT">
                                     <button type="submit" class="btn btn-primary btn-lg">
                                         <i class="fa fa-credit-card"></i> 프리미엄 패키지 - 10개 (₩8,800)
@@ -233,9 +233,9 @@
                             <div class="premium-action">
                                 <!-- 프리미엄 멤버십 소유한 상태라면 버튼 비활성화 -->
                                 <form action="tossPaymentPage.do" method="post">
-                                    <input type="hidden" name="Product_Num" value="1">
-                                    <input type="hidden" name="Product_Name" value="프리미엄 멤버쉽 결제">
-                                    <input type="hidden" name="Product_Price" value="9900">
+                                    <input type="hidden" name="productNumber" value="1">
+                                    <input type="hidden" name="productName" value="프리미엄 멤버쉽 결제">
+                                    <input type="hidden" name="productPrice" value="9900">
                                     <input type="hidden" name="action" value="PREMIUM">
 
                                     <button type="submit" class="btn btn-primary btn-lg payment-button"
