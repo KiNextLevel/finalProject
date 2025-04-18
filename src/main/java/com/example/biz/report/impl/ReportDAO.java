@@ -1,5 +1,6 @@
 package com.example.biz.report.impl;
 
+import com.example.biz.report.ReportVO;
 import org.springframework.stereotype.Repository;
 
 import com.example.common.JDBCUtil;
@@ -19,7 +20,7 @@ public class ReportDAO {
 
     // (유저용) 사용자가 또 다른 사용자를 신고하는 쿼리문(신고자, 신고이유, 신고날짜, 피신고자, 신고설명)
     private final String INSERT = "INSERT INTO REPORT (REPORT_NUM, REPORT_REPORTER, REPORT_REASON, REPORT_DATE, REPORT_REPORTED, REPORT_DESCRIPTION) " +
-        "VALUES (NVL((SELECT MAX(REPORT_NUM)+1 FROM REPORT), 1), ?, ?, SYSDATE, ?, ?)";
+        "VALUES (NVL((SELECT MAX(REPORT_NUM)+1 FROM REPORT), 1), ?, ?, CURRENT_TIMESTAMP, ?, ?)";
 
     private final String UPDATE = "";
 
