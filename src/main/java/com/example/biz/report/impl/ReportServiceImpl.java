@@ -13,26 +13,26 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public boolean insert(ReportVO vo) {
-        return reportDAO.insert();
+        return reportDAO.insert(vo);
     }
 
     @Override
     public boolean update(ReportVO vo) {
-        return reportDAO.update();
+        return false;
     }
 
     @Override
     public boolean delete(ReportVO vo) {
-        return reportDAO.delete();
+        return reportDAO.delete(vo);
     }
 
     @Override
     public ReportVO getReport(ReportVO vo) {
-        return reportDAO.getReport();
+        return reportDAO.getReport(vo);
     }
 
     @Override
     public List<ReportVO> getReportList(ReportVO vo) {
-        return reportDAO.getReportList();
+        return reportDAO.getReportList(vo);
     }
 }
