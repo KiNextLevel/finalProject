@@ -51,6 +51,11 @@ dependencies {
 	implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
 	implementation 'org.glassfish.jaxb:jaxb-runtime:4.0.3'
 
+	// JSON 관련 의존성 추가
+	implementation 'org.json:json:20240303'            // org.json 라이브러리 (JSONObject 클래스용)
+	implementation 'com.googlecode.json-simple:json-simple:1.1.1'  // json-simple 라이브러리 (JSONParser 클래스용)
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.16.1'  // Jackson 라이브러리 (객체-JSON 변환용)
+
 	compileOnly 'org.projectlombok:lombok'
 	//runtimeOnly 'com.mysql:mysql-connector-j'
 	runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
