@@ -1,32 +1,38 @@
 package com.example.biz.report.impl;
 
 import com.example.biz.report.ReportService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public class ReprotServiceImpl implements ReportService {
+@Service("reportService")
+public class ReportServiceImpl implements ReportService {
+    @Autowired
+    private ReportDAO reportDAO;
+
     @Override
     public boolean insert(ReportVO vo) {
-        return false;
+        return reportDAO.insert();
     }
 
     @Override
     public boolean update(ReportVO vo) {
-        return false;
+        return reportDAO.update();
     }
 
     @Override
     public boolean delete(ReportVO vo) {
-        return false;
+        return reportDAO.delete();
     }
 
     @Override
     public ReportVO getReport(ReportVO vo) {
-        return null;
+        return reportDAO.getReport();
     }
 
     @Override
     public List<ReportVO> getReportList(ReportVO vo) {
-        return List.of();
+        return reportDAO.getReportList();
     }
 }
