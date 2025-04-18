@@ -1,4 +1,4 @@
 package com.example.biz.report.impl;
 
-public class ReprotServiceImpl {
+public class ReportDAO {
 }
