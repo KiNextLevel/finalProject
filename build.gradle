@@ -60,6 +60,14 @@ dependencies {
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4'
 	testImplementation 'org.springframework.kafka:spring-kafka-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	// JavaMail API
+	implementation 'javax.mail:javax.mail-api:1.6.2'
+
+	// JavaMail 구현체 (실제 메일 전송에 필요)
+	implementation 'com.sun.mail:javax.mail:1.6.2'
+
+	// Java Activation Framework
+	implementation 'javax.activation:activation:1.1'
 }
 
 tasks.named('test') {
