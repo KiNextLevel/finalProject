@@ -1,0 +1,88 @@
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #f8f9fa;
+    color: #343a40;
+    padding: 20px 0;
+}
+
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.card-header {
+    background: linear-gradient(135deg, #13c1ac 0%, #6fe7db 100%);
+    color: white;
+    border: none;
+    padding: 20px;
+    font-weight: 500;
+}
+
+.form-control {
+    border-radius: 10px;
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    transition: all 0.3s;
+}
+
+.form-control:focus {
+    border-color: #13c1ac;
+    box-shadow: 0 0 0 0.2rem rgba(19, 193, 172, 0.25);
+}
+
+.form-control[readonly] {
+    background-color: #f8f9fa;
+}
+
+.btn-search {
+    background: linear-gradient(135deg, #13c1ac 0%, #6fe7db 100%);
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.btn-search:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(19, 193, 172, 0.3);
+}
+
+.btn-complete {
+    background: linear-gradient(135deg, #4a6bff 0%, #77a4ff 100%);
+    border: none;
+    border-radius: 10px;
+    padding: 12px 25px;
+    font-weight: 500;
+    transition: all 0.3s;
+    margin-top: 20px;
+}
+
+.btn-complete:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(74, 107, 255, 0.3);
+}
+
+.input-group-text {
+    background-color: #e9ecef;
+    border-radius: 10px 0 0 10px;
+    border: 1px solid #e0e0e0;
+}
+
+.label-text {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.address-icon {
+    color: #13c1ac;
+    margin-right: 8px;
+}
+
+.container {
+    max-width: 600px;
+}

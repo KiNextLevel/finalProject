@@ -1,0 +1,37 @@
+.form-section {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    padding: 30px;
+    margin-bottom: 30px;
+}
+
+.form-section h3 {
+    border-bottom: 2px solid #e94d1c;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    color: #e94d1c;
+}
+
+.progress-container {
+    margin-bottom: 30px;
+}
+
+.required-field::after {
+    content: " *";
+    color: red;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.btn-next-step {
+    background-color: #e94d1c;
+    border-color: #e94d1c;
+}
+
+.btn-next-step:hover {
+    background-color: #d23b0d;
+    border-color: #d23b0d;
+}

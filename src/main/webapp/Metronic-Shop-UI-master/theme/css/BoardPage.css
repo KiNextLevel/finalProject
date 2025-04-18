@@ -1,0 +1,230 @@
+/* 이벤트 페이지 전체 스타일 */
+.event-page {
+    background-color: #f8f8f8;
+    padding: 30px 0;
+}
+
+.page-title-container {
+    background: linear-gradient(135deg, #e94d1c 0%, #f86e4a 100%);
+    color: white;
+    padding: 30px;
+    border-radius: 5px;
+    margin-bottom: 30px;
+    position: relative;
+    overflow: hidden;
+}
+
+.page-title-container h1 {
+    font-size: 36px;
+    margin: 0;
+    font-weight: 600;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+}
+
+.page-title-container p {
+    font-size: 18px;
+    margin-top: 10px;
+    opacity: 0.9;
+}
+
+.page-title-container:before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 120px;
+    height: 120px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+}
+
+/* 이벤트 카드 스타일 */
+.event-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    margin-bottom: 25px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+}
+
+.event-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+.event-header {
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    cursor: pointer;
+}
+
+.event-header h4 {
+    margin: 0;
+    font-weight: 600;
+    color: #333;
+    padding-right: 30px;
+}
+
+.event-header:after {
+    content: '\f078';
+    font-family: 'FontAwesome';
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #e94d1c;
+    transition: transform 0.3s ease;
+}
+
+.event-header.active:after {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.event-content {
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease, padding 0.3s ease;
+}
+
+.event-content.active {
+    padding: 20px;
+    max-height: 1000px; /* 충분히 큰 값 */
+}
+
+.event-body {
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.event-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 4px;
+}
+
+/* 참가자 정보 스타일 */
+.participant-info {
+    display: flex;
+    align-items: center;
+}
+
+.participant-count {
+    font-size: 15px;
+    color: #555;
+}
+
+.progress {
+    height: 10px;
+    margin: 0 15px;
+    width: 150px;
+}
+
+.progress-bar-success {
+    background-color: #e94d1c;
+}
+
+/* 버튼 스타일 */
+.btn-participate {
+    background-color: #e94d1c;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.btn-participate:hover {
+    background-color: #d23c0d;
+}
+
+.admin-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-edit, .btn-delete {
+    padding: 6px 15px;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+.btn-edit {
+    background-color: #3598dc;
+    color: white;
+}
+
+.btn-delete {
+    background-color: #e35b5a;
+    color: white;
+}
+
+/* 이벤트 없을 때 스타일 */
+.no-events {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.no-events i {
+    font-size: 50px;
+    color: #ccc;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.no-events h2 {
+    color: #555;
+    font-weight: 400;
+}
+
+/* 관리자 버튼 스타일 */
+.admin-add-btn {
+    margin-bottom: 20px;
+}
+
+.btn-add-event {
+    background-color: #e94d1c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+}
+
+.btn-add-event i {
+    margin-right: 8px;
+}
+
+.btn-add-event:hover {
+    background-color: #d23c0d;
+    color: white;
+    text-decoration: none;
+}
+.event-titles {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.participant-badges {
+    background-color: #28a745; /* 녹색 배경 */
+    color: yellow; /* 글씨 색상 변경 */
+    font-size: 12px;
+    font-weight: bold;
+    padding: 3px 8px;
+    border-radius: 5px;
+    white-space: nowrap; /* 줄바꿈 방지 */
+}

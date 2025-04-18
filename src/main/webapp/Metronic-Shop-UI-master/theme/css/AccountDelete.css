@@ -1,0 +1,221 @@
+/* 전체 컨테이너 스타일 */
+.main {
+    background-color: #faf8f5;
+    padding: 40px 0;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.withdrawal-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* 카드 스타일 - 그림자 효과로 입체감 부여 */
+.withdrawal-card {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+/* 헤더 스타일 - 부드러운 주황색으로 변경 */
+.card-header {
+    background: linear-gradient(to right, #e8834b, #f2a76c);
+    color: white;
+    padding: 25px 30px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.header-icon {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.card-header h2 {
+    margin: 0 0 5px 0;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.card-header p {
+    margin: 0;
+    opacity: 0.9;
+    font-size: 15px;
+}
+
+/* 카드 본문 스타일 */
+.card-body {
+    padding: 30px;
+}
+
+/* 유의사항 섹션 스타일 */
+.notice-section {
+    background-color: #fff9f5;
+    border-left: 4px solid #e8834b;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 5px;
+}
+
+.notice-section h3 {
+    color: #e8834b;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.notice-section ul {
+    padding-left: 20px;
+    margin-bottom: 0;
+}
+
+.notice-section li {
+    margin-bottom: 10px;
+    color: #555;
+    line-height: 1.5;
+}
+
+/* 약관 섹션 스타일 */
+.terms-section {
+    margin-bottom: 30px;
+}
+
+.terms-section h3 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.terms-box {
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.terms-content {
+    padding: 15px;
+    color: #555;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+/* 체크박스 스타일 */
+.agree-checkbox {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.agree-checkbox input[type="checkbox"] {
+    margin-right: 10px;
+    width: 18px;
+    height: 18px;
+}
+
+.agree-checkbox label {
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+}
+
+/* 탈퇴 사유 섹션 */
+.reason-section {
+    margin-bottom: 30px;
+}
+
+.reason-section h3 {
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.reason-section p {
+    color: #777;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #333;
+}
+
+select.form-control {
+    height: 45px;
+    background-color: white;
+}
+
+textarea.form-control {
+    resize: none;
+}
+
+/* 버튼 섹션 스타일 */
+.buttons-section {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.btn {
+    padding: 12px 30px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.btn-cancel {
+    background-color: #f1f3f5;
+    color: #495057;
+}
+
+.btn-cancel:hover {
+    background-color: #e9ecef;
+}
+
+.btn-withdraw {
+    background-color: #e8834b;
+    color: white;
+}
+
+.btn-withdraw:hover {
+    background-color: #d67339;
+    box-shadow: 0 2px 8px rgba(232, 131, 75, 0.3);
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+    .card-body {
+        padding: 20px;
+    }
+
+    .buttons-section {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .btn-cancel {
+        order: 2;
+    }
+
+    .btn-withdraw {
+        order: 1;
+    }
+}

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="https://static.toss.im/icons/png/4x/icon-toss-logo.png" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>토스페이먼츠 결제</title>
+  <!-- SDK 추가 -->
+  <script src="https://js.tosspayments.com/v2/standard"></script>
+  <style>
+    :root {
+      --primary-color: #3182f6;
+      --primary-hover: #1b64da;
+      --primary-light: #e8f3ff;
+      --text-dark: #333d4b;
+      --text-medium: #4e5968;
+      --text-light: #8b95a1;
+      --border-color: #e5e8eb;
+      --background-color: #f9fafb;
+      --white: #ffffff;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      --radius: 12px;
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background-color: var(--background-color);
+      color: var(--text-dark);
+      line-height: 1.5;
+      padding: 20px;
+    }
+
+    .wrapper {
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .header__logo {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 16px;
+    }
+
+    .header__title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .header__subtitle {
+      font-size: 16px;
+      color: var(--text-light);
+    }
+
+    .payment-card {
+      background-color: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    .payment-card__header {
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .payment-card__title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .payment-card__description {
+      font-size: 14px;
+      color: var(--text-light);
+    }
+
+    .payment-section {
+      margin-bottom: 24px;
+    }
+
+    .payment-section__title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .coupon-section {
+      background-color: var(--primary-light);
+      border-radius: 8px;
+      padding: 16px;
+      margin: 24px 0;
+    }
+
+    .checkable {
+      display: flex;
+      align-items: center;
+    }
+
+    .checkable__input {
+      width: 20px;
+      height: 20px;
+      margin-right: 12px;
+      accent-color: var(--primary-color);
+    }
+
+    .checkable__label-text {
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .button {
+      display: block;
+      width: 100%;
+      background-color: var(--primary-color);
+      color: var(--white);
+      border: none;
+      border-radius: 8px;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      margin-top: 24px;
+    }
+
+    .button:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .button--outline {
+      background-color: transparent;
+      border: 1px solid var(--primary-color);
+      color: var(--primary-color);
+    }
+
+    .button--outline:hover {
+      background-color: var(--primary-light);
+    }
+
+    .secondary-buttons {
+      margin-top: 16px;
+    }
+
+    .secondary-buttons .button {
+      margin-top: 12px;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 32px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-color);
+      color: var(--text-light);
+      font-size: 12px;
+    }
+
+    @media (max-width: 600px) {
+      .payment-card {
+        padding: 24px 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<div class="wrapper">
+  <header class="header">
+    <img src="https://static.toss.im/icons/png/4x/icon-toss-logo.png" alt="토스 로고" class="header__logo">
+    <h1 class="header__title">결제하기</h1>
+    <p class="header__subtitle">안전하고 빠른 결제를 도와드립니다</p>
+  </header>
+
+  <div class="payment-card">
+    <div class="payment-card__header">
+      <h2 class="payment-card__title">결제 정보</h2>
+      <p class="payment-card__description">결제 수단을 선택하고 정보를 확인해주세요</p>
+    </div>
+
+    <div class="payment-section">
+      <h3 class="payment-section__title">결제 수단 선택</h3>
+      <!-- 결제 UI -->
+      <div id="payment-method"></div>
+    </div>
+
+    <div class="payment-section">
+      <h3 class="payment-section__title">이용약관</h3>
+      <!-- 이용약관 UI -->
+      <div id="agreement"></div>
+    </div>
+<!--
+    <div class="coupon-section">
+      <div class="checkable">
+        <input id="coupon-box" class="checkable__input" type="checkbox" aria-checked="true" />
+        <label for="coupon-box" class="checkable__label-text">5,000원 쿠폰 적용</label>
+      </div>
+    </div>
+    -->
+
+    <button class="button" id="payment-button">결제하기</button>
+  </div>
+<!--
+  <div class="payment-card secondary-buttons">
+    <h3 class="payment-section__title">다른 결제 방식</h3>
+    <button class="button button--outline" id="brandpay-button">위젯 없이 브랜드페이만 연동하기</button>
+    <button class="button button--outline" id="payment-window-button">위젯 없이 결제창만 연동하기</button>
+  </div>
+  -->
+
+  <footer class="footer">
+    <p>© 2025 토스페이먼츠. 모든 권리 보유.</p>
+  </footer>
+</div>
+
+<script>
+  let currentURL = window.location.href.replace(/[^/]*$/, '');
+  // URL에서 productName, productPrice 가져오기
+  function getQueryParam(name) {
+    const params = new URLSearchParams(window.location.search);
+    return params.get(name) || "";
+  }
+  main();
+  async function main() {
+    const button = document.getElementById("payment-button");
+    const coupon = document.getElementById("coupon-box");
+    const productPrice = getQueryParam("productPrice"); //url에서 가져온 상품 금액
+    console.log(productPrice);
+    const amount = {
+      currency: "KRW",
+      value: parseInt(productPrice) || 10000, // 기본값 설정
+    };
+
+    // ------  결제위젯 초기화 ------
+    const clientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
+    const customerKey = generateRandomString();
+    const tossPayments = TossPayments(clientKey);
+    // 회원 결제
+    const widgets = tossPayments.widgets({
+      customerKey,
+    });
+
+    // ------  주문서의 결제 금액 설정 ------
+    await widgets.setAmount(amount);
+
+    await Promise.all([
+      // ------  결제 UI 렌더링 ------
+      widgets.renderPaymentMethods({
+        selector: "#payment-method",
+        variantKey: "DEFAULT",
+      }),
+      // ------  이용약관 UI 렌더링 ------
+      widgets.renderAgreement({
+        selector: "#agreement",
+        variantKey: "AGREEMENT",
+      }),
+    ]);
+
+    // ------  주문서의 결제 금액이 변경되었을 경우 결제 금액 업데이트 ------
+    if (coupon) { // coupon이 존재할 때만 이벤트 추가
+      coupon.addEventListener("change", async function () {
+        if (coupon.checked) {
+          await widgets.setAmount({
+            currency: "KRW",
+            value: amount.value - 5000,
+          });
+          return;
+        }
+
+        await widgets.setAmount({
+          currency: "KRW",
+          value: amount.value,
+        });
+      });
+    }
+
+    // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
+    button.addEventListener("click", async function () {
+      const productName = getQueryParam("productName") || "테스트 상품"; //url에서 가져온 상품 이름
+      const productNum = getQueryParam("productNum") || "123456"; //url에서 가져온 상품 번호
+      const userEmail = getQueryParam("userEmail") || "customer@example.com"; //url에서 가져온 구매자 이메일
+      const userName = getQueryParam("userName") || "홍길동"; //url에서 가져온 구매자 이름
+
+      await widgets.requestPayment({
+        orderId: generateRandomString(),
+        orderName: productName,
+        successUrl: currentURL+"success.jsp?productNum=" + productNum + "&productName=" + productName,
+        failUrl: currentURL+"fail.jsp",
+        customerEmail: userEmail,
+        customerName: userName,
+      });
+    });
+  }
+
+  document.getElementById("payment-window-button").addEventListener("click", () => {
+    location.href = "/public/payment/checkout.html";
+  });
+
+  document.getElementById("brandpay-button").addEventListener("click", () => {
+    location.href = "/public/brandpay/checkout.html";
+  });
+
+  function generateRandomString() {
+    return window.btoa(Math.random()).slice(0, 20);
+  }
+</script>
+</body>
+</html>

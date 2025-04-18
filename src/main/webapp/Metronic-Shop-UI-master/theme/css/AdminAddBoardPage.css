@@ -1,0 +1,189 @@
+/* 이벤트 추가 페이지 스타일 */
+.event-add-page {
+    background-color: #f8f8f8;
+    padding: 30px 0;
+}
+
+.page-title-container {
+    background: linear-gradient(135deg, #e94d1c 0%, #f86e4a 100%);
+    color: white;
+    padding: 30px;
+    border-radius: 5px;
+    margin-bottom: 30px;
+    position: relative;
+    overflow: hidden;
+}
+
+.page-title-container h1 {
+    font-size: 32px;
+    margin: 0;
+    font-weight: 600;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+}
+
+.page-title-container p {
+    font-size: 16px;
+    margin-top: 10px;
+    opacity: 0.9;
+}
+
+.page-title-container:before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 120px;
+    height: 120px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+}
+
+/* 폼 컨테이너 스타일 */
+.form-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+    padding: 30px;
+    margin-bottom: 30px;
+}
+
+.form-title {
+    margin-top: 0;
+    margin-bottom: 25px;
+    color: #333;
+    font-weight: 600;
+    border-bottom: 2px solid #e94d1c;
+    padding-bottom: 10px;
+    position: relative;
+}
+
+.form-title:after {
+    content: '\f044';
+    font-family: 'FontAwesome';
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: #e94d1c;
+    font-size: 24px;
+}
+
+/* 폼 필드 스타일 */
+.form-group {
+    margin-bottom: 25px;
+}
+
+.control-label {
+    font-weight: 600;
+    color: #555;
+}
+
+.form-control {
+    border-radius: 4px;
+    box-shadow: none;
+    border: 1px solid #ddd;
+    height: auto;
+    padding: 10px 12px;
+}
+
+.form-control:focus {
+    border-color: #e94d1c;
+    box-shadow: 0 0 8px rgba(233, 77, 28, 0.2);
+}
+
+textarea.form-control {
+    min-height: 200px;
+    resize: vertical;
+}
+
+.require {
+    color: #e94d1c;
+    margin-left: 5px;
+}
+
+/* 버튼 스타일 */
+.btn-event-add {
+    background-color: #e94d1c;
+    color: white;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.btn-event-add:hover {
+    background-color: #d23c0d;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(233, 77, 28, 0.3);
+}
+
+.btn-event-cancel {
+    background-color: #999;
+    color: white;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.btn-event-cancel:hover {
+    background-color: #777;
+}
+
+/* 도움말 텍스트 */
+.help-block {
+    color: #888;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+/* 사이드 정보 패널 */
+.side-info-panel {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+    padding: 20px;
+}
+
+.side-info-title {
+    color: #333;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.info-item {
+    margin-bottom: 15px;
+}
+
+.info-item i {
+    color: #e94d1c;
+    margin-right: 10px;
+}
+
+/* 반응형 조정 */
+@media (max-width: 767px) {
+    .page-title-container {
+        padding: 20px;
+    }
+
+    .page-title-container h1 {
+        font-size: 24px;
+    }
+
+    .form-container {
+        padding: 20px;
+    }
+
+    .side-info-panel {
+        margin-top: 30px;
+    }
+}

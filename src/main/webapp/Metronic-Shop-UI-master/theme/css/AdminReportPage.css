@@ -1,0 +1,87 @@
+.report-panel {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+.report-header {
+    border-bottom: 2px solid #e94d1c;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+}
+
+.report-content {
+    background-color: #f9f9f9;
+    border-left: 4px solid #e94d1c;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.report-actions {
+    background-color: #f5f5f5;
+    padding: 15px;
+    border-radius: 4px;
+}
+
+.blacklist-table {
+    width: 100%;
+    margin-top: 30px;
+}
+
+.blacklist-table th {
+    background-color: #e94d1c;
+    color: white;
+    padding: 12px;
+    text-align: center;
+}
+
+.blacklist-table td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+.btn-warning {
+    background-color: #ffb848;
+}
+
+.btn-blacklist {
+    background-color: #333;
+    color: white;
+}
+
+.btn-remove {
+    background-color: #e94d1c;
+    color: white;
+}
+
+.section-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 30px 0 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e94d1c;
+}
+
+.empty-message {
+    text-align: center;
+    padding: 30px;
+    font-style: italic;
+    color: #777;
+}
+
+.user-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.user-badge {
+    background-color: #e94d1c;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    margin-right: 5px;
+}

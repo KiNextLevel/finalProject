@@ -1,0 +1,648 @@
+/* 섹션 타이틀 스타일 */
+.section-title {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 25px;
+    color: #333;
+    border-bottom: 2px solid #e94d1c;
+    padding-bottom: 10px;
+    display: inline-block;
+}
+
+.section-title i {
+    margin-right: 10px;
+    color: #e94d1c;
+}
+
+/* 토큰 섹션 스타일 개선 */
+.token-section {
+    background: linear-gradient(to right, #f9f9f9, #f5f5f5);
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    padding: 30px;
+    margin-bottom: 60px; /* 40px에서 60px로 증가 */
+    display: flex;
+    overflow: hidden; /* 내부 요소의 마진 붕괴 방지 */
+}
+
+.content-box {
+    padding: 20px;
+}
+
+.feature-title {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.feature-description {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.feature-list {
+    margin-top: 20px;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.feature-item i {
+    color: #e94d1c;
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+/* 토큰 옵션 박스 스타일 */
+.option-box {
+    background: linear-gradient(135deg, #fff, #f8f8f8);
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px; /* 하단 여백 추가 */
+    width: 100%; /* 너비 확보 */
+}
+
+.option-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #333;
+    text-align: center;
+}
+
+.option-select {
+    margin-bottom: 20px;
+}
+
+/* 토큰 패키지 선택 옵션 스타일 개선 */
+.option-select select,
+select.form-control,
+.token-package-select {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #fff;
+    color: #333;
+    font-weight: 500;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    appearance: none; /* 기본 화살표 제거 */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z' fill='%23555'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    height: auto;
+    min-height: 48px;
+    margin-bottom: 15px; /* 선택 박스와 버튼 사이 여백 */
+}
+
+/* 셀렉트 박스 호버 및 포커스 효과 */
+.option-select select:hover,
+select.form-control:hover,
+.token-package-select:hover {
+    border-color: #ccc;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+}
+
+.option-select select:focus,
+select.form-control:focus,
+.token-package-select:focus {
+    outline: none;
+    border-color: #e94d1c;
+    box-shadow: 0 0 0 3px rgba(233, 77, 28, 0.1);
+}
+
+/* 셀렉트 옵션 스타일 */
+.option-select select option,
+select.form-control option,
+.token-package-select option {
+    padding: 12px;
+    font-size: 15px;
+    background-color: #fff;
+    color: #333;
+}
+
+/* 선택된 옵션 스타일 */
+.option-select select option:checked,
+select.form-control option:checked,
+.token-package-select option:checked {
+    background-color: #f8f0ed;
+    color: #e94d1c;
+    font-weight: 600;
+}
+
+/* 셀렉트 박스 활성화 시 스타일 */
+.option-select select:active,
+select.form-control:active,
+.token-package-select:active {
+    background-color: #f9f9f9;
+}
+
+/* 셀렉트 드롭다운 오픈 시 화살표 회전 (JS 필요) */
+.select-open {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M7 14l5-5 5 5z' fill='%23555'/%3E%3C/svg%3E") !important;
+}
+
+.payment-action {
+    text-align: center;
+}
+
+/* 토큰 구매 버튼 스타일 개선 */
+.payment-action .btn,
+button[type="submit"],
+.btn-primary,
+.btn-lg {
+    width: 100%;
+    padding: 15px 12px; /* 패딩 높이 증가 */
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background-color: #e94d1c;
+    border-color: #e94d1c;
+    transition: all 0.3s ease;
+    font-size: 16px; /* 글자 크기 증가 */
+    border-radius: 6px; /* 둥근 모서리 추가 */
+    box-shadow: 0 4px 8px rgba(233, 77, 28, 0.2); /* 그림자 효과 추가 */
+    margin-top: 10px; /* 상단 여백 추가 */
+}
+
+/* 토큰 구매 버튼 호버 효과 */
+.payment-action .btn:hover,
+button[type="submit"]:hover,
+.btn-primary:hover,
+.btn-lg:hover {
+    background-color: #d43e0a;
+    border-color: #d43e0a;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(233, 77, 28, 0.3);
+}
+
+/* 구분선 스타일 개선 */
+.divider {
+    position: relative;
+    height: 60px; /* 40px에서 60px로 증가 */
+    text-align: center;
+    margin: 50px 0; /* 40px에서 50px로 증가 */
+    clear: both; /* float 요소 이후 적절히 분리하기 위함 */
+    border-top: none; /* 기존 border-top 제거 */
+}
+
+.divider:before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #e0e0e0;
+}
+
+.divider-text {
+    position: relative;
+    display: inline-block;
+    background: #fff;
+    padding: 5px 20px; /* 패딩 증가 */
+    font-size: 16px;
+    color: #888;
+    font-weight: 500;
+    border-radius: 20px; /* 둥근 모서리 추가 */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* 약간의 그림자 효과 */
+}
+
+/* 프리미엄 섹션 스타일 개선 */
+.premium-section {
+    background: linear-gradient(to right, #f9f9f9, #f5f5f5);
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    padding: 30px;
+    margin-bottom: 40px;
+    position: relative;
+    margin-top: 30px; /* 상단 여백 추가 */
+    min-height: 120px;
+    overflow: hidden; /* 내부 요소의 마진 붕괴 방지 */
+}
+
+.premium-content {
+    padding: 20px;
+}
+
+.premium-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+}
+
+.premium-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+}
+
+.premium-price {
+    text-align: right;
+}
+
+.price-tag {
+    font-size: 28px;
+    font-weight: 700;
+    color: #e94d1c;
+    display: block;
+}
+
+.price-period {
+    font-size: 14px;
+    color: #888;
+}
+
+.premium-features {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px;
+}
+
+.premium-feature {
+    flex: 1 0 33.333%;
+    padding: 0 15px;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: flex-start;
+}
+
+.premium-feature i {
+    font-size: 24px;
+    color: #e94d1c;
+    margin-right: 15px;
+    margin-top: 3px;
+}
+
+.feature-text h5 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.feature-text p {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+}
+
+.premium-action {
+    text-align: center;
+    margin-top: 30px; /* 상단 여백 증가 */
+    padding-bottom: 15px; /* 하단 패딩 추가 */
+    clear: both; /* float 요소 이후 적절히 분리 */
+}
+
+.premium-action .btn {
+    padding: 15px 30px; /* 패딩 높이 증가 */
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background-color: #e94d1c;
+    border-color: #e94d1c;
+    transition: all 0.3s ease;
+    min-width: 250px; /* 최소 너비 설정 */
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+    font-size: 16px; /* 글자 크기 명시 */
+    border-radius: 6px; /* 둥근 모서리 추가 */
+    box-shadow: 0 4px 8px rgba(233, 77, 28, 0.2); /* 그림자 효과 추가 */
+}
+
+.premium-action .btn:hover {
+    background-color: #d43e0a;
+    border-color: #d43e0a;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(233, 77, 28, 0.3);
+}
+
+/* 반응형 스타일 */
+@media (max-width: 991px) {
+    .token-section, .premium-section {
+        flex-direction: column;
+    }
+
+    .token-info, .token-options {
+        flex: 1 0 100%;
+    }
+
+    .token-options {
+        margin-top: 20px;
+    }
+
+    .premium-feature {
+        flex: 1 0 50%;
+    }
+}
+
+@media (max-width: 767px) {
+    .premium-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .premium-price {
+        margin-top: 15px;
+        text-align: center;
+    }
+
+    .premium-feature {
+        flex: 1 0 100%;
+    }
+
+    .premium-action .btn {
+        width: 100%; /* 모바일에서는 전체 너비로 */
+        min-width: auto;
+        padding: 15px 15px; /* 패딩 높이 유지 */
+    }
+
+    .top-bar-right {
+        margin-top: 0;
+        margin-bottom: 10px;
+        text-align: center;
+        float: none;
+    }
+
+    .option-select select,
+    select.form-control,
+    .token-package-select {
+        font-size: 14px;
+        padding: 10px 12px;
+        background-position: right 8px center;
+        background-size: 18px;
+    }
+
+    .option-title,
+    .token-package-label {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+}
+
+.top-bar-right {
+    float: right;
+    margin-right: 20px;
+    margin-top: 10px;
+}
+
+.top-bar-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.top-bar-list li {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+/* 결제 섹션 스타일 수정 */
+.payment-section {
+    margin-bottom: 20px;
+    position: relative;
+    background-color: #f5f5f5;
+    padding: 15px;
+}
+
+/* 토큰 섹션 레이아웃 */
+.token-info {
+    flex: 7;
+}
+
+.token-options {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 입력 필드 영역 스타일 */
+.input-area {
+    margin-bottom: 15px;
+}
+
+/* 결제 버튼 스타일 */
+.payment-button {
+    width: 150px;
+    padding: 15px 0; /* 패딩 높이 증가 */
+    font-weight: bold;
+    background-color: #e94d1c; /* #ff00ff에서 변경 - 일관된 색상 사용 */
+    border-color: #e94d1c; /* #ff00ff에서 변경 */
+    color: white;
+    margin-top: 15px;
+    border-radius: 6px; /* 둥근 모서리 추가 */
+    box-shadow: 0 4px 8px rgba(233, 77, 28, 0.2); /* 그림자 효과 추가 */
+}
+
+.premium-button {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+}
+
+/* Header Styles */
+.header .header-navigation {
+    float: right;
+    margin-top: 10px;
+}
+
+.header .header-navigation .menu-search {
+    float: right;
+    padding-left: 20px;
+}
+
+.header .header-navigation .menu-search .search-box {
+    right: 0;
+    left: auto;
+}
+
+/* 토큰 구매 버튼 특별 스타일 */
+button[type="submit"].btn-primary {
+    height: auto; /* 자동 높이 설정 */
+    min-height: 50px; /* 최소 높이 설정 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    font-size: 16px;
+    font-weight: 700; /* 더 굵게 */
+    text-transform: uppercase;
+}
+
+/* 토큰 구매하기 버튼 특별 스타일 */
+.btn-primary.btn-lg {
+    height: auto; /* 자동 높이 설정 */
+    min-height: 50px; /* 최소 높이 설정 */
+    padding: 15px 20px; /* 패딩 증가 */
+    font-size: 16px;
+    font-weight: 700; /* 더 굵게 */
+}
+
+/* 토큰 패키지 라벨 스타일 */
+.token-package-label {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #333;
+    display: block;
+}
+
+/* 토큰 패키지 컨테이너 스타일 */
+.token-package-container {
+    margin-bottom: 25px;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* 토큰 패키지 설명 스타일 */
+.token-package-description {
+    font-size: 14px;
+    color: #666;
+    margin-top: 8px;
+    margin-bottom: 15px;
+}
+
+/* 토큰 패키지 가격 스타일 */
+.token-package-price {
+    font-weight: 600;
+    color: #e94d1c;
+    font-size: 16px;
+    margin-top: 5px;
+}
+
+/* ProductPage.css 파일에 추가하거나 기존 스타일을 수정하세요 */
+
+/* 제품 목록 컨테이너 */
+.product-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px; /* 기존 부트스트랩 그리드와 맞추기 */
+}
+
+/* 제품 아이템 컨테이너 */
+.product-list .col-md-4 {
+    padding: 15px;
+    display: flex;
+}
+
+/* 제품 아이템 카드 */
+.product-item {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #fff;
+    overflow: hidden;
+}
+
+.product-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+/* 이미지 래퍼 - 모든 이미지를 동일한 크기로 */
+.pi-img-wrapper {
+    position: relative;
+    width: 100%;
+    height: 250px; /* 모든 이미지 높이 고정 */
+    overflow: hidden;
+}
+
+.pi-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 이미지 비율 유지하면서 영역 채우기 */
+}
+
+/* 이미지 위에 오버레이 버튼 */
+.product-page-cart {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    background-color: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: space-around;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.pi-img-wrapper:hover .product-page-cart {
+    opacity: 1;
+}
+
+/* 제품 정보 영역 */
+.product-item h3 {
+    margin: 15px 15px 5px;
+    font-size: 16px;
+    font-weight: 600;
+    height: 40px; /* 이름 영역 고정 높이 */
+    overflow: hidden;
+}
+
+.product-item .height {
+    margin: 5px 15px;
+    color: #e94d1c;
+    font-weight: 600;
+}
+
+.product-item .description {
+    margin: 5px 15px 15px;
+    color: #666;
+    font-size: 13px;
+    height: 40px; /* 설명 영역 고정 높이 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+/* 버튼 스타일 */
+.product-page-cart .btn {
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+/* 반응형 조정 */
+@media (max-width: 991px) {
+    .pi-img-wrapper {
+        height: 200px;
+    }
+}
+
+@media (max-width: 767px) {
+    .product-list .col-sm-6 {
+        width: 50%;
+    }
+}
+
+@media (max-width: 480px) {
+    .product-list .col-xs-12 {
+        width: 100%;
+    }
+}
