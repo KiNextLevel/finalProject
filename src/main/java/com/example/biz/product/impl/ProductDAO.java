@@ -107,7 +107,7 @@ public class ProductDAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            JDBCUtil.disconnect(conn, pstmt, rs);
+            JDBCUtil.disconnect(conn, pstmt);
         }
 
         return data;

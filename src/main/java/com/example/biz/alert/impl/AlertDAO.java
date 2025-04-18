@@ -1,6 +1,7 @@
 package com.example.biz.alert.impl;
 
 import com.example.biz.alert.AlertVO;
+import com.example.common.JDBCUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,7 +28,7 @@ public class AlertDAO {
 
     private final String DELETE = ""; // 기능 없음
 
-    public ArrayList<AlertVO> selectAll(AlertVO AlertVO) {
+    public ArrayList<AlertVO> getAlertList(AlertVO AlertVO) {
         ArrayList<AlertVO> datas = new ArrayList<>();
         Connection conn = null;
         PreparedStatement pstmt = null;

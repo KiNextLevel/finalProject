@@ -14,7 +14,7 @@ public class JDBCUtil {
     // db pw desktop은 030414, ki는 1234
     static final String password = "1234";
 
-    public static Connection getConnection() {
+    public static Connection connect() {
         Connection conn = null;
         try {
             // 1. 드라이버 연결(메모리에 데이터 적재)
@@ -28,7 +28,7 @@ public class JDBCUtil {
         }
         return conn;
     }
-    public static void close(Connection conn, PreparedStatement pstmt) {
+    public static void disconnect(Connection conn, PreparedStatement pstmt) {
         // 4. DB 연결 해제
         try {
             // null 체크 추가
