@@ -1,6 +1,7 @@
 package com.example.biz.participant.impl;
 
 import com.example.biz.participant.ParticipantService;
+import com.example.biz.participant.ParticipantVO;
 
 import java.util.List;
 
