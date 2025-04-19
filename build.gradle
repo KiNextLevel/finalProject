@@ -73,6 +73,9 @@ dependencies {
 
 	// Java Activation Framework
 	implementation 'javax.activation:activation:1.1'
+
+	// Swagger UI
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.15'
 }
 
 tasks.named('test') {
