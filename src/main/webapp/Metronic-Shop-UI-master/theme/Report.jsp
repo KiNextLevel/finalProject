@@ -152,7 +152,7 @@
 
                                     <div class="description-area">
                                         <h4><i class="fa fa-comment"></i> 상세 내용</h4>
-                                        <textarea name="description"
+                                        <textarea name="reportDescription"
                                                   placeholder="신고 내용을 자세히 작성해주세요. 구체적인 정보가 있으면 처리가 빨라집니다."
                                                   required></textarea>
                                     </div>
@@ -171,7 +171,7 @@
                                         </div>
                                     </div>
 
-                                    <input type="hidden" name="userEmail" value="${param.userEmail}">
+                                    <input type="hidden" name="reportReported" value="${param.userEmail}">
                                     <button class="submit-btn" type="submit">신고 제출하기</button>
                                 </form>
 
