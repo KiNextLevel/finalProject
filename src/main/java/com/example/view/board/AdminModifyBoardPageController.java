@@ -3,12 +3,14 @@ package com.example.view.board;
 import com.example.biz.board.BoardService;
 import com.example.biz.board.BoardVO;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 //관리자 게시판 수정하는 페이지 이동 액션
 @Controller
 public class AdminModifyBoardPageController {
+    @Autowired
     private BoardService boardService;
 
     public String adminModifyBoardPage(HttpServletRequest request, BoardVO boardVO, Model model) {

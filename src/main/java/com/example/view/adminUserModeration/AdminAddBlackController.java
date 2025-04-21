@@ -36,7 +36,7 @@ public class AdminAddBlackController {
             System.out.println("UserVO is null(유저 없음");
             model.addAttribute("msg", "사용자를 찾을 수 없습니다");
             model.addAttribute("flag", false);
-            return "/Metronic-Shop-UI-master/theme/Alert"; //// ViewResolver가 alert.jsp로 이동시킴
+            return "/Metronic-Shop-UI-master/theme/Alert"; // ViewResolver가 alert.jsp로 이동시킴
             //return "alert";
         }
         // 만약 이미 블랙리스트 상태인 사용자라면 처리 중단

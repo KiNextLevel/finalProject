@@ -26,7 +26,7 @@ public class ParticipantBoardController {
 
     //@PostMapping("/participantBoard.do")
     public String participantBoard(Model model, HttpSession session, HttpServletRequest request, BoardVO boardVO, UserVO userVO, ParticipantVO participantVO ) {
-        System.out.println("ParticipantBoardAction 액션 도착");
+        System.out.println("ParticipantBoardController 진입");
 
         int boardNum = Integer.parseInt(request.getParameter("boardNumber"));	//참가하려는 이벤트 번호
         boardVO.setBoardNumber(boardNum);
@@ -38,7 +38,6 @@ public class ParticipantBoardController {
         participantVO.setParticipantUserEmail(userEmail);
         participantVO.setCondition("SELECTALL");
         List<ParticipantVO> datas = participantService.selectAll(participantVO);
-        //ArrayList<ParticipantDTO> datas = participantDAO.selectAll(participantDTO);//로그인 한 사용자가 참가한 이벤트
         System.out.println("datas: ["+datas+"]");
         participantVO.setParticipantBoardNumber(boardNum);
         System.out.println("participantDTO: ["+participantVO+"]");
