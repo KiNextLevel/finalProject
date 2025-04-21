@@ -73,6 +73,9 @@ dependencies {
 
 	// Java Activation Framework
 	implementation 'javax.activation:activation:1.1'
+
+	//문자 API
+	implementation 'net.nurigo:sdk:4.3.2'
 }
 
 tasks.named('test') {
