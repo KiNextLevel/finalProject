@@ -1,32 +1,39 @@
 package com.example.biz.payment.impl;
 
 import com.example.biz.payment.PaymentService;
+import com.example.biz.payment.PaymentVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service("paymentService")
 public class PaymentServiceImpl implements PaymentService {
+    @Autowired
+    private PaymentDAO paymentDAO;
+
     @Override
     public boolean insert(PaymentVO vo) {
-        return false;
+        return paymentDAO.insert(vo);
     }
 
     @Override
     public boolean update(PaymentVO vo) {
-        return false;
+        return paymentDAO.update(vo);
     }
 
     @Override
     public boolean delete(PaymentVO vo) {
-        return false;
+        return paymentDAO.delete(vo);
     }
 
     @Override
     public PaymentVO getPayment(PaymentVO vo) {
-        return null;
+        return paymentDAO.getPayment(vo);
     }
 
     @Override
     public List<PaymentVO> getPaymentList(PaymentVO vo) {
-        return List.of();
+        return paymentDAO.getPaymentList(vo);
     }
 }

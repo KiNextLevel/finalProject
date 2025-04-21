@@ -1,13 +1,20 @@
 package com.example.biz.report.impl;
 
 import com.example.biz.report.ReportService;
+import com.example.biz.report.ReportVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public class ReprotServiceImpl implements ReportService {
+@Service("reportService")
+public class ReportServiceImpl implements ReportService {
+    @Autowired
+    private ReportDAO reportDAO;
+
     @Override
     public boolean insert(ReportVO vo) {
-        return false;
+        return reportDAO.insert(vo);
     }
 
     @Override
@@ -17,16 +24,16 @@ public class ReprotServiceImpl implements ReportService {
 
     @Override
     public boolean delete(ReportVO vo) {
-        return false;
+        return reportDAO.delete(vo);
     }
 
     @Override
     public ReportVO getReport(ReportVO vo) {
-        return null;
+        return reportDAO.getReport(vo);
     }
 
     @Override
     public List<ReportVO> getReportList(ReportVO vo) {
-        return List.of();
+        return reportDAO.getReportList(vo);
     }
 }

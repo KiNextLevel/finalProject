@@ -13,7 +13,7 @@ public class AdminMainPageController {
         System.out.println("AdminMainPageAction 로그 userRole:["+session.getAttribute("userRole")+"]");
 
         // 관리자는 이동 가능
-        String path= "redirect:/target-free-admin-template/AdminMainPage.jsp";
+        String path= "redirect:/target-free-admin-template/AdminMainPage";
         if((Integer)session.getAttribute("userRole") != 1) {  //관리자 아니면 이동 불가능
             model.addAttribute("msg", "관리자만 접근 가능합니다");
             model.addAttribute("flag", false);
