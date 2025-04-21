@@ -1,71 +1,101 @@
 package com.example.view.payment;
 
-import controller.common.Action;
-import controller.common.ActionForward;
-import controller.logic.SendMessage;
+import com.example.biz.payment.PaymentService;
+import com.example.biz.payment.PaymentVO;
+import com.example.biz.product.ProductSerivce;
+import com.example.biz.product.ProductVO;
+import com.example.biz.user.UserService;
+import com.example.biz.user.UserVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import org.example.webapp.model.dao.PaymentDAO;
-import org.example.webapp.model.dao.ProductDAO;
-import org.example.webapp.model.dao.UserDAO;
-import org.example.webapp.model.dto.PaymentDTO;
-import org.example.webapp.model.dto.ProductDTO;
-import org.example.webapp.model.dto.UserDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
-public class PaymentController implements Action {
+@Controller
+public class PaymentController {
+	@Autowired
+	private PaymentService paymentService;
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private ProductSerivce productService;
 
-	@PostMapping("payment.do")
-	public ActionForward execute(HttpServletRequest request) {
+    @PostMapping("payment.do")
+	public String payment(HttpServletRequest request, HttpSession session, Model model, PaymentVO paymentVO, ProductVO productVO, UserVO userVO) {
 		System.out.println("CONT 로그: PAYMENT ACTION 도착1");
-		ActionForward forward = new ActionForward();
-        HttpSession session = request.getSession();
-		UserDAO userDAO = new UserDAO();
-		UserDTO userDTO = new UserDTO();
-		ProductDAO productDAO = new ProductDAO();
-		ProductDTO productDTO = new ProductDTO();
-		PaymentDAO paymentDAO = new PaymentDAO();
-		PaymentDTO paymentDTO = new PaymentDTO();
-		SendMessage send = new SendMessage();
+		//SendMessage send = new SendMessage();
 
-        int productNum = Integer.parseInt(request.getParameter("productNum")); //구매하려는 상품 번호
-		System.out.println("productNum = "+productNum);
-		System.out.println("CONT 로그: PAYMENT ACTION 도착2");
-		userDTO.setUserEmail((String)session.getAttribute("userEmail"));
-		userDTO.setCondition("SELECTONE_USERINFO");
-		userDTO = userDAO.selectOne(userDTO);
-		String userName = userDTO.getUserName();	//구매자 이름
+		userVO.setUserEmail((String)session.getAttribute("userEmail"));
+		userVO.setCondition("SELECTONE_USERINFO");
+		userVO = userService.getUser(userVO);
+		String userName = userVO.getUserName();	//구매자 이름
 		System.out.println("userName: ["+userName+"]");
-		String phone = userDTO.getUserPhone();	//구매자 핸드폰 번호
+		String phone = userVO.getUserPhone();	//구매자 핸드폰 번호
 		System.out.println("phone: ["+phone+"]");
 
         // 상품에 해당하는 정보 가져오기
-        productDTO.setProductNumber(productNum);
-        productDTO = productDAO.selectOne(productDTO);	//상품 정보
-		int productPrice = productDTO.getProductPrice();
-		String productName = productDTO.getProductName();
+        productVO = productService.getProduct(productVO);	//상품 정보
+		int productPrice = productVO.getProductPrice();
+		int productNumber = productVO.getProductNumber();
+		String productName = productVO.getProductName();
 		System.out.println("productPrice: ["+productPrice+"]");
 		System.out.println("productName:["+productName+"]");
-		System.out.println("productDTO: ["+productDTO+"]");
-		if(productDTO == null){	//상품을 못 찾으면
-			request.setAttribute("msg", "상품을 찾을 수 없습니다");
-			request.setAttribute("flag", false);
-			forward.setPath("/Metronic-Shop-UI-master/theme/Alert.jsp");
-			forward.setRedirect(false);
+		System.out.println("productVO: ["+productVO+"]");
+
+		String path = "addToken.do";
+		if(productVO == null){	//상품을 못 찾으면
+			model.addAttribute("msg", "상품을 찾을 수 없습니다");
+			model.addAttribute("flag", false);
+			path = "/Metronic-Shop-UI-master/theme/Alert";
 		}
 		else{
-			paymentDTO.setProductNumber(productDTO.getProductNumber());
-			paymentDTO.setUserEmail((String)session.getAttribute("userEmail"));
-			paymentDTO.setPaymentPrice(productDTO.getProductPrice());
-			paymentDTO.setProductName(productDTO.getProductName());
-			paymentDAO.insert(paymentDTO);	//payment 테이블에 구매정보 추가
+			paymentVO.setProductNumber(productPrice);
+			paymentVO.setUserEmail((String)session.getAttribute("userEmail"));
+			paymentVO.setPaymentPrice(productPrice);
+			paymentVO.setProductName(productName);
+			paymentService.insert(paymentVO);	//payment 테이블에 구매정보 추가
 			//send.sendPay(phone, userName, productPrice, productName);	//구매자에게 구매정보 문자 전송
 		}
-		request.setAttribute("productNum", productNum);
-		forward.setPath("addToken.do");
-		forward.setRedirect(false);
-        return forward;
-        }
+		model.addAttribute("productNumber", productNumber);
+        return path;
 	}
+
+	@GetMapping("productPage.do")
+	public String paymentPage() {
+		System.out.println("CONT 로그: PRODUCTPAGE ACTION 도착");
+		return "/Metronic-Shop-UI-master/theme/ProductPage";
+	}
+
+	@PostMapping("tossPaymentPage.do")
+	public String tossPaymentPage(ProductVO productVO, HttpSession session, UserVO userVO) {
+		userVO.setUserEmail((String)session.getAttribute("userEmail"));
+		userVO.setCondition("SELECTONE_USERINFO");
+		userVO = userService.getUser(userVO);   //사용자 정보 가져오기
+		String userEmail = userVO.getUserEmail();
+		String userName = userVO.getUserName();
+		System.out.println("TossPaymentPage 로그: 도착");
+		String productNum = String.valueOf(productVO.getProductNumber());
+		System.out.println("TossPaymentPageAction 로그: productNum = " + productNum);
+		String productName = productVO.getProductName();
+		System.out.println("TossPaymentPageAction 로그: productName = " + productName);
+		String productPrice = String.valueOf(productVO.getProductPrice());
+		System.out.println("TossPaymentPageAction 로그: productPrice = "+productPrice);
+
+		// 한글을 URL 인코딩
+		String encodedProductName = URLEncoder.encode(productName, StandardCharsets.UTF_8);
+		String encodedUserName = URLEncoder.encode(userName, StandardCharsets.UTF_8);
+		System.out.println("TossPaymentPageAction 로그: encodedProductName = [" + encodedProductName + "]");
+
+		// .html로 갈거라 url에 담아서  Query parameter로 전달보냄
+		return "redirect:/widget/index.html?productName=" + encodedProductName +
+				"&productPrice=" + productPrice + "&productNum=" +
+				productNum +"&userEmail=" + userEmail + "&userName=" + encodedUserName;
+	}
+}
 

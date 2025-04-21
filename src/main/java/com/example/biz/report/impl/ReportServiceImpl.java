@@ -1,6 +1,7 @@
 package com.example.biz.report.impl;
 
 import com.example.biz.report.ReportService;
+import com.example.biz.report.ReportVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

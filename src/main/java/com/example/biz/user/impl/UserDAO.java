@@ -86,7 +86,7 @@ public class UserDAO {
     // 토큰 잔액 정보 불러오기
     // 결제한 상품 목록 불러오기
     // 블랙리스트 유저 불러오기
-    public ArrayList<UserVO> selectAll(UserVO userVO) {
+    public ArrayList<UserVO> getUserList(UserVO userVO) {
         ArrayList<UserVO> datas = new ArrayList<>();
         try {
             conn = JDBCUtil.connect();
@@ -158,7 +158,7 @@ public class UserDAO {
     }
 
     // 로그인
-    public UserVO selectOne(UserVO userVO) {
+    public UserVO getUser(UserVO userVO) {
         UserVO data = null;
         try {
             conn = JDBCUtil.connect();

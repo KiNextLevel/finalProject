@@ -1,6 +1,7 @@
 package com.example.biz.user.impl;
 
 import com.example.biz.user.UserService;
+import com.example.biz.user.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,26 +13,26 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean insert(UserVO vo) {
-        return userDAO.insert();
+        return userDAO.insert(vo);
     }
 
     @Override
     public boolean update(UserVO vo) {
-        return userDAO.update();
+        return userDAO.update(vo);
     }
 
     @Override
     public boolean delete(UserVO vo) {
-        return userDAO.delete();
+        return false;
     }
 
     @Override
     public UserVO getUser(UserVO vo) {
-        return userDAO.getUser();
+        return userDAO.getUser(vo);
     }
 
     @Override
     public List<UserVO> getUserList(UserVO vo) {
-        return userDAO.getUserList();
+        return userDAO.getUserList(vo);
     }
 }
