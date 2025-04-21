@@ -5,11 +5,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 
 // 관리자가 게시판 추가하는 페이지 이동 액션
 @Controller
 public class AdminAddBoardPageController {
 
+    @PostMapping("/adminAddBoardPage.do")
     public String adminAddBoard(HttpSession session, Model model) {
         System.out.println("AdminAddBoardPageCOntroller 도착");
 
@@ -25,5 +27,4 @@ public class AdminAddBoardPageController {
         }
         return "/Metronic-Shop-UI-master/theme/Alert";
     }
-
 }

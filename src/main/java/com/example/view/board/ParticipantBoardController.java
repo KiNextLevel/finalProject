@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -24,33 +25,33 @@ public class ParticipantBoardController {
     @Autowired
     private ParticipantService participantService;
 
-    //@PostMapping("/participantBoard.do")
-    public String participantBoard(Model model, HttpSession session, HttpServletRequest request, BoardVO boardVO, UserVO userVO, ParticipantVO participantVO ) {
+    @PostMapping("/participantBoard.do")
+    public String participantBoard(Model model, HttpSession session, HttpServletRequest request, BoardVO boardVO, UserVO userVO, ParticipantVO participantVO) {
         System.out.println("ParticipantBoardController 진입");
 
-        int boardNum = Integer.parseInt(request.getParameter("boardNumber"));	//참가하려는 이벤트 번호
+        int boardNum = Integer.parseInt(request.getParameter("boardNumber"));    //참가하려는 이벤트 번호
         boardVO.setBoardNumber(boardNum);
-        System.out.println("boardNumber: ["+boardNum+"]");
-        String userEmail = (String)session.getAttribute("userEmail");	//로그인 한 사용자 이메일
-        System.out.println("userEmail: ["+userEmail+"]");
+        System.out.println("boardNumber: [" + boardNum + "]");
+        String userEmail = (String) session.getAttribute("userEmail");    //로그인 한 사용자 이메일
+        System.out.println("userEmail: [" + userEmail + "]");
 
 
         participantVO.setParticipantUserEmail(userEmail);
         participantVO.setCondition("SELECTALL");
         List<ParticipantVO> datas = participantService.selectAll(participantVO);
-        System.out.println("datas: ["+datas+"]");
+        System.out.println("datas: [" + datas + "]");
         participantVO.setParticipantBoardNumber(boardNum);
-        System.out.println("participantDTO: ["+participantVO+"]");
-        System.out.println("participantDAO.selectOne(participantDTO)).getParticipantBoardNumber(): ["+participantService.selectOne(participantVO).getParticipantBoardNumber()+"]");
-        System.out.println("boardDTO.getBoardLimit(): ["+boardService.selectOne(boardVO).getBoardLimit()+"]");
+        System.out.println("participantDTO: [" + participantVO + "]");
+        System.out.println("participantDAO.selectOne(participantDTO)).getParticipantBoardNumber(): [" + participantService.selectOne(participantVO).getParticipantBoardNumber() + "]");
+        System.out.println("boardDTO.getBoardLimit(): [" + boardService.selectOne(boardVO).getBoardLimit() + "]");
 
 
-        for(ParticipantVO v: datas){   //이미 참가 신청한 이벤트 버튼 다시 누르면 참가 취소
+        for (ParticipantVO v : datas) {   //이미 참가 신청한 이벤트 버튼 다시 누르면 참가 취소
             if (v.getParticipantBoardNumber() == boardNum) {
                 participantVO.setCondition("DELETE");
                 participantService.delete(participantVO);
-                System.out.println("v.getParticipantBoardNumber: ["+v.getParticipantBoardNumber()+"]");
-                System.out.println("v.getParticipantUserEmail: "+v.getParticipantUserEmail()+"]");
+                System.out.println("v.getParticipantBoardNumber: [" + v.getParticipantBoardNumber() + "]");
+                System.out.println("v.getParticipantUserEmail: " + v.getParticipantUserEmail() + "]");
                 model.addAttribute("msg", "참가 취소 되었습니다");
                 model.addAttribute("url", "boardPage.do");
                 model.addAttribute("flag", true);
@@ -58,12 +59,12 @@ public class ParticipantBoardController {
             }
         }
         //인원 다 찼으면 참가 못함
-        if((participantService.selectOne(participantVO)).getParticipantBoardNumber() >= boardService.selectOne(boardVO).getBoardLimit()){  //인원수 다 차면
+        if ((participantService.selectOne(participantVO)).getParticipantBoardNumber() >= boardService.selectOne(boardVO).getBoardLimit()) {  //인원수 다 차면
             model.addAttribute("msg", "인원이 다 찼습니다");
             model.addAttribute("flag", false);
             return "/Metronic-Shop-UI-master/theme/Alert";
         }
-        if(participantService.insert(participantVO)) {   //참가 성공
+        if (participantService.insert(participantVO)) {   //참가 성공
             model.addAttribute("msg", "이벤트 참가 성공");
             model.addAttribute("flag", true);
             model.addAttribute("url", "boardPage.do");

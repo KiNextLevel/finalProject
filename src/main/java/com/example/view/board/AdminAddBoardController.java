@@ -6,13 +6,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.Mapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class AdminAddBoardController {
     @Autowired
     private BoardService boardService;
 
-
+    @GetMapping("/adminAddBoardPage.do")
     public String adminAddBoard(HttpServletRequest request, Model model, BoardVO boardVO) {
     System.out.println("AdminAddBoardController 진입");
 
@@ -27,6 +30,7 @@ public class AdminAddBoardController {
             model.addAttribute("url", "boardPage.do");
         //만약 게시판 추가를 실패한다면?
         }
+        //만약 게시판 추가를 실패한다면?
         else{
             model.addAttribute("msg", "이벤트 추가 실패");
             model.addAttribute("flag", false)

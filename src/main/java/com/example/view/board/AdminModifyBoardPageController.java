@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 
 //관리자 게시판 수정하는 페이지 이동 액션
 @Controller
@@ -13,19 +14,20 @@ public class AdminModifyBoardPageController {
     @Autowired
     private BoardService boardService;
 
+    @GetMapping("/adminModifyBoardPage.do")
     public String adminModifyBoardPage(HttpServletRequest request, BoardVO boardVO, Model model) {
         System.out.println("adminModifyBoardPageController 진입");
 
         int boardNum = Integer.parseInt(request.getParameter("boardNum"));//수정하려는 이벤트 번호
-        System.out.println("boardNum["+boardNum+"]");
+        System.out.println("boardNum[" + boardNum + "]");
         boardVO.setBoardNumber(boardNum);
         boardVO = boardService.selectOne(boardVO);
         //System.out.println("boardDTO ="+boardVO.toString());
 
-        if(boardVO == null) {
+        if (boardVO == null) {
             model.addAttribute("msg", "이벤트를 찾을 수 없습니다");
             model.addAttribute("flag", false);
-           //forward.setPath("/Metronic-Shop-UI-master/theme/Alert.jsp");
+            //forward.setPath("/Metronic-Shop-UI-master/theme/Alert.jsp");
             //forward.setRedirect(false);
             return "/Metronic-Shop-UI-master/theme/Alert"; // forward 방식
         }
@@ -36,4 +38,4 @@ public class AdminModifyBoardPageController {
         }
         return "/Metronic-Shop-UI-master/theme/AdminModifyBoardPage"; // forward 방식
     }
-    }
+}

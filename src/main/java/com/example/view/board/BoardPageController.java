@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
@@ -16,7 +17,8 @@ public class BoardPageController {
     @Autowired
     private BoardService boardService;
 
-    public String boardPage(HttpSession session, BoardVO boardVO, Model model, HttpServletRequest request ) {
+    @GetMapping("/boardPage.do")
+    public String boardPage(HttpSession session, BoardVO boardVO, Model model, HttpServletRequest request) {
         System.out.println("BoardPageController 진입");
         System.out.println("boardPage 로그: 도착");
 
@@ -24,8 +26,8 @@ public class BoardPageController {
         String Email = (String) session.getAttribute("userEmail");
         boardVO.setSearchKeyword(Email);
 
-        List<BoardVO> datas = boardService.selectAll(boardVO);	//이벤트 리스트 조회
-        System.out.println("board SELECTALL 로그:"+datas);
+        List<BoardVO> datas = boardService.selectAll(boardVO);    //이벤트 리스트 조회
+        System.out.println("board SELECTALL 로그:" + datas);
 
         model.addAttribute("datas", datas);
         return "/Metronic-Shop-UI-master/theme/BoardPage";

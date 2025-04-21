@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 
 //관리자가 게시판 삭제하는 기능
 @Controller
@@ -18,6 +19,7 @@ public class AdminDeleteBoardController {
     @Autowired
     private ParticipantService participantService;
 
+    @PostMapping("/adminDeleteBoard.do")
     public String adminDeleteBoard(HttpServletRequest request, ParticipantVO participantVO, BoardVO boardVO, Model model) {
         System.out.println("adminDeleteBoardController 진입");
 
