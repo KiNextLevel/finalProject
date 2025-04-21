@@ -28,7 +28,6 @@ public class AdminAddBoardController {
             model.addAttribute("msg", "이벤트 추가 성공");
             model.addAttribute("flag", true);
             model.addAttribute("url", "boardPage.do");
-        //만약 게시판 추가를 실패한다면?
         }
         //만약 게시판 추가를 실패한다면?
         else{
