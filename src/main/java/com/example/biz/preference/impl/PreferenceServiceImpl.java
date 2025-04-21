@@ -24,7 +24,7 @@ public class PreferenceServiceImpl implements PreferenceService {
 
     @Override
     public boolean delete(PreferenceVO vo) {
-        return false;
+        return preferenceDAO.delete(vo);
     }
 
     @Override

@@ -109,7 +109,10 @@ public class AlertDAO {
         }
     }
 
-    private boolean delete(AlertVO AlertVO) {
+    boolean delete(AlertVO AlertVO) {
         throw new UnsupportedOperationException("삭제 기능은 제공되지 않습니다.");
+    }
+    public AlertVO getAlert(AlertVO AlertVO) {
+        return null;
     }
 }

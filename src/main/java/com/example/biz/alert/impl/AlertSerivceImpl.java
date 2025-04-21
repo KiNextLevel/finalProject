@@ -24,12 +24,12 @@ public class AlertSerivceImpl implements AlertService {
 
     @Override
     public boolean delete(AlertVO vo) {
-        return false;
+        return alertDAO.delete(vo);
     }
 
     @Override
     public AlertVO getAlert(AlertVO vo) {
-        return null;
+        return alertDAO.getAlert(vo);
     }
 
     @Override
