@@ -17,7 +17,7 @@ public class AdminModifyBoardController {
     @PostMapping("/adminModifyBoard.do")
     public String adminModifyBoard(Model model, BoardVO boardVO, HttpServletRequest request) {
         boardVO.setBoardNumber((Integer.parseInt(request.getParameter("boardNum"))));//수정할 이벤트 번호
-        boardVO = boardService.selectOne(boardVO);
+        boardVO = boardService.getBoard(boardVO);
         // System.out.println("boardDTO = "+boardVO.toString());
         boardVO.setBoardTitle(request.getParameter("boardTitle"));    //수정할 이벤트 제목
         boardVO.setBoardContent(request.getParameter("boardContent"));    //수정할 이벤트 내용

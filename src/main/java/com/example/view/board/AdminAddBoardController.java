@@ -32,7 +32,7 @@ public class AdminAddBoardController {
         //만약 게시판 추가를 실패한다면?
         else{
             model.addAttribute("msg", "이벤트 추가 실패");
-            model.addAttribute("flag", false)
+            model.addAttribute("flag", false);
         }
         return "/Metronic-Shop-UI-master/theme/Alert";
     }

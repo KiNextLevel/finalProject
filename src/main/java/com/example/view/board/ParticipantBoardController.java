@@ -38,12 +38,12 @@ public class ParticipantBoardController {
 
         participantVO.setParticipantUserEmail(userEmail);
         participantVO.setCondition("SELECTALL");
-        List<ParticipantVO> datas = participantService.selectAll(participantVO);
+        List<ParticipantVO> datas = participantService.getParticipantList(participantVO);
         System.out.println("datas: [" + datas + "]");
         participantVO.setParticipantBoardNumber(boardNum);
         System.out.println("participantDTO: [" + participantVO + "]");
-        System.out.println("participantDAO.selectOne(participantDTO)).getParticipantBoardNumber(): [" + participantService.selectOne(participantVO).getParticipantBoardNumber() + "]");
-        System.out.println("boardDTO.getBoardLimit(): [" + boardService.selectOne(boardVO).getBoardLimit() + "]");
+        System.out.println("participantDAO.selectOne(participantDTO)).getParticipantBoardNumber(): [" + participantService.getParticipant(participantVO).getParticipantBoardNumber() + "]");
+        System.out.println("boardDTO.getBoardLimit(): [" + boardService.getBoard(boardVO).getBoardLimit() + "]");
 
 
         for (ParticipantVO v : datas) {   //이미 참가 신청한 이벤트 버튼 다시 누르면 참가 취소
@@ -59,7 +59,7 @@ public class ParticipantBoardController {
             }
         }
         //인원 다 찼으면 참가 못함
-        if ((participantService.selectOne(participantVO)).getParticipantBoardNumber() >= boardService.selectOne(boardVO).getBoardLimit()) {  //인원수 다 차면
+        if ((participantService.getParticipant(participantVO)).getParticipantBoardNumber() >= boardService.getBoard(boardVO).getBoardLimit()) {  //인원수 다 차면
             model.addAttribute("msg", "인원이 다 찼습니다");
             model.addAttribute("flag", false);
             return "/Metronic-Shop-UI-master/theme/Alert";

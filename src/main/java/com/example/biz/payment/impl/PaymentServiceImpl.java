@@ -19,17 +19,17 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public boolean update(PaymentVO vo) {
-        return paymentDAO.update(vo);
+        return false;
     }
 
     @Override
     public boolean delete(PaymentVO vo) {
-        return paymentDAO.delete(vo);
+        return false;
     }
 
     @Override
     public PaymentVO getPayment(PaymentVO vo) {
-        return paymentDAO.getPayment(vo);
+        return null;
     }
 
     @Override

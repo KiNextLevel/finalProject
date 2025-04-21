@@ -21,7 +21,7 @@ public class AdminModifyBoardPageController {
         int boardNum = Integer.parseInt(request.getParameter("boardNum"));//수정하려는 이벤트 번호
         System.out.println("boardNum[" + boardNum + "]");
         boardVO.setBoardNumber(boardNum);
-        boardVO = boardService.selectOne(boardVO);
+        boardVO = boardService.getBoard(boardVO);
         //System.out.println("boardDTO ="+boardVO.toString());
 
         if (boardVO == null) {

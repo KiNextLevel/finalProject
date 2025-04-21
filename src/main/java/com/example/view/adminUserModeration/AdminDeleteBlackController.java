@@ -21,7 +21,7 @@ public class AdminDeleteBlackController {
         userVO.setUserEmail(blackEmail);
         userVO.setUserName("UPDATE_ROLE");
         userVO.setUserRole(0);   //userRole을 일반 사용자로 바꿈
-        if (UserService.update(userVO)) {
+        if (userService.update(userVO)) {
             model.addAttribute("msg", "사용자를 블랙 해제했습니다");
             model.addAttribute("flag", true);
             model.addAttribute("url", "adminReportPage.do");

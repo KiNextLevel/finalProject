@@ -26,7 +26,7 @@ public class BoardPageController {
         String Email = (String) session.getAttribute("userEmail");
         boardVO.setSearchKeyword(Email);
 
-        List<BoardVO> datas = boardService.selectAll(boardVO);    //이벤트 리스트 조회
+        List<BoardVO> datas = boardService.getBoardList(boardVO);    //이벤트 리스트 조회
         System.out.println("board SELECTALL 로그:" + datas);
 
         model.addAttribute("datas", datas);
