@@ -28,8 +28,10 @@ public class NaverCallBackController {
     // ID와 SECRET KEY 보안
     @Value("${naver.client_id}")
     private String CLIENT_ID;
+    
     @Value("${naver.client_secret}")
     private String CLIENT_SECRET;
+    
     private static final String REDIRECT_URI = "http://localhost:8088/Metronic-Shop-UI-master/theme/naverCallback.do";
 
     @GetMapping("/naverCallback.do")
