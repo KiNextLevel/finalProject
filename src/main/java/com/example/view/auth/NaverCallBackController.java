@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpSession;
 import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,8 +25,11 @@ public class NaverCallBackController {
     @Autowired
     private UserService userService;
 
-    private static final String CLIENT_ID = "HPtl9HdFUiGzoDPAPQ4a";
-    private static final String CLIENT_SECRET = "7H_NxuX3oo";
+    // ID와 SECRET KEY 보안
+    @Value("${naver.client_id}")
+    private String CLIENT_ID;
+    @Value("${naver.client_secret}")
+    private String CLIENT_SECRET;
     private static final String REDIRECT_URI = "http://localhost:8088/Metronic-Shop-UI-master/theme/naverCallback.do";
 
     @GetMapping("/naverCallback.do")
