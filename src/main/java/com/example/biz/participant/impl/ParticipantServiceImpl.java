@@ -19,8 +19,9 @@ public class ParticipantServiceImpl implements ParticipantService {
 
     @Override
     public boolean update(ParticipantVO vo) {
-        return participantDAO.update(vo);
+        return false;
     }
+
 
     @Override
     public boolean delete(ParticipantVO vo) {
