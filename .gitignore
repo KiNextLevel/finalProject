@@ -38,3 +38,4 @@ out/
 
 # Spring Boot 설정 파일 무시
 application.properties
+src/main/java/com/example/common/JDBCUtil.java
