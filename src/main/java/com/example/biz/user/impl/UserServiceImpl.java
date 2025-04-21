@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean delete(UserVO vo) {
-        return false;
+        return userDAO.delete(vo);
     }
 
     @Override
