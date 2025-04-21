@@ -51,6 +51,11 @@ dependencies {
 	implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
 	implementation 'org.glassfish.jaxb:jaxb-runtime:4.0.3'
 
+	// JSON 관련 의존성 추가
+	implementation 'org.json:json:20240303'            // org.json 라이브러리 (JSONObject 클래스용)
+	implementation 'com.googlecode.json-simple:json-simple:1.1.1'  // json-simple 라이브러리 (JSONParser 클래스용)
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.16.1'  // Jackson 라이브러리 (객체-JSON 변환용)
+
 	compileOnly 'org.projectlombok:lombok'
 	//runtimeOnly 'com.mysql:mysql-connector-j'
 	runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
@@ -60,22 +65,16 @@ dependencies {
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4'
 	testImplementation 'org.springframework.kafka:spring-kafka-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	// JavaMail API
+	implementation 'javax.mail:javax.mail-api:1.6.2'
 
-	//문자 API
-	implementation 'net.nurigo:sdk:4.3.2'
-//   // https://mvnrepository.com/artifact/net.nurigo/sdk
-//   implementation("net.nurigo:sdk:4.3.2")
+	// JavaMail 구현체 (실제 메일 전송에 필요)
+	implementation 'com.sun.mail:javax.mail:1.6.2'
 
+	// Java Activation Framework
+	implementation 'javax.activation:activation:1.1'
+}
 
-	// JSON
-	// org.json 라이브러리 (JSONObject 제공)
-	implementation 'org.json:json:20230618'
-
-	// json-simple 라이브러리 (JSONParser 제공)
-	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
-
-
-	tasks.named('test') {
-		useJUnitPlatform()
-	}
+tasks.named('test') {
+	useJUnitPlatform()
 }

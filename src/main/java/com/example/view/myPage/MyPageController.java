@@ -8,6 +8,7 @@ import com.example.biz.preference.PreferenceService;
 import com.example.biz.preference.PreferenceVO;
 import com.example.biz.user.UserService;
 import com.example.biz.user.UserVO;
+import com.example.common.GeoCodingUtil;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,7 +35,6 @@ public class MyPageController {
     private ParticipantService participantService;
 
     //정보수정 페이지 이동
-    @GetMapping("/updateProfilePage.do")
     public String updateProfilePage(Model model, HttpSession session, UserVO userVO,
                                     PreferenceVO preferenceVO) {
         System.out.println("CTRL 로그: UpdateProfilePageAction");
