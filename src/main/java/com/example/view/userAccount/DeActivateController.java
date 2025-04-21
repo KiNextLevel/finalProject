@@ -35,7 +35,7 @@ public class DeActivateController {
         if (userEmail == null || userEmail.isEmpty()) {
             model.addAttribute("msg", "로그인이 필요한 서비스입니다.");
             model.addAttribute("flag", false);
-            model.addAttribute("url", "/Metronic-Shop-UI-master/theme/LoginPage.jsp");
+            model.addAttribute("url", "/Metronic-Shop-UI-master/theme/LoginPage");
             return "Metronic-Shop-UI-master/theme/Alert";
         }
 
