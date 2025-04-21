@@ -1,6 +1,7 @@
 package com.example.biz.payment.impl;
 
 import com.example.biz.payment.PaymentService;
+import com.example.biz.payment.PaymentVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,26 +14,26 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public boolean insert(PaymentVO vo) {
-        return paymentDAO.insert();
+        return paymentDAO.insert(vo);
     }
 
     @Override
     public boolean update(PaymentVO vo) {
-        return paymentDAO.update();
+        return false;
     }
 
     @Override
     public boolean delete(PaymentVO vo) {
-        return paymentDAO.delete();
+        return false;
     }
 
     @Override
     public PaymentVO getPayment(PaymentVO vo) {
-        return paymentDAO.getPayment();
+        return null;
     }
 
     @Override
     public List<PaymentVO> getPaymentList(PaymentVO vo) {
-        return paymentDAO.getPaymentList();
+        return paymentDAO.getPaymentList(vo);
     }
 }

@@ -56,7 +56,7 @@ public class JoinController {
             model.addAttribute("socialType", userVO.getSocialType());
             model.addAttribute("msg", "회원가입 진행");
             model.addAttribute("flag", true);
-            model.addAttribute("url", "/Metronic-Shop-UI-master/theme/JoinPage.jsp");
+            model.addAttribute("url", "/Metronic-Shop-UI-master/theme/JoinPage");
 
             return path; // 다음 회원가입 단계로 리다이렉트
         } else {

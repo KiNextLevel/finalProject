@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpSession;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +26,10 @@ public class KakaoCallBackController {
     @Autowired
     private UserService userService;
 
-    private static final String CLIENT_ID = "cb9656ab4895e6ee319e89e74f28a308";
+    // ID 보안
+    @Value("${kakao.client_id}")
+    private String CLIENT_ID;
+
     private static final String REDIRECT_URI = "http://localhost:8088/Metronic-Shop-UI-master/theme/kakaoCallBack.do";
 
     @GetMapping("/kakaoCallBack.do")
