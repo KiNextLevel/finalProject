@@ -24,7 +24,7 @@ public class UserInteractionController {
     private ReportService reportService;
 
     //신고하기 액션
-    @GetMapping("report.do")
+    @GetMapping("/report.do")
     public String report(Model model, HttpSession session, HttpServletRequest request,
                          UserVO userVO, ReportVO reportVO) {
         System.out.println("CONT 로그: REPORT ACTION 도착");
