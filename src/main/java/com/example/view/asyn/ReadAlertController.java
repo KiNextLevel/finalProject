@@ -18,7 +18,7 @@ public class ReadAlertController {
 
     @PostMapping("/updateAlertStatus")
     public Map<String, Object> updateAlertStatus(@RequestParam("alertNumber") String alertNumber,
-                                                 AlertVO alertVO, @RequestParam("alertIsWatch") boolean alertIsWatch) {
+                                                 @RequestParam("alertIsWatch") boolean alertIsWatch) {
 
         boolean updateSuccess = updateAlertStatusInDatabase(alertNumber, alertIsWatch);
 

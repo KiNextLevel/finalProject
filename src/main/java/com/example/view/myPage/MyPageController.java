@@ -35,7 +35,6 @@ public class MyPageController {
     private ParticipantService participantService;
 
     //정보수정 페이지 이동
-    @GetMapping("updateProfilePage.do")
     public String updateProfilePage(Model model, HttpSession session, UserVO userVO,
                                     PreferenceVO preferenceVO) {
         System.out.println("CTRL 로그: UpdateProfilePageAction");
@@ -149,7 +148,7 @@ public class MyPageController {
     }
 
     //프로필 정보 수정
-    @PostMapping("updateProfile.do")
+    @PostMapping("/updateProfile.do")
     public String UpdateProfile(HttpSession session, Model model, UserVO userVO,
                                 PreferenceVO preferenceVO) {
         System.out.println("CTRL 로그: UpdateProfileAction");
@@ -358,7 +357,7 @@ public class MyPageController {
         if (userEmail == null) {
             // 로그인되지 않은 경우
             System.out.println("Mypage Action Log: userEmail is null");
-            return "redirct:login.jsp";
+            return "redirct:login.do";
         }
 
         userVO.setCondition("SELECTONE_USERINFO"); // 조건 설정 추가
@@ -390,7 +389,7 @@ public class MyPageController {
             model.addAttribute("participantList", participantList);
             //forward.setPath("/Metronic-Shop-UI-master/theme/MyPage.jsp");
             //forward.setRedirect(false);
-            return "/Metronic-Shop-UI-master/theme/MyPage.jsp";
+            return "/Metronic-Shop-UI-master/theme/MyPage";
         } else {
             System.out.println("마이페이지 로그[사용자 정보 없음]");
             // 사용자 정보가 없을 때 처리

@@ -24,7 +24,7 @@ public class UserInteractionController {
     private ReportService reportService;
 
     //신고하기 액션
-    @GetMapping("report.do")
+    @GetMapping("/report.do")
     public String report(Model model, HttpSession session, HttpServletRequest request,
                          UserVO userVO, ReportVO reportVO) {
         System.out.println("CONT 로그: REPORT ACTION 도착");
@@ -51,7 +51,7 @@ public class UserInteractionController {
         }
 
         // 닉네임을 request에 저장
-        request.setAttribute("reportedUserNickname", userNickname);
+        model.addAttribute("reportedUserNickname", userNickname);
 
         // 체크박스 다중 선택 처리
         String[] reasons = request.getParameterValues("reason");
@@ -179,7 +179,6 @@ public class UserInteractionController {
         System.out.println("CONT 로그: 선호 정보 조회 결과 - " + preferenceVO);
 
         if (preferenceVO == null) {
-            preferenceVO = new PreferenceVO(); // 기본 객체 생성
             System.out.println("CONT 로그: preferenceDTO가 null이어서 새 객체 생성");
         }
 
