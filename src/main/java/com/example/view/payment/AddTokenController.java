@@ -7,7 +7,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
@@ -16,7 +15,7 @@ public class AddTokenController{
     private UserService userService;
     private final int[] tokenList = {1, 5, 10};
 
-    @PostMapping("addToken.do")
+    @PostMapping("/addToken.do")
     public void addToken(ProductVO productVO, HttpSession session, UserVO userVO) {
         System.out.println("AddTokenAction log!");
         int productNum = productVO.getProductNumber();   //구매한 상품

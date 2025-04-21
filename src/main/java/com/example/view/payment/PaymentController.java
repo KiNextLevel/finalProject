@@ -26,7 +26,7 @@ public class PaymentController {
 	@Autowired
 	private ProductSerivce productService;
 
-    @PostMapping("payment.do")
+    @PostMapping("/payment.do")
 	public String payment(HttpServletRequest request, HttpSession session, Model model, PaymentVO paymentVO, ProductVO productVO, UserVO userVO) {
 		System.out.println("CONT 로그: PAYMENT ACTION 도착1");
 		//SendMessage send = new SendMessage();
@@ -66,13 +66,13 @@ public class PaymentController {
         return path;
 	}
 
-	@GetMapping("productPage.do")
+	@GetMapping("/productPage.do")
 	public String paymentPage() {
 		System.out.println("CONT 로그: PRODUCTPAGE ACTION 도착");
 		return "/Metronic-Shop-UI-master/theme/ProductPage";
 	}
 
-	@PostMapping("tossPaymentPage.do")
+	@PostMapping("/tossPaymentPage.do")
 	public String tossPaymentPage(ProductVO productVO, HttpSession session, UserVO userVO) {
 		userVO.setUserEmail((String)session.getAttribute("userEmail"));
 		userVO.setCondition("SELECTONE_USERINFO");
