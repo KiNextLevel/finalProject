@@ -2,7 +2,7 @@ package com.example.view.userAccount;
 
 import com.example.biz.user.UserService;
 import com.example.biz.user.UserVO;
-import com.example.logic.SendEmail;
+import com.example.view.logic.SendEmail;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class DeActivateController {
 
     // 회원 탈퇴처리
     @PostMapping("/deleteUser.do")
-    public String deActivate(HttpServletRequest request, HttpSession session, Model model, UserVO userVO) {
+    public String deActivate(HttpServletRequest request, HttpSession session, Model model, UserVO userVO, SendEmail sendEmail) {
         System.out.println("LOG: DEACTIVATE CONTROLLER - DEACTIVATE METHOD");
 
         // 세션으로 이메일 갖고오기
@@ -49,7 +49,7 @@ public class DeActivateController {
 
         // 회원 상태 변경 (ROLE을 3으로 변경)
         if (userService.update(userVO)) {
-            SendEmail.sendMail(userEmail,"[Next Love]회원 탈퇴 안내", "그동안 이용해주셔서 감사합니다");
+            sendEmail.sendMail(userEmail,"[Next Love]회원 탈퇴 안내", "그동안 이용해주셔서 감사합니다");
             // 탈퇴 성공 시 세션 무효화
             session.invalidate();
 
