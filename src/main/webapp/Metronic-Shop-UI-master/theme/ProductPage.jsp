@@ -78,7 +78,7 @@
                     <li><i class="fa fa-phone"></i><span>010 - 1234 - 1234</span></li>
                     <!-- BEGIN LANGS -->
                     <li class="langs-block">
-                        <a href="productPage.do" class="current"> 플러스샵 </a>
+                        <a href="/productPage.do" class="current"> 플러스샵 </a>
                     </li>
                     <!-- END LANGS -->
                 </ul>
@@ -88,11 +88,11 @@
             <div class="col-md-6 col-sm-6 additional-nav">
                 <ul class="list-unstyled list-inline pull-right">
                     <c:if test="${userRole==1}">
-                        <li><a href="adminPage.do">관리자페이지</a></li>
+                        <li><a href="/adminPage.do">관리자페이지</a></li>
                     </c:if>
-                    <li><a href="myPage.do">마이페이지</a></li>
+                    <li><a href="/myPage.do">마이페이지</a></li>
                     <li>메시지</li>
-                    <li><a href="logout.do">로그아웃</a></li>
+                    <li><a href="/logout.do">로그아웃</a></li>
                 </ul>
             </div>
             <!-- END TOP BAR MENU -->
@@ -104,7 +104,7 @@
 <!-- BEGIN HEADER -->
 <div class="header">
     <div class="container">
-        <a class="site-logo" href="mainPage.do"><img
+        <a class="site-logo" href="/mainPage.do"><img
                 src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/corporate/img/logos/3.png"
                 alt="Metronic Shop UI"></a>
 
@@ -161,7 +161,7 @@
                             <div class="option-box">
                                 <h5 class="option-title">토큰 패키지 선택</h5>
                                 <!-- 기본 패키지 -->
-                                <form action="tossPaymentPage.do" method="POST">
+                                <form action="/tossPaymentPage.do" method="POST">
                                     <input type="hidden" name="productNumber" value="2">
                                     <input type="hidden" name="productName" value="기본 패키지">
                                     <input type="hidden" name="productPrice" value="1100">
@@ -172,7 +172,7 @@
                                 </form>
 
                                 <!-- 인기 패키지 -->
-                                <form action="tossPaymentPage.do" method="POST">
+                                <form action="/tossPaymentPage.do" method="POST">
                                     <input type="hidden" name="productNumber" value="3">
                                     <input type="hidden" name="productName" value="인기 패키지">
                                     <input type="hidden" name="productPrice" value="5000">
@@ -182,7 +182,7 @@
                                     </button>
                                 </form>
                                 <!-- 프리미엄 패키지 -->
-                                <form action="tossPaymentPage.do" method="POST">
+                                <form action="/tossPaymentPage.do" method="POST">
                                     <input type="hidden" name="productNumber" value="4">
                                     <input type="hidden" name="productName" value="프리미엄 패키지">
                                     <input type="hidden" name="productPrice" value="8800">
@@ -232,7 +232,7 @@
                             </div>
                             <div class="premium-action">
                                 <!-- 프리미엄 멤버십 소유한 상태라면 버튼 비활성화 -->
-                                <form action="tossPaymentPage.do" method="post">
+                                <form action="/tossPaymentPage.do" method="post">
                                     <input type="hidden" name="productNumber" value="1">
                                     <input type="hidden" name="productName" value="프리미엄 멤버쉽 결제">
                                     <input type="hidden" name="productPrice" value="9900">
