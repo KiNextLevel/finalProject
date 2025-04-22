@@ -74,7 +74,7 @@
                     <li><i class="fa fa-phone"></i><span>010 - 1234 - 1234</span></li>
                     <!-- BEGIN LANGS -->
                     <li class="langs-block">
-                        <a href="productPage.do" class="current"> 플러스샵 </a>
+                        <a href="/productPage.do" class="current"> 플러스샵 </a>
                     </li>
                     <!-- END LANGS -->
                 </ul>
@@ -85,11 +85,11 @@
                 <ul class="list-unstyled list-inline pull-right">
                     <!-- 관리자만 보이는 버튼 -->
                     <c:if test="${userRole==1}">
-                        <li><a href="adminPage.do">관리자페이지</a></li>
+                        <li><a href="/adminPage.do">관리자페이지</a></li>
                     </c:if>
-                    <li><a href="myPage.do">마이페이지</a></li>
+                    <li><a href="/myPage.do">마이페이지</a></li>
                     <li>메시지</li>
-                    <li><a href="logout.do">로그아웃</a></li>
+                    <li><a href="/logout.do">로그아웃</a></li>
                 </ul>
             </div>
             <!-- END TOP BAR MENU -->
@@ -100,7 +100,7 @@
 <!-- BEGIN HEADER -->
 <div class="header">
     <div class="container">
-        <a class="site-logo" href="mainPage.do"><img
+        <a class="site-logo" href="/mainPage.do"><img
                 src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/corporate/img/logos/3.png"
                 alt="Next Level"></a>
 
@@ -128,7 +128,7 @@
                             <div class="report-container">
                                 <h2 class="report-title"><i class="fa fa-exclamation-triangle"></i> 사용자 신고</h2>
 
-                                <form action="report.do" method="post" id="reportForm">
+                                <form action="/report.do" method="post" id="reportForm">
                                     <h3 class="report-subtitle">${reportedUserNickname} 님에 대한 신고</h3>
 
                                     <div class="checkbox-group">
