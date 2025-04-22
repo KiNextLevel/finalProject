@@ -10,15 +10,13 @@ public class AdminMainPageController {
     @GetMapping("/adminPage.do")
     public String adminMainPage(HttpSession session, Model model) {
         System.out.println("AdminMainPageAction 로그: 도착");
-        System.out.println("AdminMainPageAction 로그 userRole:["+session.getAttribute("userRole")+"]");
+        System.out.println("AdminMainPageAction 로그 userRole:[" + session.getAttribute("userRole") + "]");
 
-        // 관리자는 이동 가능
-        String path= "redirect:/target-free-admin-template/AdminMainPage";
-        if((Integer)session.getAttribute("userRole") != 1) {  //관리자 아니면 이동 불가능
-            model.addAttribute("msg", "관리자만 접근 가능합니다");
-            model.addAttribute("flag", false);
-            path = "/Metronic-Shop-UI-master/theme/Alert";
-        }
-        return path;
+        return "redirect:/adminMainPage.do";
+    }
+
+    @GetMapping("/adminMainPage.do")
+    public String adminMainPage() {
+        return "/target-free-admin-template/AdminMainPage";
     }
 }
