@@ -18,7 +18,7 @@ public class JoinController {
     @GetMapping("/join.do")
     public String joinPage() {
         System.out.println("LOG : JOIN CONTROLLER - JOIN PAGE METHOD");
-        return "Metronic-Shop-UI-master/theme/JoinPage";  // .jsp는 suffix로 자동 추가
+        return "/Metronic-Shop-UI-master/theme/JoinPage";  // .jsp는 suffix로 자동 추가
     }
 
     // 회원가입 처리하는 POST 요청 처리
@@ -64,7 +64,7 @@ public class JoinController {
             model.addAttribute("msg", "이미 등록된 이메일입니다. 회원가입 실패!");
             model.addAttribute("flag", false);
 
-            return "Metronic-Shop-UI-master/theme/Alert";  // 알림 페이지로 이동
+            return "/Metronic-Shop-UI-master/theme/Alert";  // 알림 페이지로 이동
         }
     }
 }

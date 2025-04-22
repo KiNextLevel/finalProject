@@ -50,7 +50,7 @@
         <div class="row">
             <div class="col-md-6 col-sm-6 additional-nav">
                 <ul class="list-unstyled list-inline pull-right">
-                    <li><a href="indexPage.do">로그인 화면으로</a></li>
+                    <li><a href="/index.do">로그인 화면으로</a></li>
                 </ul>
             </div>
         </div>

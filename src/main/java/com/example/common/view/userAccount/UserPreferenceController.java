@@ -17,16 +17,9 @@ public class UserPreferenceController {
 
     // 취향 선택 페이지 이동 GET 요청
     @GetMapping("/userPreferencePage.do")
-    public String userPreferencePage(HttpSession session, Model model) {
+    public String userPreferencePage() {
         System.out.println("LOG : USER PREFERENCE CONTROLLER - USER PREFERENCE PAGE METHOD");
-
-        // 세션에서 사용자 이메일 가져오기
-        String userEmail = (String) session.getAttribute("userEmail");
-
-        // Model에 사용자 이메일 저장
-        model.addAttribute("userEmail", userEmail);
-
-        return "Metronic-Shop-UI-master/theme/UserPreference";
+        return "/Metronic-Shop-UI-master/theme/UserPreference";  // .jsp는 suffix로 자동 추가
     }
 
     // 사용자 취향 정보 처리하는 POST 요청 처리
@@ -54,7 +47,7 @@ public class UserPreferenceController {
 
                 model.addAttribute("msg", "필수 정보가 누락되었습니다!");
                 model.addAttribute("flag", false);
-                return "Metronic-Shop-UI-master/theme/Alert";
+                return "/Metronic-Shop-UI-master/theme/Alert";
             }
 
             // preferenceHeight가 0인 경우 (폼에서 숫자가 아닌 값이 입력되었거나 값이 없는 경우)
@@ -62,7 +55,7 @@ public class UserPreferenceController {
             if (preferenceVO.getPreferenceHeight() <= 0) {
                 model.addAttribute("msg", "키 값은 유효한 숫자여야 합니다!");
                 model.addAttribute("flag", false);
-                return "Metronic-Shop-UI-master/theme/Alert";
+                return "/Metronic-Shop-UI-master/theme/Alert";
             }
 
             // 시스템 로그
@@ -89,16 +82,27 @@ public class UserPreferenceController {
                 model.addAttribute("flag", false);
             }
 
-            return "Metronic-Shop-UI-master/theme/Alert";
+            return "/Metronic-Shop-UI-master/theme/Alert";
 
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("msg", "선호 입력 중 오류가 발생했습니다!");
             model.addAttribute("flag", false);
-            return "Metronic-Shop-UI-master/theme/Alert";
+            return "/Metronic-Shop-UI-master/theme/Alert";
         }
     }
 
+    @GetMapping("/userPreferencePage.do")
+    public String userPreferencePage(HttpSession session, Model model) {
+        System.out.println("LOG : USER PREFERENCE CONTROLLER - USER PREFERENCE PAGE METHOD");
 
+        // 세션에서 사용자 이메일 가져오기
+        String userEmail = (String) session.getAttribute("userEmail");
+
+        // Model에 사용자 이메일 저장
+        model.addAttribute("userEmail", userEmail);
+
+        return "/Metronic-Shop-UI-master/theme/UserPreference";
+    }
 
 }
