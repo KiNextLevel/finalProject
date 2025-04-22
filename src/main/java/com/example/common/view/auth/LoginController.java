@@ -45,7 +45,7 @@ public class LoginController {
             // alert.jsp에 url, true, msg 보내기
             if (userVO.getUserRole() == 0) { //유저
                 model.addAttribute("msg", "로그인 성공!");
-                model.addAttribute("url", "/mainPage.do");
+                model.addAttribute("url", "mainPage.do");
                 model.addAttribute("flag", true);
                 setSession(userVO, request); // 세션에 정보 저장
             } else if (userVO.getUserRole() == 1) { // 관리자
