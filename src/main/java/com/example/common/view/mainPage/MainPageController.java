@@ -26,12 +26,6 @@ public class MainPageController {
 	@Autowired
 	private AlertService alertService;
 
-//	@GetMapping("")
-//	public String mtest() {
-//		System.out.println("LOG : MAIN PAGE CONTROLLER - MAIN PAGE METHOD");
-//		return "Metronic-Shop-UI-master/theme/MainPage";
-//	}
-
 	@GetMapping("/mainPage.do")
 	public String mainPage(HttpSession session, PreferenceVO preferenceVO, AlertVO alertVO, UserVO userVO , Model model) {
 		System.out.println("CONT 로그: MAINPAGE ACTION 도착");

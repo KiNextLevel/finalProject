@@ -26,7 +26,7 @@ public class JoinNextController {
     @GetMapping("/joinNext.do")
     public String joinNextPage() {
         System.out.println("LOG : JOIN NEXT CONTROLLER - JOIN NEXT PAGE METHOD");
-        return "Metronic-Shop-UI-master/theme/JoinPage";
+        return "/Metronic-Shop-UI-master/theme/JoinPage";
     }
 
     @PostMapping("/joinNext.do")
@@ -138,13 +138,13 @@ public class JoinNextController {
                 model.addAttribute("flag", true);
                 model.addAttribute("url", "userPreferencePage.do");
 
-                return "Metronic-Shop-UI-master/theme/Alert";
+                return "/Metronic-Shop-UI-master/theme/Alert";
             } else {
                 // 회원가입 실패
                 model.addAttribute("msg", "회원가입 실패!");
                 model.addAttribute("flag", false);
 
-                return "Metronic-Shop-UI-master/theme/Alert";
+                return "/Metronic-Shop-UI-master/theme/Alert";
             }
 
         } catch (Exception e) {
@@ -152,7 +152,7 @@ public class JoinNextController {
             model.addAttribute("msg", "회원가입 중 오류가 발생했습니다!");
             model.addAttribute("flag", false);
 
-            return "Metronic-Shop-UI-master/theme/Alert";
+            return "/Metronic-Shop-UI-master/theme/Alert";
         }
     }
 

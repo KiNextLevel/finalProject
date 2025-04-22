@@ -48,7 +48,7 @@ public class PaymentController {
 		System.out.println("productName:["+productName+"]");
 		System.out.println("productVO: ["+productVO+"]");
 
-		String path = "addToken.do";
+		String path = "/addToken.do";
 		if(productVO == null){	//상품을 못 찾으면
 			model.addAttribute("msg", "상품을 찾을 수 없습니다");
 			model.addAttribute("flag", false);
