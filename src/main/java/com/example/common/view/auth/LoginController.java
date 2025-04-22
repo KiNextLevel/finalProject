@@ -38,7 +38,9 @@ public class LoginController {
 
         // 컨디션"로그인"
         userVO.setCondition("SELECTONE_NONSOCIAL");
-        if (userService.getUser(userVO) != null) {
+        userVO = userService.getUser(userVO);
+
+        if (userVO != null) {
             // url, flag, msg 요청단위 저장
             // alert.jsp에 url, true, msg 보내기
             if (userVO.getUserRole() == 0) { //유저

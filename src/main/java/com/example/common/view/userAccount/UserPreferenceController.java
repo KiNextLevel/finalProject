@@ -15,6 +15,20 @@ public class UserPreferenceController {
     @Autowired
     private PreferenceService preferenceService;
 
+    // 취향 선택 페이지 이동 GET 요청
+    @GetMapping("/userPreferencePage.do")
+    public String userPreferencePage(HttpSession session, Model model) {
+        System.out.println("LOG : USER PREFERENCE CONTROLLER - USER PREFERENCE PAGE METHOD");
+
+        // 세션에서 사용자 이메일 가져오기
+        String userEmail = (String) session.getAttribute("userEmail");
+
+        // Model에 사용자 이메일 저장
+        model.addAttribute("userEmail", userEmail);
+
+        return "/Metronic-Shop-UI-master/theme/UserPreference";
+    }
+
     // 사용자 취향 정보 처리하는 POST 요청 처리
     @PostMapping("/userPreference.do")
     public String userPreference(PreferenceVO preferenceVO, HttpSession session, Model model) {
@@ -85,17 +99,5 @@ public class UserPreferenceController {
         }
     }
 
-    @GetMapping("/userPreferencePage.do")
-    public String userPreferencePage(HttpSession session, Model model) {
-        System.out.println("LOG : USER PREFERENCE CONTROLLER - USER PREFERENCE PAGE METHOD");
-
-        // 세션에서 사용자 이메일 가져오기
-        String userEmail = (String) session.getAttribute("userEmail");
-
-        // Model에 사용자 이메일 저장
-        model.addAttribute("userEmail", userEmail);
-
-        return "/Metronic-Shop-UI-master/theme/UserPreference";
-    }
 
 }
