@@ -99,7 +99,7 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
                     <li><i class="fa fa-phone"></i><span>010 - 1234 - 1234</span></li>
                     <!-- BEGIN LANGS -->
                     <li class="langs-block">
-                        <a href="productPage.do" class="current"> 플러스샵 </a>
+                        <a href="/productPage.do" class="current"> 플러스샵 </a>
                     </li>
                     <!-- END LANGS -->
                 </ul>
@@ -109,11 +109,11 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
             <div class="col-md-6 col-sm-6 additional-nav">
                 <ul class="list-unstyled list-inline pull-right">
                     <c:if test="${userRole==1}">
-                        <li><a href="adminPage.do">관리자페이지</a></li>
+                        <li><a href="/adminPage.do">관리자페이지</a></li>
                     </c:if>
-                    <li><a href="myPage.do">마이페이지</a></li>
+                    <li><a href="/myPage.do">마이페이지</a></li>
                     <li>메시지</li>
-                    <li><a href="logout.do">로그아웃</a></li>
+                    <li><a href="/logout.do">로그아웃</a></li>
                 </ul>
             </div>
             <!-- END TOP BAR MENU -->
@@ -125,7 +125,7 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
 <!-- BEGIN HEADER -->
 <div class="header">
     <div class="container">
-        <a class="site-logo" href="mainPage.do"><img
+        <a class="site-logo" href="/mainPage.do"><img
                 src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/corporate/img/logos/3.png"
                 alt="mainPage"/></a>
 
@@ -156,7 +156,7 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
      style="margin: -23px 0 23px; position: relative; overflow: hidden; background: #72c2ff url('${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/corporate/img/logos/123.png') no-repeat 100% 100%; min-height: 280px; padding-top: 79px; width: 100%;">
     <div class="container">
         <div class="container-inner">
-            <a href="boardPage.do">
+            <a href="/boardPage.do">
                 <h1><span>이벤트!</span></h1>
                 <em>온/오프라인 이벤트 참여하기</em>
             </a>
@@ -229,24 +229,24 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
                     <div class="sidebar-products clearfix">
                         <h2>구글 광고</h2>
                         <div class="item">
-                            <a href="productPage.do"><img
+                            <a href="/productPage.do"><img
                                     src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/pages/img/products/k1.jpg"
                                     alt="Some Shoes in Animal with Cut Out"></a>
-                            <h3><a href="productPage.do">Some Shoes in Animal with Cut Out</a></h3>
+                            <h3><a href="/productPage.do">Some Shoes in Animal with Cut Out</a></h3>
                             <div class="price">$31.00</div>
                         </div>
                         <div class="item">
-                            <a href="productPage.do"><img
+                            <a href="/productPage.do"><img
                                     src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/pages/img/products/k4.jpg"
                                     alt="Some Shoes in Animal with Cut Out"></a>
-                            <h3><a href="productPage.do">Some Shoes in Animal with Cut Out</a></h3>
+                            <h3><a href="/productPage.do">Some Shoes in Animal with Cut Out</a></h3>
                             <div class="price">$23.00</div>
                         </div>
                         <div class="item">
-                            <a href="productPage.do"><img
+                            <a href="/productPage.do"><img
                                     src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/pages/img/products/k3.jpg"
                                     alt="Some Shoes in Animal with Cut Out"></a>
-                            <h3><a href="productPage.do">Some Shoes in Animal with Cut Out</a></h3>
+                            <h3><a href="/productPage.do">Some Shoes in Animal with Cut Out</a></h3>
                             <div class="price">$86.00</div>
                         </div>
                     </div>

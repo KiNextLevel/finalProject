@@ -366,7 +366,7 @@
         <!-- 컨텐츠 영역 -->
         <div class="auth-content">
             <!-- 로그인 폼 -->
-            <form class="auth-form" id="login-form" action="login.do" method="POST">
+            <form class="auth-form" id="login-form" action="/login.do" method="POST">
                 <div class="form-group">
                     <label for="login-email"><i class="fa fa-envelope"></i> 이메일</label>
                     <input type="email" id="login-email" name="userEmail" class="form-control" placeholder="이메일 주소" required>
@@ -403,7 +403,7 @@
             </form>
 
             <!-- 회원가입 폼 -->
-            <form class="auth-form active" id="signup-form" action="join.do" method="POST">
+            <form class="auth-form active" id="signup-form" action="/join.do" method="POST">
                 <div class="form-group">
                     <label for="signup-name"><i class="fa fa-user"></i> 이름</label>
                     <input type="text" id="signup-name" name="userName" class="form-control" placeholder="이름" required>

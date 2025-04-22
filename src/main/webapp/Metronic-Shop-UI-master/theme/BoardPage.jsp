@@ -102,7 +102,7 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
                     <li><i class="fa fa-phone"></i><span>010 - 1234 - 1234</span></li>
                     <!-- BEGIN LANGS -->
                     <li class="langs-block">
-                        <a href="productPage.do" class="current"> 플러스샵 </a>
+                        <a href="/productPage.do" class="current"> 플러스샵 </a>
                     </li>
                     <!-- END LANGS -->
                 </ul>
@@ -112,11 +112,11 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
             <div class="col-md-6 col-sm-6 additional-nav">
                 <ul class="list-unstyled list-inline pull-right">
                     <c:if test="${userRole==1}">
-                        <li><a href="adminPage.do">관리자페이지</a></li>
+                        <li><a href="/adminPage.do">관리자페이지</a></li>
                     </c:if>
-                    <li><a href="myPage.do">마이페이지</a></li>
+                    <li><a href="/myPage.do">마이페이지</a></li>
                     <li>메시지</li>
-                    <li><a href="logout.do">로그아웃</a></li>
+                    <li><a href="/logout.do">로그아웃</a></li>
                 </ul>
             </div>
             <!-- END TOP BAR MENU -->
@@ -128,7 +128,7 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
 <!-- BEGIN HEADER -->
 <div class="header">
     <div class="container">
-        <a class="site-logo" href="mainPage.do"><img
+        <a class="site-logo" href="/mainPage.do"><img
                 src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/corporate/img/logos/3.png"
                 alt="mainPage"></a>
 
@@ -147,7 +147,7 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
 <div class="main event-page">
     <div class="container">
         <ul class="breadcrumb">
-            <li><a href="mainPage.do">메인페이지</a></li>
+            <li><a href="/mainPage.do">메인페이지</a></li>
             <li class="active">이벤트 페이지</li>
         </ul>
 
@@ -168,7 +168,7 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
                 <!-- 관리자인 경우 이벤트 추가 버튼 표시 -->
                 <c:if test="${sessionScope.userRole=='1'}">
                     <div class="admin-add-btn text-right">
-                        <a href="adminAddBoardPage.do" class="btn-add-event">
+                        <a href="/adminAddBoardPage.do" class="btn-add-event">
                             <i class="fa fa-plus-circle"></i> 새 이벤트 추가
                         </a>
                     </div>
@@ -178,7 +178,7 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
                 <!-- 관리자인 경우 이벤트 추가 버튼 표시 -->
                 <c:if test="${sessionScope.userRole=='1'}">
                     <div class="admin-add-btn text-right">
-                        <a href="adminAddBoardPage.do" class="btn-add-event">
+                        <a href="/adminAddBoardPage.do" class="btn-add-event">
                             <i class="fa fa-plus-circle"></i> 새 이벤트 추가
                         </a>
                     </div>
@@ -218,11 +218,11 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
                                         <c:when test="${sessionScope.userRole=='1'}">
                                             <!-- 관리자용 버튼 -->
                                             <div class="admin-actions">
-                                                <a href="adminModifyBoardPage.do?boardNum=${data.boardNumber}"
+                                                <a href="/adminModifyBoardPage.do?boardNum=${data.boardNumber}"
                                                    class="btn btn-edit">
                                                     <i class="fa fa-pencil"></i> 수정
                                                 </a>
-                                                <form action="adminDeleteBoard.do" method="POST"
+                                                <form action="/adminDeleteBoard.do" method="POST"
                                                       style="display: inline;">
                                                     <input type="hidden" name="boardNum" value="${data.boardNumber}">
                                                     <button type="submit" class="btn btn-delete"
@@ -236,7 +236,7 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
                                             <c:choose>
                                                 <c:when test="${data.participant == 1}">
                                                     <!-- 일반 사용자용 참가 버튼 -->
-                                                    <form action="participantBoard.do" method="POST">
+                                                    <form action="/participantBoard.do" method="POST">
                                                         <input type="hidden" name="boardNumber"
                                                                value="${data.boardNumber}">
                                                         <button type="submit" class="btn-participate"
@@ -248,7 +248,7 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
                                                 </c:when>
                                                 <c:otherwise>
                                                     <!-- 일반 사용자용 참가 버튼 -->
-                                                    <form action="participantBoard.do" method="POST">
+                                                    <form action="/participantBoard.do" method="POST">
                                                         <input type="hidden" name="boardNumber"
                                                                value="${data.boardNumber}">
                                                         <button type="submit" class="btn-participate"

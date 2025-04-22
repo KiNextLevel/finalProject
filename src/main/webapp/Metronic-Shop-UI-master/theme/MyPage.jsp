@@ -49,7 +49,7 @@
                     <li><i class="fa fa-phone"></i><span>010 - 1234 - 1234</span></li>
                     <!-- BEGIN LANGS -->
                     <li class="langs-block">
-                        <a href="productPage.do" class="current"> 플러스샵 </a>
+                        <a href="/productPage.do" class="current"> 플러스샵 </a>
                     </li>
                     <!-- END LANGS -->
                 </ul>
@@ -59,11 +59,11 @@
             <div class="col-md-6 col-sm-6 additional-nav">
                 <ul class="list-unstyled list-inline pull-right">
                     <c:if test="${userRole==1}">
-                        <li><a href="adminPage.do">관리자페이지</a></li>
+                        <li><a href="/adminPage.do">관리자페이지</a></li>
                     </c:if>
-                    <li><a href="myPage.do">마이페이지</a></li>
+                    <li><a href="/myPage.do">마이페이지</a></li>
                     <li>메시지</li>
-                    <li><a href="logout.do">로그아웃</a></li>
+                    <li><a href="/logout.do">로그아웃</a></li>
                 </ul>
             </div>
             <!-- END TOP BAR MENU -->
@@ -75,7 +75,7 @@
 <!-- BEGIN HEADER -->
 <div class="header">
     <div class="container">
-        <a class="site-logo" href="mainPage.do"><img
+        <a class="site-logo" href="/mainPage.do"><img
                 src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/corporate/img/logos/3.png"
                 alt="mainPage"></a>
 
@@ -96,7 +96,7 @@
     <div class="container">
         <!-- 경로 표시 -->
         <ul class="breadcrumb">
-            <li><a href="mainPage.do">홈</a></li>
+            <li><a href="/mainPage.do">홈</a></li>
             <li><a href="">마이페이지</a></li>
             <li class="active">내 정보</li>
         </ul>
@@ -133,7 +133,7 @@
                             <div class="profile-left">
                                 <div class="profile-image-container">
                                     <!-- 프로필 이미지 업로드를 위한 폼 수정 -->
-                                    <form id="profileForm" action="updateProfileImage.do" method="POST"
+                                    <form id="profileForm" action="/updateProfileImage.do" method="POST"
                                           enctype="multipart/form-data">
                                         <input type="file" id="profileUpload" name="profileImage" accept="image/*"
                                                onchange="this.form.submit();"/>
@@ -173,7 +173,7 @@
                             </div>
 
                             <div class="profile-actions">
-                                <a href="updateProfilePage.do" class="btn btn-primary">
+                                <a href="/updateProfilePage.do" class="btn btn-primary">
                                     <i class="fa fa-edit"></i> 정보 수정
                                 </a>
                             </div>
@@ -427,7 +427,7 @@
                             <h3>계정 설정</h3>
                             <!-- 계정 설정 -->
                             <p>회원 탈퇴를 원하시면 아래 버튼을 클릭하세요.</p>
-                            <a href="accountDelete.do"
+                            <a href="/accountDelete.do"
                                class="btn btn-danger">
                                 <i class="fa fa-user-times"></i> 회원 탈퇴하기
                             </a>

@@ -11,7 +11,7 @@
 <body>
 <%
     //표지(시작, index) 페이지
-    response.sendRedirect("loginPage.do");
+    response.sendRedirect("/loginPage.do");
 %>
 </body>
 </html>

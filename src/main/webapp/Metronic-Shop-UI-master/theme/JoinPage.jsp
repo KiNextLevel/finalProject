@@ -53,7 +53,7 @@
         <div class="row">
             <div class="col-md-6 col-sm-6 additional-nav">
                 <ul class="list-unstyled list-inline pull-right">
-                    <li><a href="indexPage.do">로그인 화면으로</a></li>
+                    <li><a href="/indexPage.do">로그인 화면으로</a></li>
                 </ul>
             </div>
         </div>
@@ -97,7 +97,7 @@
                     </div>
                 </div>
 
-                <form action="joinPage.do" method="post" id="userInfoForm" enctype="multipart/form-data">
+                <form action="/joinPage.do" method="post" id="userInfoForm" enctype="multipart/form-data">
                     <!-- 소셜 로그인 타입 히든 필드 -->
                     <c:if test="${not empty socialType}">
                         <input type="hidden" name="socialType" value="${socialType}">
