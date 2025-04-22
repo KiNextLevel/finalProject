@@ -10,5 +10,4 @@ public class NextLevelApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(NextLevelApplication.class, args);
 	}
-
 }
