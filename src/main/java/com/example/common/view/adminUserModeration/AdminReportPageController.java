@@ -34,12 +34,12 @@ public class AdminReportPageController {
         if (((Integer) session.getAttribute("userRole")) == 1) {  //관리자만 이동 가능
             model.addAttribute("blacks", blacks);
             model.addAttribute("reported", reported);
-            return "/Metronic-Shop-UI-master/theme/Alert";
+            return "/Metronic-Shop-UI-master/theme/AdminReportPage";
         }
         else {
             model.addAttribute("msg", "관리자만 이동 가능합니다");
             model.addAttribute("flag", false);
+            return "/Metronic-Shop-UI-master/theme/Alert";
         }
-        return "/Metronic-Shop-UI-master/theme/Alert";
     }
 }
