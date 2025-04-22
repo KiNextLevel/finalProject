@@ -10,13 +10,14 @@ import jakarta.servlet.http.HttpSession;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController
+@Controller
 public class MainPageController {
 	@Autowired
 	private UserService userService;
@@ -25,13 +26,13 @@ public class MainPageController {
 	@Autowired
 	private AlertService alertService;
 
-	@GetMapping("/test")
-	public String index() {
-		System.out.println("testview");
-		return "Metronic-Shop-UI-master/theme/index"; // /Metronic-Shop-UI-master/theme/index.jsp를 렌더링
-	}
+//	@GetMapping("")
+//	public String mtest() {
+//		System.out.println("LOG : MAIN PAGE CONTROLLER - MAIN PAGE METHOD");
+//		return "Metronic-Shop-UI-master/theme/MainPage";
+//	}
 
-	@GetMapping("/mainPage.do")
+	@GetMapping("/Metronic-Shop-UI-master/theme/mainPage.do")
 	public String mainPage(HttpSession session, PreferenceVO preferenceVO, AlertVO alertVO, UserVO userVO , Model model) {
 		System.out.println("CONT 로그: MAINPAGE ACTION 도착");
 		String userEmail = (String) session.getAttribute("userEmail");

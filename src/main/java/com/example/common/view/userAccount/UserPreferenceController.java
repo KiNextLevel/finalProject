@@ -17,12 +17,6 @@ public class UserPreferenceController {
 
     // 취향 선택 페이지 이동 GET 요청
     @GetMapping("/userPreferencePage.do")
-    public String userPreferencePage() {
-        System.out.println("LOG : USER PREFERENCE CONTROLLER - USER PREFERENCE PAGE METHOD");
-        return "Metronic-Shop-UI-master/theme/UserPreferencePage";  // .jsp는 suffix로 자동 추가
-    }
-
-    @GetMapping("/userPreferencePae.do")
     public String userPreferencePage(HttpSession session, Model model) {
         System.out.println("LOG : USER PREFERENCE CONTROLLER - USER PREFERENCE PAGE METHOD");
 

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.BufferedReader;
@@ -32,7 +33,7 @@ public class KakaoCallBackController {
 
     private static final String REDIRECT_URI = "http://localhost:8088/Metronic-Shop-UI-master/theme/kakaoCallBack.do";
 
-    @GetMapping("/kakaoCallBack.do")
+    @GetMapping("/Metronic-Shop-UI-master/theme/kakaoCallBack.do")
     public String kakaoCallback(@RequestParam("code") String code, HttpServletRequest request, Model model, UserVO userVO) {
         System.out.println("kakaoCallBack log - code = [" + code + "]");
 
