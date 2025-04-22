@@ -32,7 +32,7 @@ public class MainPageController {
 //		return "Metronic-Shop-UI-master/theme/MainPage";
 //	}
 
-	@GetMapping("/Metronic-Shop-UI-master/theme/mainPage.do")
+	@GetMapping("/mainPage.do")
 	public String mainPage(HttpSession session, PreferenceVO preferenceVO, AlertVO alertVO, UserVO userVO , Model model) {
 		System.out.println("CONT 로그: MAINPAGE ACTION 도착");
 		String userEmail = (String) session.getAttribute("userEmail");
