@@ -34,6 +34,7 @@ public class MyPageController {
     private ParticipantService participantService;
 
     //정보수정 페이지 이동
+    @GetMapping("/updateProfilePage.do")
     public String updateProfilePage(Model model, HttpSession session, UserVO userVO,
                                     PreferenceVO preferenceVO) {
         System.out.println("CTRL 로그: UpdateProfilePageAction");
@@ -46,7 +47,7 @@ public class MyPageController {
 //            forward.setPath("loginPage.do");
 //            forward.setRedirect(true);
 //            return forward;
-            return "redirect:loginPage.do";
+            return "redirect:/loginPage.do";
         }
 
         userVO.setUserEmail(userEmail);
@@ -71,7 +72,7 @@ public class MyPageController {
             // 사용자 정보가 없을 때 처리
 //            forward.setPath("loginPage.do");
 //            forward.setRedirect(true);
-        return "redirect:loginPage.do";
+        return "redirect:/loginPage.do";
         }
         //return forward;
     }
@@ -159,7 +160,7 @@ public class MyPageController {
             System.out.println("UpdateProfile Action 로그: userEmail is null");
 //            forward.setPath("loginPage.do");
 //            forward.setRedirect(true);
-            return "redirect:loginPage.do";
+            return "redirect:/loginPage.do";
         }
 
         try {
@@ -209,7 +210,7 @@ public class MyPageController {
             //String newNickname = request.getParameter("userNickName");
             if (userVO.getUserNickname() != null && !userVO.getUserNickname().trim().isEmpty()) {
                 System.out.println("userNickname 안가져와짐");
-                return "redirect:myPage.do";
+                return "redirect:/myPage.do";
                // userDTO.setUserNickname(newNickname);
             }
 
@@ -308,7 +309,7 @@ public class MyPageController {
                 session.setAttribute("updateMessage", "프로필 정보가 성공적으로 업데이트되었습니다.");
 
                 // 마이페이지로 리다이렉트
-                return "redirect:mypagePage.do";
+                return "redirect:/myPage.do";
 //                forward.setPath("myPage.do");
 //                forward.setRedirect(true);
             } else {
@@ -356,7 +357,7 @@ public class MyPageController {
         if (userEmail == null) {
             // 로그인되지 않은 경우
             System.out.println("Mypage Action Log: userEmail is null");
-            return "redirct:login.do";
+            return "redirect:/login.do";
         }
 
         userVO.setCondition("SELECTONE_USERINFO"); // 조건 설정 추가

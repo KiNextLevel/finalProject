@@ -64,7 +64,7 @@ public class LoginController {
             model.addAttribute("msg", "로그인정보가 틀렸습니다");
             model.addAttribute("flag", false);
         }
-        return "Metronic-Shop-UI-master/theme/Alert";
+        return "/Metronic-Shop-UI-master/theme/Alert";
     }
 
     // 세션 저장 모듈화

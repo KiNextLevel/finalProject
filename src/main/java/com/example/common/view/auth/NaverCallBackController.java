@@ -34,7 +34,7 @@ public class NaverCallBackController {
     
     private static final String REDIRECT_URI = "http://localhost:8088/Metronic-Shop-UI-master/theme/naverCallback.do";
 
-    @GetMapping("/naverCallback.do")
+    @GetMapping("/Metronic-Shop-UI-master/theme/naverCallback.do")
     public String naverCallback(@RequestParam("code") String code, @RequestParam("state") String state, HttpServletRequest request,
             HttpSession session, Model model, UserVO userVO) {
 
