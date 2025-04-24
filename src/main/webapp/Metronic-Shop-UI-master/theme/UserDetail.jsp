@@ -1,5 +1,5 @@
-<%@ page import="org.example.webapp.model.dto.UserDTO" %>
-<%@ page import="org.example.webapp.model.dto.PreferenceDTO" %>
+<%@ page import="com.example.common.biz.user.UserVO" %>
+<%@ page import="com.example.common.biz.preference.PreferenceVO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -270,25 +270,25 @@
                 <div class="row">
                     <div class="col-md-6 col-sm-6">
                         <div class="product-main-image">
-                            <img src="${userDTO.userProfile}" alt="User Profile"
-                                 class="img-responsive" data-BigImgsrc="${userDTO.userProfile}">
+                            <img src="${userVO.userProfile}" alt="User Profile"
+                                 class="img-responsive" data-BigImgsrc="${userVO.userProfile}">
                         </div>
                     </div>
                     <div class="col-md-6 col-sm-6">
-                        <h1>${userDTO.userNickname}의 프로필</h1>
+                        <h1>${userVO.userNickname}의 프로필</h1>
                         <div class="price-availability-block clearfix">
                             <div class="price">
-                                <strong>이름 : ${userDTO.userName}</strong><br>
-                                <p>닉네임 : ${userDTO.userNickname}</p>
+                                <strong>이름 : ${userVO.userName}</strong><br>
+                                <p>닉네임 : ${userVO.userNickname}</p>
                             </div>
                             <div class="availability">
                                 <!-- 앞에 2글자만 자르기 -->
-                                지역 : <strong>${fn:split(userDTO.userRegion, ' ')[0]}</strong>
+                                지역 : <strong>${fn:split(userVO.userRegion, ' ')[0]}</strong>
                             </div>
 
                         </div>
                         <div class="description">
-                            <p>${userDTO.userDescription}</p>
+                            <p>${userVO.userDescription}</p>
                         </div>
                         <div class="product-page-cart">
                             <div class="row">
@@ -297,9 +297,9 @@
                                     <button class="btn btn-primary btn-block" type="submit">1:1 채팅하기</button>
                                 </div>
                                 <div class="col-md-6">
-                                    <a href="/reportPage.do?userEmail=${userDTO.userEmail}"
+                                    <a href="/reportPage.do?userEmail=${userVO.userEmail}"
                                        class="btn btn-danger btn-block">
-                                        ${userDTO.userNickname} 신고하기
+                                        ${userVO.userNickname} 신고하기
                                     </a>
                                 </div>
                             </div>
@@ -313,9 +313,9 @@
                         <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/js/MapView.js"></script>
 
                         <script>
-                            initUserMap(${userDTO.userLatitude}, ${userDTO.userLongitude});
-                            console.log("위도:", ${userDTO.userLatitude});
-                            console.log("경도:", ${userDTO.userLongitude});
+                            initUserMap(${userVO.userLatitude}, ${userVO.userLongitude});
+                            console.log("위도:", ${userVO.userLatitude});
+                            console.log("경도:", ${userVO.userLongitude});
                         </script>
                     </div>
 
@@ -327,49 +327,49 @@
                         <div id="myTabContent" class="tab-content">
                             <div class="tab-pane fade" id="Information">
                                 <div class="user-info-container">
-                                    <c:if test="${not empty userDTO}">
+                                    <c:if test="${not empty userVO}">
                                         <div class="row user-info-row">
                                             <div class="col-md-6">
                                                 <div class="info-item">
                                                     <i class="fas fa-birthday-cake"></i>
                                                     <span class="info-label">생년월일:</span>
-                                                    <span class="info-value">${userDTO.userBirth}</span>
+                                                    <span class="info-value">${userVO.userBirth}</span>
                                                 </div>
                                                 <div class="info-item">
                                                     <i class="fas fa-arrows-alt-v"></i>
                                                     <span class="info-label">키:</span>
-                                                    <span class="info-value">${userDTO.userHeight}</span>
+                                                    <span class="info-value">${userVO.userHeight}</span>
                                                 </div>
                                                 <div class="info-item">
                                                     <i class="fas fa-user"></i>
                                                     <span class="info-label">체형:</span>
-                                                    <span class="info-value">${userDTO.userBody}</span>
+                                                    <span class="info-value">${userVO.userBody}</span>
                                                 </div>
                                                 <div class="info-item">
                                                     <i class="fas fa-brain"></i>
                                                     <span class="info-label">MBTI:</span>
-                                                    <span class="info-value">${userDTO.userMbti}</span>
+                                                    <span class="info-value">${userVO.userMbti}</span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="info-item">
                                                     <i class="fas fa-graduation-cap"></i>
                                                     <span class="info-label">학력:</span>
-                                                    <span class="info-value">${userDTO.userEducation}</span>
+                                                    <span class="info-value">${userVO.userEducation}</span>
                                                 </div>
                                                 <div class="info-item">
                                                     <i class="fas fa-heart"></i>
                                                     <span class="info-label">종교:</span>
-                                                    <span class="info-value">${userDTO.userReligion}</span>
+                                                    <span class="info-value">${userVO.userReligion}</span>
                                                 </div>
                                                 <div class="info-item">
                                                     <i class="fas fa-glass-cheers"></i>
                                                     <span class="info-label">음주:</span>
                                                     <span class="info-value">
                             <c:choose>
-                                <c:when test="${userDTO.userDrink == 0}">전혀 안함</c:when>
-                                <c:when test="${userDTO.userDrink == 1}">가끔</c:when>
-                                <c:when test="${userDTO.userDrink == 2}">자주</c:when>
+                                <c:when test="${userVO.userDrink == 0}">전혀 안함</c:when>
+                                <c:when test="${userVO.userDrink == 1}">가끔</c:when>
+                                <c:when test="${userVO.userDrink == 2}">자주</c:when>
                                 <c:otherwise>입력 안됨</c:otherwise>
                             </c:choose>
                         </span>
@@ -379,7 +379,7 @@
                                                     <span class="info-label">흡연:</span>
                                                     <span class="info-value">
                             <c:choose>
-                                <c:when test="${userDTO.userSmoke}">흡연</c:when>
+                                <c:when test="${userVO.userSmoke == 1}">흡연</c:when>
                                 <c:otherwise>비흡연</c:otherwise>
                             </c:choose>
                         </span>
@@ -387,13 +387,13 @@
                                                 <div class="info-item">
                                                     <i class="fas fa-briefcase"></i>
                                                     <span class="info-label">직업:</span>
-                                                    <span class="info-value">${userDTO.userJob}</span>
+                                                    <span class="info-value">${userVO.userJob}</span>
                                                 </div>
                                             </div>
                                         </div>
                                     </c:if>
 
-                                    <c:if test="${empty userDTO}">
+                                    <c:if test="${empty userVO}">
                                         <div class="alert alert-info">사용자 정보를 찾을 수 없습니다.</div>
                                     </c:if>
                                 </div>
@@ -401,7 +401,7 @@
                             <div class="tab-pane fade in active" id="favorite">
                                 <div class="user-preference-container">
                                     <c:choose>
-                                        <c:when test="${not empty preferenceDTO}">
+                                        <c:when test="${not empty preferenceVO}">
                                             <div class="preference-header">
                                                 <h3>선호하는 조건</h3>
                                             </div>
@@ -413,7 +413,7 @@
                                                         </div>
                                                         <div class="preference-content">
                                                             <h4>선호 키</h4>
-                                                            <p>${preferenceDTO.preferenceHeight}</p>
+                                                            <p>${preferenceVO.preferenceHeight}</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -424,7 +424,7 @@
                                                         </div>
                                                         <div class="preference-content">
                                                             <h4>선호 체형</h4>
-                                                            <p>${preferenceDTO.preferenceBody}</p>
+                                                            <p>${preferenceVO.preferenceBody}</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -435,7 +435,7 @@
                                                         </div>
                                                         <div class="preference-content">
                                                             <h4>선호 나이</h4>
-                                                            <p>${preferenceDTO.preferenceAge}</p>
+                                                            <p>${preferenceVO.preferenceAge}</p>
                                                         </div>
                                                     </div>
                                                 </div>
