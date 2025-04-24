@@ -216,7 +216,7 @@ public class UserDAO {
                     }
                 }
                 // 해당 유저 전체 정보 불러오기
-                else if (userVO.getCondition().equals("SELECTONE_MEMBERINFO")) {
+                else if (userVO.getCondition().equals("SELECTONE_USERINFO")) {
                     pstmt = conn.prepareStatement(SELECTONE_MEMBERINFO);
                     pstmt.setString(1, userVO.getUserEmail());
 
