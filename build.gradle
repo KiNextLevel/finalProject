@@ -83,7 +83,7 @@ dependencies {
 	implementation 'net.nurigo:sdk:4.3.2'                                  // 문자 메시지 전송 SDK
 
 	// ===== 보안 관련 =====
-	implementation 'org.springframework.boot:spring-boot-starter-security'  // Spring Security 기본 기능
+	//implementation 'org.springframework.boot:spring-boot-starter-security'  // Spring Security 기본 기능
 
 	// ===== API 문서화 =====
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.4.0'  // Swagger UI (Spring Boot 3.x 호환)
@@ -108,6 +108,14 @@ dependencies {
 	// 모니터링 및 관리
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'  // 애플리케이션 모니터링
 }
+
+configurations {
+	all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-security'
+	all*.exclude group: 'org.springframework.security', module: 'spring-security-config'
+	all*.exclude group: 'org.springframework.security', module: 'spring-security-core'
+	all*.exclude group: 'org.springframework.security', module: 'spring-security-web'
+}
+
 
 tasks.named('test') {
 	useJUnitPlatform()
