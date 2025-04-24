@@ -3,6 +3,7 @@ package com.example.common.view.auth;
 import com.example.common.biz.user.UserService;
 import com.example.common.biz.user.UserVO;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,8 +19,14 @@ public class LoginController {
 
     // 로그인페이지로 이동. 파라미터에 userEmail 담아서 이동
     @GetMapping("/loginPage.do")
-    public String loginPage(@RequestParam(value = "userEmail", required = false) String userEmail, Model model) {
+    public String loginPage(@RequestParam(value = "userEmail", required = false) String userEmail,
+                            Model model,
+                            HttpServletResponse response) {
         System.out.println("LOG : LOGIN CONTROLLER - LOGIN PAGE METHOD");
+
+        // 응답 인코딩 설정 추가
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
 
         if (userEmail != null) {
             model.addAttribute("userEmail", userEmail);
