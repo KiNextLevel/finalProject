@@ -33,15 +33,15 @@ public class MainPageController {
 		int userRole = (int) session.getAttribute("userRole");
 		String path = "/Metronic-Shop-UI-master/theme/Alert";
 		// 선호취향 입력 안한 상태라면
-//		preferenceVO.setUserEmail(userEmail);
-//		preferenceVO = preferenceService.getPreference(preferenceVO);
-//		System.out.println("preferenceVO = " + preferenceVO);
-//		if (preferenceVO == null && userRole == 0) {
-//			model.addAttribute("msg", "먼저 선호 취향을 입력하시길 바랍니다.");
-//			model.addAttribute("url", "userPreferencePage.do");
-//			model.addAttribute("flag", true);
-//			return path;
-//		}
+		preferenceVO.setUserEmail(userEmail);
+		preferenceVO = preferenceService.getPreference(preferenceVO);
+		System.out.println("preferenceVO = " + preferenceVO);
+		if (preferenceVO == null && userRole == 0) {
+			model.addAttribute("msg", "먼저 선호 취향을 입력하시길 바랍니다.");
+			model.addAttribute("url", "userPreferencePage.do");
+			model.addAttribute("flag", true);
+			return path;
+		}
 
 		// 알림 목록 mainpage로
 		alertVO.setUserEmail(userEmail);

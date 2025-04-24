@@ -201,8 +201,8 @@ function applyFilters() {
     filteredUsers = allUsers.filter(user => {
         const birthYear = parseInt(user.userBirth) || 0;
         const userAge = birthYear ? currentYear - birthYear : 0; // 나이 계산
-        const userGenderStr = user.userGender ? "남" : "여"; // 성별 문자열 변환
-        const userSmokeStr = user.userSmoke ? "흡연" : "비흡연"; // 흡연 여부 문자열 변환
+        const userGenderStr = user.userGender === 1 ? "남" : "여"; // 성별 문자열 변환
+        const userSmokeStr = user.userSmoke === 1 ? "흡연" : "비흡연"; // 흡연 여부 문자열 변환
 
         // 사용자 위도/경도
         const userLatitude = parseFloat(user.userLatitude);
