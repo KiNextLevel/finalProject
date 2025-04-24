@@ -82,12 +82,12 @@ public class MainPageController {
 			userJson.put("userEmail", user.getUserEmail());
 			userJson.put("userNickname", user.getUserNickname());
 			userJson.put("userRegdate", user.getUserRegdate() != null ? user.getUserRegdate().toString() : null);
-			userJson.put("userGender", user.isUserGender()); // boolean
+			userJson.put("userGender", user.getUserGender()); // boolean
 			userJson.put("userBirth", user.getUserBirth()); // String
 			userJson.put("userHeight", user.getUserHeight()); // int
 			userJson.put("userProfile", user.getUserProfile());
 			userJson.put("userReligion", user.getUserReligion());
-			userJson.put("userSmoke", user.isUserSmoke()); // boolean
+			userJson.put("userSmoke", user.getUserSmoke()); // boolean
 			userJson.put("userRole", user.getUserRole());
 			userJson.put("userRegion", user.getUserRegion());
 			userJson.put("userDescription", user.getUserDescription());

@@ -90,7 +90,7 @@ public class KakaoCallBackController {
                     HttpSession session = request.getSession();
                     session.setAttribute("userEmail", user.getUserEmail());
                     session.setAttribute("userRole", user.getUserRole());
-                    session.setAttribute("userPremium", user.isUserPremium());
+                    session.setAttribute("userPremium", user.getUserPremium());
 
                     // 컨디션 "위치 정보 가져옴"
                     userVO.setCondition("SELECTONE_LOCATION");

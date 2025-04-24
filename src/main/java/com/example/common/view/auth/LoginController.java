@@ -74,7 +74,7 @@ public class LoginController {
         // session에 userId, userName, role저장
         session.setAttribute("userEmail", userVO.getUserEmail());
         session.setAttribute("userRole", userVO.getUserRole());
-        session.setAttribute("userPremium", userVO.isUserPremium());
+        session.setAttribute("userPremium", userVO.getUserPremium());
         System.out.println("userRole = "+userVO.getUserRole());
 
         // 컨디션 "위치 정보 가져옴"

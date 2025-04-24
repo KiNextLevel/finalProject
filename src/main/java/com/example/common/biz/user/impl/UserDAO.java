@@ -21,7 +21,7 @@ public class UserDAO {
     private final String SELECTONE_NONSOCIAL = "SELECT MEMBER_EMAIL, MEMBER_PASSWORD, MEMBER_ROLE, MEMBER_PREMIUM FROM MEMBER WHERE MEMBER_EMAIL = ? AND MEMBER_PASSWORD = ?";
 
     // 해당 유저 전체 정보 불러오기
-    private final String SELECTONE_MEMBERINFO = "SELECT * FROM MEMBER WHERE MEMBER_EMAIL = ?";
+    private final String SELECTONE_USERINFO = "SELECT * FROM MEMBER WHERE MEMBER_EMAIL = ?";
 
     // 유저 위도, 경도 정보 불러오기
     private final String SELECTONE_LOCATION = "SELECT MEMBER_EMAIL, MEMBER_LATITUDE, MEMBER_LONGITUDE FROM MEMBER WHERE MEMBER_EMAIL = ?";
@@ -129,7 +129,7 @@ public class UserDAO {
                 data.setUserNickname(rs.getString("MEMBER_NICKNAME"));
                 data.setUserPhone(rs.getString("MEMBER_PHONE"));
                 data.setUserRegdate(rs.getDate("MEMBER_REGDATE"));
-                data.setUserGender(rs.getInt("MEMBER_GENDER") == 1);
+                data.setUserGender(rs.getInt("MEMBER_GENDER"));
                 data.setUserBirth(rs.getString("MEMBER_BIRTH"));
                 data.setUserHeight(rs.getInt("MEMBER_HEIGHT"));
                 data.setUserBody(rs.getString("MEMBER_BODY"));
@@ -140,10 +140,10 @@ public class UserDAO {
                 data.setUserLatitude(rs.getDouble("MEMBER_LATITUDE"));  // 위도 추가
                 data.setUserLongitude(rs.getDouble("MEMBER_LONGITUDE")); //경도 추가
                 data.setUserDrink(rs.getInt("MEMBER_DRINK"));
-                data.setUserSmoke(rs.getInt("MEMBER_SMOKE") == 1);
+                data.setUserSmoke(rs.getInt("MEMBER_SMOKE"));
                 data.setUserJob(rs.getString("MEMBER_JOB"));
                 data.setUserRole(rs.getInt("MEMBER_ROLE"));
-                data.setUserPremium(rs.getInt("MEMBER_PREMIUM") == 1);
+                data.setUserPremium(rs.getInt("MEMBER_PREMIUM"));
                 data.setUserToken(rs.getInt("MEMBER_TOKEN"));
                 data.setUserRegion(rs.getString("MEMBER_REGION"));
                 data.setUserDescription(rs.getString("MEMBER_DESCRIPTION"));
@@ -162,6 +162,7 @@ public class UserDAO {
     // 로그인
     public UserVO getUser(UserVO userVO) {
         UserVO data = null;
+
         try {
             conn = JDBCUtil.connect();
 
@@ -197,7 +198,7 @@ public class UserDAO {
                         data.setUserEmail(rs.getString("MEMBER_EMAIL"));
                         data.setUserPassword(rs.getString("MEMBER_PASSWORD"));
                         data.setUserRole(rs.getInt("MEMBER_ROLE"));
-                        data.setUserPremium(rs.getInt("MEMBER_PREMIUM") == 1);
+                        data.setUserPremium(rs.getInt("MEMBER_PREMIUM"));
                     }
                 }
                 // 일반 로그인
@@ -212,12 +213,12 @@ public class UserDAO {
                         data.setUserEmail(rs.getString("MEMBER_EMAIL"));
                         data.setUserPassword(rs.getString("MEMBER_PASSWORD"));
                         data.setUserRole(rs.getInt("MEMBER_ROLE"));
-                        data.setUserPremium(rs.getInt("MEMBER_PREMIUM") == 1);
+                        data.setUserPremium(rs.getInt("MEMBER_PREMIUM"));
                     }
                 }
                 // 해당 유저 전체 정보 불러오기
-                else if (userVO.getCondition().equals("SELECTONE_MEMBERINFO")) {
-                    pstmt = conn.prepareStatement(SELECTONE_MEMBERINFO);
+                else if (userVO.getCondition().equals("SELECTONE_USERINFO")) {
+                    pstmt = conn.prepareStatement(SELECTONE_USERINFO);
                     pstmt.setString(1, userVO.getUserEmail());
 
                     rs = pstmt.executeQuery();
@@ -229,7 +230,7 @@ public class UserDAO {
                         data.setUserNickname(rs.getString("MEMBER_NICKNAME"));
                         data.setUserPhone(rs.getString("MEMBER_PHONE"));
                         data.setUserRegdate(rs.getDate("MEMBER_REGDATE"));
-                        data.setUserGender(rs.getInt("MEMBER_GENDER") == 1);
+                        data.setUserGender(rs.getInt("MEMBER_GENDER"));
                         data.setUserBirth(rs.getString("MEMBER_BIRTH"));
                         data.setUserHeight(rs.getInt("MEMBER_HEIGHT"));
                         data.setUserBody(rs.getString("MEMBER_BODY"));
@@ -240,10 +241,10 @@ public class UserDAO {
                         data.setUserLatitude(rs.getDouble("MEMBER_LATITUDE"));
                         data.setUserLongitude(rs.getDouble("MEMBER_LONGITUDE"));
                         data.setUserDrink(rs.getInt("MEMBER_DRINK"));
-                        data.setUserSmoke(rs.getInt("MEMBER_SMOKE") == 1);
+                        data.setUserSmoke(rs.getInt("MEMBER_SMOKE"));
                         data.setUserJob(rs.getString("MEMBER_JOB"));
                         data.setUserRole(rs.getInt("MEMBER_ROLE"));
-                        data.setUserPremium(rs.getInt("MEMBER_PREMIUM") == 1);
+                        data.setUserPremium(rs.getInt("MEMBER_PREMIUM"));
                         data.setUserToken(rs.getInt("MEMBER_TOKEN"));
                         data.setUserRegion(rs.getString("MEMBER_REGION"));
                         data.setUserDescription(rs.getString("MEMBER_DESCRIPTION"));
@@ -311,7 +312,7 @@ public class UserDAO {
                 pstmt.setString(2, userVO.getUserPassword());
                 pstmt.setString(3, userVO.getUserNickname());
                 pstmt.setString(4, userVO.getUserPhone());
-                pstmt.setInt(5, userVO.isUserGender() ? 1 : 0);
+                pstmt.setInt(5, userVO.getUserGender());
                 pstmt.setString(6, userVO.getUserBirth());
                 pstmt.setInt(7, userVO.getUserHeight());
                 pstmt.setString(8, userVO.getUserBody());
@@ -320,7 +321,7 @@ public class UserDAO {
                 pstmt.setString(11, userVO.getUserEducation());
                 pstmt.setString(12, userVO.getUserReligion());
                 pstmt.setInt(13, userVO.getUserDrink());
-                pstmt.setInt(14, userVO.isUserSmoke() ? 1 : 0);
+                pstmt.setInt(14, userVO.getUserSmoke());
                 pstmt.setString(15, userVO.getUserJob());
                 pstmt.setString(16, userVO.getUserRegion());
                 pstmt.setDouble(17, userVO.getUserLatitude());
@@ -337,7 +338,7 @@ public class UserDAO {
                 pstmt.setString(2, userVO.getUserPassword());
                 pstmt.setString(3, userVO.getUserNickname());
                 pstmt.setString(4, userVO.getUserPhone());
-                pstmt.setInt(5, userVO.isUserGender() ? 1 : 0);
+                pstmt.setInt(5, userVO.getUserGender());
                 pstmt.setString(6, userVO.getUserBirth());
                 pstmt.setInt(7, userVO.getUserHeight());
                 pstmt.setString(8, userVO.getUserBody());
@@ -346,7 +347,7 @@ public class UserDAO {
                 pstmt.setString(11, userVO.getUserEducation());
                 pstmt.setString(12, userVO.getUserReligion());
                 pstmt.setInt(13, userVO.getUserDrink());
-                pstmt.setInt(14, userVO.isUserSmoke() ? 1 : 0);
+                pstmt.setInt(14, userVO.getUserSmoke());
                 pstmt.setString(15, userVO.getUserJob());
                 pstmt.setString(16, userVO.getUserRegion());
                 pstmt.setDouble(17, userVO.getUserLatitude());
@@ -361,7 +362,7 @@ public class UserDAO {
                 pstmt.setString(2, userVO.getUserPassword());
                 pstmt.setString(3, userVO.getUserNickname());
                 pstmt.setString(4, userVO.getUserPhone());
-                pstmt.setInt(5, userVO.isUserGender() ? 1 : 0);
+                pstmt.setInt(5, userVO.getUserGender());
                 pstmt.setString(6, userVO.getUserBirth());
                 pstmt.setInt(7, userVO.getUserHeight());
                 pstmt.setString(8, userVO.getUserBody());
@@ -369,7 +370,7 @@ public class UserDAO {
                 pstmt.setString(10, userVO.getUserEducation());
                 pstmt.setString(11, userVO.getUserReligion());
                 pstmt.setInt(12, userVO.getUserDrink());
-                pstmt.setInt(13, userVO.isUserSmoke() ? 1 : 0);
+                pstmt.setInt(13, userVO.getUserSmoke());
                 pstmt.setString(14, userVO.getUserJob());
                 pstmt.setString(15, userVO.getUserRegion());
                 pstmt.setDouble(16, userVO.getUserLatitude());
@@ -408,7 +409,7 @@ public class UserDAO {
                 pstmt.setDouble(10, userVO.getUserLongitude());
                 pstmt.setString(11, userVO.getUserMbti());
                 pstmt.setInt(12, userVO.getUserDrink());
-                pstmt.setBoolean(13, userVO.isUserSmoke());
+                pstmt.setInt(13, userVO.getUserSmoke());
                 pstmt.setString(14, userVO.getUserEmail());
             }
             // ROLE 변경

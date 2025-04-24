@@ -124,7 +124,7 @@ public class NaverCallBackController {
                     // 세션에 로그인 정보 저장
                     session.setAttribute("userEmail", userVO.getUserEmail());
                     session.setAttribute("userRole", userVO.getUserRole());
-                    session.setAttribute("userPremium", userVO.isUserPremium());
+                    session.setAttribute("userPremium", userVO.getUserPremium());
 
                     // 위치 정보 가져오기
                     userVO.setCondition("SELECTONE_LOCATION");
