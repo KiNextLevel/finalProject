@@ -353,6 +353,7 @@ public class MyPageController {
         //전달받을거: userEmail만?
         System.out.println("CTRL 로그: MyPageAction");
         String userEmail = (String) session.getAttribute("userEmail");
+        System.out.println("userEmail: ["+ userEmail +"]");
 
         if (userEmail == null) {
             // 로그인되지 않은 경우
@@ -368,6 +369,7 @@ public class MyPageController {
 
         participantVO.setCondition("SELECTALL_EVENTPRINT");// 조건 설정 추가
 
+        userVO.setUserEmail(userEmail);
         UserVO getUserVO = userService.getUser(userVO);//selectOne
         //PreferenceDTO preference = preferenceDAO.selectOne(preferenceDTO);
         PreferenceVO getPreferenceVO = preferenceService.getPreference(preferenceVO);
@@ -378,7 +380,7 @@ public class MyPageController {
             System.out.println(p);
         }
 
-        if (userService.getUser(userVO) != null) {
+        if (getUserVO != null) {
             //request.setAttribute("paymentList", paymentList);
             model.addAttribute("paymentList", paymentList);
             //request.setAttribute("userDTO", getUserVO); // 첫 번째 사용자 정보
@@ -395,7 +397,7 @@ public class MyPageController {
             // 사용자 정보가 없을 때 처리
 //            forward.setPath("loginPage.do");
 //            forward.setRedirect(true);
-            return "redirect:/login.do";
+            return "redirect:/loginPage.do";
         }
     }
 }
