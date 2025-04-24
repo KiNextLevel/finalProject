@@ -72,9 +72,10 @@ public class PaymentDAO {
 
                 // 관리자 전용 데이터 컬럼들
                 if ("SELECTALL_ADMIN_PAYMENTS".equals(PaymentVO.getCondition())) {
+                    System.out.println("SELECTALL_ADMIN_PAYMENTS 로그");
                     data.setPaymentNumber(rs.getInt("PAYMENT_NUM"));
-                    data.setUserEmail(rs.getString("USER_EMAIL"));
-                    data.setUserName(rs.getString("USER_NAME"));
+                    data.setUserEmail(rs.getString("MEMBER_EMAIL"));
+                    data.setUserName(rs.getString("MEMBER_NAME"));
                     data.setProductName(rs.getString("PRODUCT_NAME"));
                     data.setPaymentPrice(rs.getInt("PAYMENT_PRICE"));
                     data.setPaymentDate(rs.getDate("PAYMENT_DATE"));
