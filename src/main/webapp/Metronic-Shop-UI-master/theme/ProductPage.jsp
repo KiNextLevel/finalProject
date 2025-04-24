@@ -239,9 +239,9 @@
                                     <input type="hidden" name="action" value="PREMIUM">
 
                                     <button type="submit" class="btn btn-primary btn-lg payment-button"
-                                    ${sessionScope.userPremium ? 'disabled' : ''}>
+                                    ${sessionScope.userPremium == 1? 'disabled' : ''}>
                                         <i class="fa fa-crown"></i>
-                                        ${sessionScope.userPremium ? '이미 프리미엄 회원입니다' : '프리미엄 멤버십 가입하기'}
+                                        ${sessionScope.userPremium == 1? '이미 프리미엄 회원입니다' : '프리미엄 멤버십 가입하기'}
                                     </button>
                                 </form>
                             </div>

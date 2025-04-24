@@ -90,7 +90,7 @@ public class KakaoCallBackController {
                     HttpSession session = request.getSession();
                     session.setAttribute("userEmail", user.getUserEmail());
                     session.setAttribute("userRole", user.getUserRole());
-                    session.setAttribute("userPremium", user.isUserPremium());
+                    session.setAttribute("userPremium", user.getUserPremium());
 
                     // 컨디션 "위치 정보 가져옴"
                     userVO.setCondition("SELECTONE_LOCATION");
@@ -101,12 +101,12 @@ public class KakaoCallBackController {
                     // 로그인 성공 메시지 및 메인 페이지로 리다이렉트
                     model.addAttribute("msg", "카카오 계정으로 로그인되었습니다.");
                     model.addAttribute("flag", true);
-                    model.addAttribute("url", "mainPage.do");
+                    model.addAttribute("url", "/mainPage.do");
                 } else { // 블랙 or 탈퇴한 회원이면 로그인 불가능
                     // 로그인 페이지로 리다이렉트
                     model.addAttribute("msg", "블랙 계정이나 탈퇴한 계정은 로그인 할 수 없습니다.");
                     model.addAttribute("flag", true);
-                    model.addAttribute("url", "loginPage.do");
+                    model.addAttribute("url", "/loginPage.do");
                 }
             }
             return "/Metronic-Shop-UI-master/theme/Alert";

@@ -20,7 +20,7 @@ public class UserVO {
     // 회원가입 날짜
     private Date userRegdate;
     // 성별
-    private boolean userGender;
+    private int userGender;
     // 성별 변경 여부를 나타내는 플래그
     private boolean userGenderChanged = false;
     // 생년월일
@@ -40,7 +40,7 @@ public class UserVO {
     // 음주
     private int userDrink;
     // 흡연
-    private boolean userSmoke;
+    private int userSmoke;
     // 흡연 변경 여부를 나타내는 플래그
     private boolean userSmokeChanged = false;
     // 직업
@@ -48,7 +48,7 @@ public class UserVO {
     // 역할
     private Integer userRole;
     // 구독 여부
-    private boolean userPremium;
+    private int userPremium;
     // 토큰 개수
     private int userToken;
     // 지역

@@ -33,15 +33,15 @@ public class MainPageController {
 		int userRole = (int) session.getAttribute("userRole");
 		String path = "/Metronic-Shop-UI-master/theme/Alert";
 		// 선호취향 입력 안한 상태라면
-//		preferenceVO.setUserEmail(userEmail);
-//		preferenceVO = preferenceService.getPreference(preferenceVO);
-//		System.out.println("preferenceVO = " + preferenceVO);
-//		if (preferenceVO == null && userRole == 0) {
-//			model.addAttribute("msg", "먼저 선호 취향을 입력하시길 바랍니다.");
-//			model.addAttribute("url", "userPreferencePage.do");
-//			model.addAttribute("flag", true);
-//			return path;
-//		}
+		preferenceVO.setUserEmail(userEmail);
+		preferenceVO = preferenceService.getPreference(preferenceVO);
+		System.out.println("preferenceVO = " + preferenceVO);
+		if (preferenceVO == null && userRole == 0) {
+			model.addAttribute("msg", "먼저 선호 취향을 입력하시길 바랍니다.");
+			model.addAttribute("url", "userPreferencePage.do");
+			model.addAttribute("flag", true);
+			return path;
+		}
 
 		// 알림 목록 mainpage로
 		alertVO.setUserEmail(userEmail);
@@ -82,12 +82,12 @@ public class MainPageController {
 			userJson.put("userEmail", user.getUserEmail());
 			userJson.put("userNickname", user.getUserNickname());
 			userJson.put("userRegdate", user.getUserRegdate() != null ? user.getUserRegdate().toString() : null);
-			userJson.put("userGender", user.isUserGender()); // boolean
+			userJson.put("userGender", user.getUserGender()); // boolean
 			userJson.put("userBirth", user.getUserBirth()); // String
 			userJson.put("userHeight", user.getUserHeight()); // int
 			userJson.put("userProfile", user.getUserProfile());
 			userJson.put("userReligion", user.getUserReligion());
-			userJson.put("userSmoke", user.isUserSmoke()); // boolean
+			userJson.put("userSmoke", user.getUserSmoke()); // boolean
 			userJson.put("userRole", user.getUserRole());
 			userJson.put("userRegion", user.getUserRegion());
 			userJson.put("userDescription", user.getUserDescription());

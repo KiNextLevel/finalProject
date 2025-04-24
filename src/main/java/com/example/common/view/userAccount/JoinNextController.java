@@ -30,7 +30,7 @@ public class JoinNextController {
     }
 
     @PostMapping("/joinNext.do")
-    public String joinNext(UserVO userVO, @RequestParam(value = "userProfile", required = false) MultipartFile userProfileFile,
+    public String joinNext(UserVO userVO, @RequestParam(value = "profile", required = false) MultipartFile userProfileFile,
             HttpServletRequest request, HttpSession session, Model model) {
 
         System.out.println("LOG : JOIN NEXT CONTROLLER - JOIN NEXT METHOD");
@@ -43,6 +43,7 @@ public class JoinNextController {
             }
 
             // 세션에서 기본 정보 가져와서 설정
+            userVO.setUserProfile(filePathForDB);
             userVO.setUserEmail((String)session.getAttribute("userEmail"));
             userVO.setUserPassword((String)session.getAttribute("userPassword"));
             userVO.setUserName((String)session.getAttribute("userName"));
@@ -58,7 +59,7 @@ public class JoinNextController {
             // 성별 설정 - RequestParam으로 받은 값을 UserVO에 설정
             String genderStr = request.getParameter("userGender");
             if (genderStr != null && !genderStr.isEmpty()) {
-                userVO.setUserGender(Integer.parseInt(genderStr) == 1); // 0이면 true, 1이면 false
+                userVO.setUserGender(Integer.parseInt(genderStr)); // 0이면 true, 1이면 false
             }
 
             // 키 설정
@@ -76,7 +77,7 @@ public class JoinNextController {
             // 흡연 설정
             String smokeStr = request.getParameter("userSmoke");
             if (smokeStr != null && !smokeStr.isEmpty()) {
-                userVO.setUserSmoke(Integer.parseInt(smokeStr) == 0); // 0이면 true, 1이면 false
+                userVO.setUserSmoke(Integer.parseInt(smokeStr)); // 0이면 true, 1이면 false
             }
 
             // 프로필 사진 경로 설정

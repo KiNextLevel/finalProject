@@ -36,7 +36,7 @@ public class AddTokenController{
                 System.out.println("update successs");
                 userVO.setCondition("SELECTONE_USERINFO");
                 userVO = userService.getUser(userVO);   //DB에서 업데이트 된 프리미엄 여부 가져옴
-                session.setAttribute("userPremium", userVO.isUserPremium());//세션에 다시 저장
+                session.setAttribute("userPremium", userVO.getUserPremium());//세션에 다시 저장
             }
             else{
                 System.out.println("update fail");
