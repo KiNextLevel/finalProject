@@ -25,64 +25,88 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-	implementation 'org.springframework.boot:spring-boot-starter-mail'
-	implementation 'org.springframework.boot:spring-boot-starter-mustache'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-web-services'
-	implementation 'org.springframework.boot:spring-boot-starter-websocket'
-	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'
-	implementation 'org.springframework.kafka:spring-kafka'
+	// ===== Spring Boot 기본 스타터 =====
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'  // JPA 데이터 액세스
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'      // JDBC 데이터 액세스
+	implementation 'org.springframework.boot:spring-boot-starter-mail'      // 이메일 전송 기능
+	implementation 'org.springframework.boot:spring-boot-starter-mustache'  // Mustache 템플릿 엔진
+	implementation 'org.springframework.boot:spring-boot-starter-web'       // 웹 애플리케이션 개발
+	implementation 'org.springframework.boot:spring-boot-starter-web-services'  // SOAP 웹 서비스
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'  // WebSocket 지원
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'  // MyBatis 통합
+	implementation 'org.springframework.kafka:spring-kafka'                 // Kafka 메시징 통합
 
-	// Jakarta EE 관련 의존성 추가
-	implementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
-	implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0'
-	implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.1'
+	// ===== 로깅 관련 의존성 (추가) =====
+	implementation 'org.springframework.boot:spring-boot-starter-logging'   // 로깅 기능 (log.info() 등 사용)
 
-	// Spring MVC 명시적 의존성 추가
-	implementation 'org.springframework:spring-webmvc:6.1.5'
+	// ===== Jakarta EE 관련 의존성 =====
+	implementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'              // Jakarta Servlet API
+	implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0'  // JSTL API
+	implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.1'       // JSTL 구현체
 
-	// XML 처리 관련 의존성 추가
-	implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
-	implementation 'org.glassfish.jaxb:jaxb-runtime:4.0.3'
+	// ===== Spring MVC 명시적 의존성 =====
+	implementation 'org.springframework:spring-webmvc:6.1.5'                // Spring MVC 프레임워크
 
-	// JSON 관련 의존성 추가
-	implementation 'org.json:json:20240303'            // org.json 라이브러리 (JSONObject 클래스용)
-	implementation 'com.googlecode.json-simple:json-simple:1.1.1'  // json-simple 라이브러리 (JSONParser 클래스용)
-	implementation 'com.fasterxml.jackson.core:jackson-databind:2.16.1'  // Jackson 라이브러리 (객체-JSON 변환용)
+	// ===== XML 처리 관련 의존성 =====
+	implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'            // JAXB API (XML 바인딩)
+	implementation 'org.glassfish.jaxb:jaxb-runtime:4.0.3'                 // JAXB 구현체
 
-	compileOnly 'org.projectlombok:lombok'
-	//runtimeOnly 'com.mysql:mysql-connector-j'
-	runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
-	annotationProcessor 'org.projectlombok:lombok'
-	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4'
-	testImplementation 'org.springframework.kafka:spring-kafka-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	// JavaMail API
-	implementation 'javax.mail:javax.mail-api:1.6.2'
+	// ===== JSON 관련 의존성 =====
+	implementation 'org.json:json:20240303'                                // org.json 라이브러리 (JSONObject 클래스용)
+	implementation 'com.googlecode.json-simple:json-simple:1.1.1'           // json-simple 라이브러리 (JSONParser 클래스용)
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.16.1'     // Jackson 라이브러리 (객체-JSON 변환용)
 
-	// JavaMail 구현체 (실제 메일 전송에 필요)
-	implementation 'com.sun.mail:javax.mail:1.6.2'
+	// ===== 유틸리티 및 개발 도구 =====
+	compileOnly 'org.projectlombok:lombok'                                 // 코드 간소화 도구 (Getter/Setter 자동 생성 등)
+	annotationProcessor 'org.projectlombok:lombok'                         // Lombok 어노테이션 처리기
 
-	// Java Activation Framework
-	implementation 'javax.activation:activation:1.1'
+	// ===== 데이터베이스 드라이버 =====
+	//runtimeOnly 'com.mysql:mysql-connector-j'                            // MySQL 드라이버 (주석 처리됨)
+	runtimeOnly 'com.oracle.database.jdbc:ojdbc11'                         // Oracle 데이터베이스 드라이버
 
-	//문자 API
-	implementation 'net.nurigo:sdk:4.3.2'
+	// ===== 서버 관련 =====
+	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'   // 내장 Tomcat (WAR 배포 시 제외)
+	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'           // JSP 지원을 위한 Jasper 컴파일러
 
-	// Spring Security 의존성 추가
-	implementation 'org.springframework.boot:spring-boot-starter-security'
+	// ===== 테스트 관련 =====
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'  // Spring Boot 테스트 프레임워크
+	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4'  // MyBatis 테스트
+	testImplementation 'org.springframework.kafka:spring-kafka-test'        // Kafka 테스트
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'           // JUnit 플랫폼 런처
 
-	// Swagger UI - Spring Boot 3.x 호환 버전으로 변경
-	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.4.0'
+	// ===== 이메일 관련 =====
+	implementation 'javax.mail:javax.mail-api:1.6.2'                       // JavaMail API
+	implementation 'com.sun.mail:javax.mail:1.6.2'                         // JavaMail 구현체
+	implementation 'javax.activation:activation:1.1'                       // Java Activation Framework
 
-	// 기존 Swagger UI 의존성 제거 또는 주석 처리
-	// implementation 'org.springdoc:springdoc-openapi-ui:1.6.15'
+	// ===== 문자 API =====
+	implementation 'net.nurigo:sdk:4.3.2'                                  // 문자 메시지 전송 SDK
 
-	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+	// ===== 보안 관련 =====
+	implementation 'org.springframework.boot:spring-boot-starter-security'  // Spring Security 기본 기능
+
+	// ===== API 문서화 =====
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.4.0'  // Swagger UI (Spring Boot 3.x 호환)
+
+	// 캐싱 지원 (성능 향상)
+	implementation 'org.springframework.boot:spring-boot-starter-cache'     // 캐싱 기능
+	implementation 'com.github.ben-manes.caffeine:caffeine:3.1.8'          // 고성능 캐시 라이브러리
+
+	// 유효성 검사 (폼 데이터 검증)
+	implementation 'org.springframework.boot:spring-boot-starter-validation'  // Bean Validation API
+
+	// 파일 업로드 처리 개선
+	implementation 'commons-io:commons-io:2.15.1'                          // 파일 I/O 유틸리티
+	implementation 'commons-fileupload:commons-fileupload:1.5'              // 파일 업로드 처리
+
+	// OAuth2 클라이언트 (소셜 로그인)
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'  // OAuth2 클라이언트
+
+	// 개발 편의성 도구
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'        // 개발 시 자동 재시작 등 지원
+
+	// 모니터링 및 관리
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'  // 애플리케이션 모니터링
 }
 
 tasks.named('test') {
