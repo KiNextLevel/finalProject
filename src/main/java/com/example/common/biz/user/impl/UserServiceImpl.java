@@ -28,6 +28,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserVO getUser(UserVO vo) {
+//        try{
+//            int i = 1/0;
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
         return userDAO.getUser(vo);
     }
 

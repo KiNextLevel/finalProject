@@ -225,7 +225,7 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
                     </div>
                 </div>
 
-                <c:if test="${not empty userEmail and !userPremium}">
+                <c:if test="${not empty userEmail and userPremium == 0}">
                     <div class="sidebar-products clearfix">
                         <h2>구글 광고</h2>
                         <div class="item">
@@ -259,8 +259,8 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
             <div class="col-md-9 col-sm-7">
                 <div class="row list-view-sorting clearfix">
                     <div class="col-md-2 col-sm-2 list-view">
-                        <a href="javascript:;"><i class="fa fa-th-large"></i></a>
-                        <a href="javascript:;"><i class="fa fa-th-list"></i></a>
+                        <a href="javascript:"><i class="fa fa-th-large"></i></a>
+                        <a href="javascript:"><i class="fa fa-th-list"></i></a>
                     </div>
                     <!--
                     최프때 추후 사용 가능

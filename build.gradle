@@ -83,6 +83,17 @@ dependencies {
 	// implementation 'org.springdoc:springdoc-openapi-ui:1.6.15'
 
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+
+	//aop
+//	implementation 'org.springframework:spring-core:6.1.6'
+//	implementation 'org.springframework:spring-context:6.1.6'
+//	implementation 'org.springframework:spring-webmvc:6.1.6'
+//	implementation 'org.springframework:spring-aop:6.1.6'
+//	implementation 'org.aspectj:aspectjrt:1.9.22'
+//	implementation 'org.aspectj:aspectjweaver:1.9.22'
+//	// SLF4J와 Logback 로깅
+//	implementation 'org.slf4j:slf4j-api:2.0.13'
+//	implementation 'ch.qos.logback:logback-classic:1.5.6'
 }
 
 tasks.named('test') {

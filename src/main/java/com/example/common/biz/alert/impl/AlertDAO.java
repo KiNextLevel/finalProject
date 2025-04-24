@@ -20,7 +20,7 @@ public class AlertDAO {
     // (관리자) - 유저에게 경고 알림 보내기
     // 유저 이메일, 내용, 알림보낸날짜, 읽음 여부
     private final String INSERT = "INSERT INTO ALERT (ALERT_MEMBER_EMAIL, ALERT_CONTENT, ALERT_DATE, ALERT_ISWATCH) "
-            + "VALUES (?, ?, NOW(), false)";
+            + "VALUES (?, ?, CURRENT_TIMESTAMP, false)";
 
     // 유저 알림 열람여부(읽음, 안읽음) 0 == 안읽음, 1 == 읽음
     // 한 알림만 읽음 처리해야 하기 때문에, WHERE ALERT_NUM
