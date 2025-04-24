@@ -106,7 +106,7 @@
                     fetch("/payment.do", {
                         method: "POST",
                         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                        body: `productNum=`+encodedProductNum   //
+                        body: `productNumber=`+encodedProductNum   //
                     })
                         .then(response => response.text())
                         .then(data => console.log("결제 성공 처리 완료:", data))

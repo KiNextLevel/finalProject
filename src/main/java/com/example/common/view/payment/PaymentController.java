@@ -47,6 +47,7 @@ public class PaymentController {
 		System.out.println("productPrice: ["+productPrice+"]");
 		System.out.println("productName:["+productName+"]");
 		System.out.println("productVO: ["+productVO+"]");
+		System.out.println("productNumber:["+productNumber+"]");
 
 		String path = "/addToken.do";
 		if(productVO == null){	//상품을 못 찾으면
@@ -55,7 +56,7 @@ public class PaymentController {
 			path = "/Metronic-Shop-UI-master/theme/Alert";
 		}
 		else{
-			paymentVO.setProductNumber(productPrice);
+			paymentVO.setProductNumber(productNumber);
 			paymentVO.setUserEmail((String)session.getAttribute("userEmail"));
 			paymentVO.setPaymentPrice(productPrice);
 			paymentVO.setProductName(productName);
