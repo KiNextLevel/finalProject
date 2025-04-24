@@ -17,11 +17,4 @@ public class IndexPageController {
         System.out.println("index");
         return "Metronic-Shop-UI-master/theme/Index"; // /Metronic-Shop-UI-master/theme/index.jsp를 렌더링
     }
-
-    @PostMapping("/test123.do")
-    public String test123(@RequestParam(value = "userProfile", required = false) MultipartFile userProfileFile, UserVO userVO,
-                           HttpServletRequest request, HttpSession session, Model model) {
-        System.out.println("LOG : TEST 123 CONTROLLER - TEST 123 METHOD");
-        return "Metronic-Shop-UI-master/theme/UserPreference";
-    }
 }
