@@ -40,8 +40,9 @@ public class PaymentDAO {
     // 사용자 결제 내역 저장하기
     // 유저 이메일, 금액, 결제 날짜, 결제 방법, 상품 번호
     private final String INSERT = "INSERT INTO PAYMENT " +
-            " (PAYMENT_MEMBER_EMAIL, PAYMENT_PRICE, PAYMENT_DATE, PAYMENT_TYPE, PRODUCT_NUM) " +
-            " VALUES (?, ?, CURRENT_TIMESTAMP, ?, ?)";
+            " (PAYMENT_NUM, PAYMENT_MEMBER_EMAIL, PAYMENT_PRICE, PAYMENT_DATE, PAYMENT_TYPE, PRODUCT_NUM) " +
+            " VALUES (NVL((SELECT MAX(PAYMENT_NUM) + 1 FROM PAYMENT), 1), ?, ?, CURRENT_TIMESTAMP, ?, ?)";
+
 
     private final String UPDATE = "";
     private final String DELETE = "";
