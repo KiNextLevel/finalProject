@@ -109,6 +109,14 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'  // 애플리케이션 모니터링
 }
 
+configurations {
+	all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-security'
+	all*.exclude group: 'org.springframework.security', module: 'spring-security-config'
+	all*.exclude group: 'org.springframework.security', module: 'spring-security-core'
+	all*.exclude group: 'org.springframework.security', module: 'spring-security-web'
+}
+
+
 tasks.named('test') {
 	useJUnitPlatform()
 }
