@@ -23,8 +23,11 @@ public class AdminAddBlackController {
     // 요청에서 넘어온 데이터를 UserVO와 ReportVO 객체에 자동으로 바인딩하고, 화면에 넘길 데이터를 위해 Model 사용
     public String adminAddBlack(UserVO userVO, ReportVO reportVO, Model model) {
         System.out.println("AddBlackController 진입");
+        System.out.println(userVO);
         //reportVO.setReportReported(reportReported); //신고된 유저 이메일
-
+        userVO.setUserEmail(reportVO.getReportReported());
+        userVO.setCondition("SELECTONE_USERINFO");
+        userVO = userService.getUser(userVO);
         reportVO.setCondition("DELETE"); //블랙 처리 되면 신고 리스트에서 삭제
 
         // 사용자가 null이면, 즉 아무 정보도 없으면 오류 메시지를 Alert.jsp에 전달
