@@ -49,13 +49,13 @@ public class DeActivateController {
 
         // 회원 상태 변경 (ROLE을 3으로 변경)
         if (userService.update(userVO)) {
-            sendEmail.sendMail(userEmail,"[Next Love]회원 탈퇴 안내", "그동안 이용해주셔서 감사합니다");
+            //sendEmail.sendMail(userEmail,"[Next Love]회원 탈퇴 안내", "그동안 이용해주셔서 감사합니다");
             // 탈퇴 성공 시 세션 무효화
             session.invalidate();
 
             model.addAttribute("msg", "회원 탈퇴가 완료되었습니다. 그동안 서비스를 이용해주셔서 감사합니다.");
             model.addAttribute("flag", true);
-            model.addAttribute("url", "indexPage.do");
+            model.addAttribute("url", "/index.do");
         } else {
             // 탈퇴 실패
             model.addAttribute("msg", "회원 탈퇴 처리 중 오류가 발생했습니다. 다시 시도해주세요.");
