@@ -146,19 +146,12 @@ public class UserInteractionController {
             System.out.println("설정할 닉네임: " + userNickname);
 
             // request에 속성 설정
-//            request.setAttribute("reportedUserEmail", userEmail);
-//            request.setAttribute("reportedUserNickname", userNickname);
             model.addAttribute("reportedUserEmail", userEmail);
             model.addAttribute("reportedUserNickname", userNickname);
         } catch (Exception e) {
             System.out.println("ReportPageAction 실행 중 오류 발생: " + e.getMessage());
             e.printStackTrace();
         }
-
-        // Report.jsp로 포워딩
-//        forward.setPath("/Metronic-Shop-UI-master/theme/Report.jsp");
-//        forward.setRedirect(false);
-//        return forward;
         return "/Metronic-Shop-UI-master/theme/Report";
     }
 

@@ -2,36 +2,12 @@
          pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<!--
-Template: Metronic Frontend Freebie - Responsive HTML Template Based On Twitter Bootstrap 3.3.4
-Version: 1.0.0
-Author: KeenThemes
-Website: http://www.keenthemes.com/
-Contact: support@keenthemes.com
-Follow: www.twitter.com/keenthemes
-Like: www.facebook.com/keenthemes
-Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes
--->
-<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
-<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
-<!--[if !IE]><!-->
-<html lang="en">
-<!--<![endif]-->
-<!-- Head BEGIN -->
+<html lang="ko">
 <head>
-    <link rel="icon" type="image/png" sizes="16x16"  href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-32x32.png">
     <meta charset="utf-8">
     <title>이벤트 페이지</title>
-    <style>
-        .participant-badges {
-            color: #6ecb1a; /* 글씨 색상 */
-            font-size: 12px;
-            font-weight: bold;
-            padding: 3px 8px;
-            border-radius: 5px;
-            white-space: nowrap; /* 줄바꿈 방지 */
-        }
-    </style>
+    <link href="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/css/BoardPage.css" rel="stylesheet">
 
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -44,7 +20,7 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
     <meta property="og:title" content="-CUSTOMER VALUE-">
     <meta property="og:description" content="-CUSTOMER VALUE-">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="-CUSTOMER VALUE-"><!-- link to image for socio -->
+    <meta property="og:image" content="-CUSTOMER VALUE-">
     <meta property="og:url" content="-CUSTOMER VALUE-">
 
     <link rel="shortcut icon" href="favicon.ico">
@@ -55,10 +31,6 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
     <!-- Fonts END -->
 
     <!-- Global styles START -->
-    <!--
-    <link href="assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-     -->
     <link href="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/plugins/font-awesome/css/font-awesome.min.css"
           rel="stylesheet">
     <link href="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/plugins/bootstrap/css/bootstrap.min.css"
@@ -86,11 +58,8 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
     <link href="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/corporate/css/custom.css"
           rel="stylesheet">
     <!-- Theme styles END -->
-    <link href="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/css/BoardPage.css" rel="stylesheet">
 </head>
-<!-- Head END -->
 
-<!-- Body BEGIN -->
 <body class="ecommerce">
 <!-- BEGIN TOP BAR -->
 <div class="pre-header">
@@ -157,121 +126,24 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
             <p>다양한 이벤트에 참여하고 특별한 혜택을 누려보세요!</p>
         </div>
 
-        <!-- 이벤트 목록 시작 -->
-        <c:choose>
-            <c:when test="${empty datas}">
-                <div class="no-events">
-                    <i class="fa fa-calendar-o"></i>
-                    <h2>현재 진행 중인 이벤트가 없습니다.</h2>
-                    <p>새로운 이벤트가 등록되면 이곳에서 확인하실 수 있습니다.</p>
-                </div>
-                <!-- 관리자인 경우 이벤트 추가 버튼 표시 -->
-                <c:if test="${sessionScope.userRole=='1'}">
-                    <div class="admin-add-btn text-right">
-                        <a href="/adminAddBoardPage.do" class="btn-add-event">
-                            <i class="fa fa-plus-circle"></i> 새 이벤트 추가
-                        </a>
-                    </div>
-                </c:if>
-            </c:when>
-            <c:otherwise>
-                <!-- 관리자인 경우 이벤트 추가 버튼 표시 -->
-                <c:if test="${sessionScope.userRole=='1'}">
-                    <div class="admin-add-btn text-right">
-                        <a href="/adminAddBoardPage.do" class="btn-add-event">
-                            <i class="fa fa-plus-circle"></i> 새 이벤트 추가
-                        </a>
-                    </div>
-                </c:if>
+        <!-- 관리자인 경우 이벤트 추가 버튼 표시 -->
+        <c:if test="${sessionScope.userRole=='1'}">
+            <div class="admin-add-btn text-right">
+                <a href="/adminAddBoardPage.do" class="btn-add-event">
+                    <i class="fa fa-plus-circle"></i> 새 이벤트 추가
+                </a>
+            </div>
+        </c:if>
 
-                <!-- 이벤트 목록 -->
-                <div class="event-list">
-                    <c:forEach var="data" items="${datas}">
-                        <div class="event-card">
-                            <div class="event-header" onclick="toggleEvent(${data.boardNumber})">
-                                <h4><span class="event-number">#${data.boardNumber}</span> ${data.boardTitle}
-                                    <c:if test="${data.participant == 1}">
-                                        <span class="participant-badges">참가중</span>
-                                    </c:if>
-                                </h4>
-                            </div>
-                            <div id="event-content-${data.boardNumber}" class="event-content">
-                                <div class="event-body">
-                                        ${data.boardContent}
-                                </div>
-                                <div class="event-footer">
-                                    <div class="participant-info">
-                                            <span class="participant-count">
-                                                <i class="fa fa-users"></i> 참가자: ${data.boardParticipant} / ${data.boardLimit}
-                                            </span>
-                                        <div class="progress">
-                                            <div class="progress-bar progress-bar-success" role="progressbar"
-                                                 aria-valuenow="${(data.boardParticipant / data.boardLimit) * 100}"
-                                                 aria-valuemin="0"
-                                                 aria-valuemax="100"
-                                                 style="width: ${(data.boardParticipant / data.boardLimit) * 100}%">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <c:choose>
-                                        <c:when test="${sessionScope.userRole=='1'}">
-                                            <!-- 관리자용 버튼 -->
-                                            <div class="admin-actions">
-                                                <a href="/adminModifyBoardPage.do?boardNum=${data.boardNumber}"
-                                                   class="btn btn-edit">
-                                                    <i class="fa fa-pencil"></i> 수정
-                                                </a>
-                                                <form action="/adminDeleteBoard.do" method="POST"
-                                                      style="display: inline;">
-                                                    <input type="hidden" name="boardNumber" value="${data.boardNumber}">
-                                                    <button type="submit" class="btn btn-delete"
-                                                            onclick="return confirm('정말로 이 이벤트를 삭제하시겠습니까?');">
-                                                        <i class="fa fa-trash-o"></i> 삭제
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <c:choose>
-                                                <c:when test="${data.participant == 1}">
-                                                    <!-- 일반 사용자용 참가 버튼 -->
-                                                    <form action="/participantBoard.do" method="POST">
-                                                        <input type="hidden" name="boardNumber"
-                                                               value="${data.boardNumber}">
-                                                        <button type="submit" class="btn-participate"
-                                                            ${data.boardParticipant >= data.boardLimit ? 'disabled' : ''}>
-                                                            <i class="fa fa-check-circle"></i>
-                                                                ${data.boardParticipant >= data.boardLimit ? '마감되었습니다' : '참가 취소하기'}
-                                                        </button>
-                                                    </form>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <!-- 일반 사용자용 참가 버튼 -->
-                                                    <form action="/participantBoard.do" method="POST">
-                                                        <input type="hidden" name="boardNumber"
-                                                               value="${data.boardNumber}">
-                                                        <button type="submit" class="btn-participate"
-                                                            ${data.boardParticipant >= data.boardLimit ? 'disabled' : ''}>
-                                                            <i class="fa fa-check-circle"></i>
-                                                                ${data.boardParticipant >= data.boardLimit ? '마감되었습니다' : '참가하기'}
-                                                        </button>
-                                                    </form>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </div>
-                            </div>
-                        </div>
-                    </c:forEach>
-                </div>
-            </c:otherwise>
-        </c:choose>
+        <!-- 이벤트 목록 - AJAX로 로드됨 -->
+        <div class="event-list">
+            <div class="loading-events">
+                <i class="fa fa-spinner fa-spin"></i>
+                <p>이벤트를 불러오는 중입니다...</p>
+            </div>
+        </div>
     </div>
 </div>
-
-
 <!-- BEGIN PRE-FOOTER -->
 <div class="pre-footer">
     <div class="container">
@@ -324,45 +196,7 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
             </div>
             <!-- END COPYRIGHT -->
         </div>
-        <!-- END BOTTOM CONTACTS -->
     </div>
-    <hr>
-    <div class="row">
-        <!-- Load javascripts at bottom, this will reduce page load time -->
-        <!-- BEGIN CORE PLUGINS(REQUIRED FOR ALL PAGES) -->
-        <!--[if lt IE 9]>
-        <script src="assets/plugins/respond.min.js"></script>
-        <![endif]-->
-        <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/plugins/jquery.min.js"
-                type="text/javascript"></script>
-        <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/plugins/jquery-migrate.min.js"
-                type="text/javascript"></script>
-        <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/plugins/bootstrap/js/bootstrap.min.js"
-                type="text/javascript"></script>
-        <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js"
-                type="text/javascript"></script>
-        <!-- END CORE PLUGINS -->
-
-        <!-- BEGIN PAGE LEVEL JAVASCRIPTS (REQUIRED ONLY FOR CURRENT PAGE) -->
-        <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/plugins/fancybox/source/jquery.fancybox.pack.js"
-                type="text/javascript"></script>
-        <!-- pop up -->
-        <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/plugins/owl.carousel/owl.carousel.min.js"
-                type="text/javascript"></script>
-        <!-- slider for products -->
-
-        <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/corporate/scripts/layout.js"
-                type="text/javascript"></script>
-        <script type="text/javascript">
-            jQuery(document).ready(function () {
-                Layout.init();
-                Layout.initOWL();
-                Layout.initTwitter();
-            });
-        </script>
-        <!-- END PAGE LEVEL JAVASCRIPTS -->
-    </div>
-</div>
 </div>
 
 <!-- 자바스크립트 -->
@@ -371,8 +205,6 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
 <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/plugins/jquery-migrate.min.js"
         type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/plugins/bootstrap/js/bootstrap.min.js"
-        type="text/javascript"></script>
-<script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/corporate/scripts/back-to-top.js"
         type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js"
         type="text/javascript"></script>
@@ -390,21 +222,127 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
         Layout.initTwitter();
     });
 
-    // 이벤트 토글 함수
-    function toggleEvent(eventId) {
-        var content = document.getElementById('event-content-' + eventId);
-        var header = content.previousElementSibling;
+    $(document).ready(function () {
+        $.ajax({
+            url: "/boardPageData.do", // JSON 반환하는 컨트롤러 주소
+            method: "GET",
+            dataType: "json",
+            success: function (response) {
+                console.log("받아온 데이터:", response);
 
-        if (content.classList.contains('active')) {
-            content.classList.remove('active');
-            header.classList.remove('active');
-        } else {
-            content.classList.add('active');
-            header.classList.add('active');
-        }
-    }
+                // 데이터가 없는 경우
+                if (response.datas.length === 0) {
+                    $('.event-list').html(`
+                    <div class="no-events">
+                        <i class="fa fa-calendar-o"></i>
+                        <h2>현재 진행 중인 이벤트가 없습니다.</h2>
+                        <p>새로운 이벤트가 등록되면 이곳에서 확인하실 수 있습니다.</p>
+                    </div>
+                `);
+                    return;
+                }
+
+                // 데이터가 있는 경우
+                let html = '';
+                response.datas.forEach(function (data) {
+                    // 사용자 유형에 따른 버튼 HTML 생성
+                    let buttonHtml = '';
+                    const userRole = '${sessionScope.userRole}';
+                    console.log("이벤트 내용: " + data.boardContent);
+
+                    if (userRole === '1') {
+                        // 관리자용 버튼
+                        buttonHtml = `
+                        <div class="admin-actions">
+                            <a href="/adminModifyBoardPage.do?boardNum=\${data.boardNumber}" class="btn btn-edit">
+                                <i class="fa fa-pencil"></i> 수정
+                            </a>
+                            <form action="/adminDeleteBoard.do" method="POST" style="display: inline;">
+                                <input type="hidden" name="boardNumber" value="\${data.boardNumber}">
+                                <button type="submit" class="btn btn-delete"
+                                        onclick="return confirm('정말로 이 이벤트를 삭제하시겠습니까?');">
+                                    <i class="fa fa-trash-o"></i> 삭제
+                                </button>
+                            </form>
+                        </div>
+                    `;
+                    } else {
+                        // 일반 사용자용 버튼
+                        if (data.participant === 1) {
+                            buttonHtml = `
+                            <form action="/participantBoard.do" method="POST">
+                                <input type="hidden" name="boardNumber" value="\${data.boardNumber}">
+                                <button type="submit" class="btn-participate"
+                                    \${data.boardParticipant >= data.boardLimit ? 'disabled' : ''}>
+                                    <i class="fa fa-check-circle"></i>
+                                    \${data.boardParticipant >= data.boardLimit ? '마감되었습니다' : '참가 취소하기'}
+                                </button>
+                            </form>
+                        `;
+                        } else {
+                            buttonHtml = `
+                            <form action="/participantBoard.do" method="POST">
+                                <input type="hidden" name="boardNumber" value="\${data.boardNumber}">
+                                <button type="submit" class="btn-participate"
+                                    \${data.boardParticipant >= data.boardLimit ? 'disabled' : ''}>
+                                    <i class="fa fa-check-circle"></i>
+                                    \${data.boardParticipant >= data.boardLimit ? '마감되었습니다' : '참가하기'}
+                                </button>
+                            </form>
+                        `;
+                        }
+                    }
+
+                    html += `
+                        <div class="event-card">
+                            <div class="event-header">
+                                <h4>
+                                    <span class="event-number">#\${data.boardNumber}</span>
+                                    \${data.boardTitle}
+                                    \${data.participant == 1 ? '<span class="participant-badges">참가중</span>' : ''}
+                                </h4>
+                            </div>
+                            <div class="event-content">
+                                <div class="event-body">
+                                    \${data.boardContent}
+                                </div>
+                                <div class="event-footer">
+                                    <div class="participant-info">
+                                        <span class="participant-count">
+                                            <i class="fa fa-users"></i> 참가자: \${data.boardParticipant} / \${data.boardLimit}
+                                        </span>
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-success" role="progressbar"
+                                                 aria-valuenow="\${(data.boardParticipant / data.boardLimit) * 100}"
+                                                 aria-valuemin="0"
+                                                 aria-valuemax="100"
+                                                 style="width: \${(data.boardParticipant / data.boardLimit) * 100}%">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 버튼 영역 -->
+                                    \${buttonHtml}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                $('.event-list').html(html);
+            },
+            error: function (xhr, status, error) {
+                console.error("에러 발생:", error);
+                $('.event-list').html(`
+                <div class="error-message">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    <h2>데이터를 불러오는 중 오류가 발생했습니다.</h2>
+                    <p>잠시 후 다시 시도해주세요.</p>
+                </div>
+            `);
+            }
+        });
+    });
 </script>
 </body>
-<!-- END BODY -->
-
 </html>
