@@ -78,7 +78,7 @@ public class ParticipantDAO {
                 ParticipantVO dto = new ParticipantVO();
                 if (ParticipantVO.getCondition().equals("SELECTALL")) {
                     dto.setParticipantBoardNumber(rs.getInt("BOARD_NUM"));
-                    dto.setParticipantUserEmail(rs.getString("PARTICIPANT_USER_EMAIL"));
+                    dto.setParticipantUserEmail(rs.getString("PARTICIPANT_MEMBER_EMAIL"));
                 }   if (ParticipantVO.getCondition().equals("SELECTALL_EVENTPRINT")) {
                     dto.setBoardTitle(rs.getString("BOARD_TITLE"));
                 }
