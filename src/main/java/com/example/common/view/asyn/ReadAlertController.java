@@ -3,6 +3,7 @@ package com.example.common.view.asyn;
 import com.example.common.biz.alert.AlertService;
 import com.example.common.biz.alert.AlertVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,15 +16,14 @@ public class ReadAlertController {
     private AlertService alertService;
 
     @PostMapping("/updateAlertStatus")
-    public Map<String, Object> updateAlertStatus(@RequestParam("alertNumber") String alertNumber,
-                                                 @RequestParam("alertIsWatch") boolean alertIsWatch) {
-
-        boolean updateSuccess = updateAlertStatusInDatabase(alertNumber, alertIsWatch);
+    public Map<String, Object> updateAlertStatus(@RequestParam("alertNumber") String alertNumber) {
+        System.out.println("===============test===============");
+        boolean updateSuccess = updateAlertStatusInDatabase(alertNumber);
 
         return Map.of("success", updateSuccess);
     }
 
-    private boolean updateAlertStatusInDatabase(String alertNumber, boolean alertIsWatch) {
+    private boolean updateAlertStatusInDatabase(String alertNumber) {
         System.out.println(" -- updateAlertStatusInDatabase -- 로그: [updateAlertStatusInDatabase] ");
         // DB 연결 후, 알림 상태를 업데이트하는 코드 작성
         AlertVO alertVO = new AlertVO();

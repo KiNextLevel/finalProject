@@ -179,8 +179,8 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
                     <!-- 성별 필터 -->
                     <h3>성별</h3>
                     <div class="checkbox-list" id="gender-filters">
-                        <label><input type="checkbox" name="gender" value="여" > 남</label>
-                        <label><input type="checkbox" name="gender" value="남" > 여</label>
+                        <label><input type="checkbox" name="gender" value="남" > 남</label>
+                        <label><input type="checkbox" name="gender" value="여" > 여</label>
                     </div>
 
                     <!-- 거리 필터 -->
