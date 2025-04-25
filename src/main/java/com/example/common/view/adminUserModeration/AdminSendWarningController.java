@@ -20,22 +20,20 @@ public class AdminSendWarningController {
     private AlertService alertService;
 
     @PostMapping("/adminSendWarning.do")
-    public String adminSendWarning(HttpServletRequest request, Model model, ReportVO reportVO, AlertVO alertVO) {
-        String reportedUser = request.getParameter("reportedUser");    //피신고자 이메일
-        String reason = request.getParameter("reason");    //신고 사유
-        alertVO.setUserEmail(reportedUser);
-        alertVO.setAlertContent(reason);
-        System.out.println("reportNum: [" + request.getParameter("reportNum") + "]"); //해당 신고 번호
-        reportVO.setReportNumber(Integer.parseInt(request.getParameter("reportNum")));
+    public String adminSendWarning(Model model, ReportVO reportVO, AlertVO alertVO) {
+        alertVO.setUserEmail(reportVO.getReportReported());//피신고자 이메일
+        alertVO.setAlertContent(reportVO.getReportReason());//신고 사유
+        reportVO.setReportNumber(reportVO.getReportNumber());
         reportVO.setCondition("DELETE_ONE");
-        System.out.println("reportedUser: " + reportedUser);
-        System.out.println("reason" + reason);
-
+        System.out.println("==================");
+        System.out.println(alertVO);
+        System.out.println(reportVO);
+        System.out.println("==================");
         //알림 추가하고 신고리스트에서 삭제
         if (alertService.insert(alertVO) && reportService.delete(reportVO)) {
             model.addAttribute("msg", "경고 보내기 완료");
             model.addAttribute("flag", true);
-            model.addAttribute("url", "adminReportPage.do");
+            model.addAttribute("url", "/adminReportPage.do");
         } else {
             model.addAttribute("msg", "경고 보내기 실패");
             model.addAttribute("flag", false);
