@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -46,6 +47,10 @@ public class MainPageController {
 		// 알림 목록 mainpage로
 		alertVO.setUserEmail(userEmail);
 		List<AlertVO> alertDatas = alertService.getAlertList(alertVO);
+
+		if (alertDatas == null) {
+			alertDatas = new ArrayList<>(); // 빈 리스트로 초기화
+		}
 
 		// 디버깅용 출력
 		for (AlertVO alertVO1 : alertDatas) {
