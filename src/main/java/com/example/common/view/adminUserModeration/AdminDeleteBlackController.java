@@ -18,9 +18,9 @@ public class AdminDeleteBlackController {
     public String adminDeleteBlack(HttpServletRequest request, Model model, UserVO userVO) {
         System.out.println("AdminDeleteBlackController 진입");
         String blackEmail = request.getParameter("blackEmail"); //블랙 당한 사용자 이메일
+        userVO.setCondition("UPDATE_ROLE");
+        userVO.setUserRole(0);
         userVO.setUserEmail(blackEmail);
-        userVO.setUserName("UPDATE_ROLE");
-        userVO.setUserRole(0);   //userRole을 일반 사용자로 바꿈
         if (userService.update(userVO)) {
             model.addAttribute("msg", "사용자를 블랙 해제했습니다");
             model.addAttribute("flag", true);

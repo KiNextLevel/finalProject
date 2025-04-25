@@ -430,7 +430,7 @@ public class UserDAO {
                 pstmt.setString(1, userVO.getUserEmail());
             }
             // 토큰 결제시 토큰 수 변경
-            else if(userVO.getCondition().equals("UPDATE_ADD_TOKEN")){
+            else if(userVO.getCondition() != null && userVO.getCondition().equals("UPDATE_ADD_TOKEN")){
                 pstmt = conn.prepareStatement(UPDATE_ADD_TOKEN);
                 pstmt.setInt(1, userVO.getUserToken());
                 pstmt.setString(2, userVO.getUserEmail());
