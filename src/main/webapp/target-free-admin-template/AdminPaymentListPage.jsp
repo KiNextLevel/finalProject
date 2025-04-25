@@ -98,15 +98,8 @@
                                         <th>결제 상품</th>
                                     </tr>
                                     </thead>
-                                    <tbody>
-                                    <c:forEach var="data" items="${datas}">
-                                        <tr class="odd gradeX">
-                                            <td>${data.paymentDate}</td>
-                                            <td>${data.userEmail}</td>
-                                            <td>${data.paymentPrice}</td>
-                                            <td class="center">${data.productName}</td>
-                                        </tr>
-                                    </c:forEach>
+                                    <tbody id="paymentTableBody">
+                                    <!-- JavaScript로 동적 데이터 삽입 -->
                                     </tbody>
                                 </table>
                             </div>
@@ -166,6 +159,42 @@
                         "next": "다음",
                         "previous": "이전"
                     }
+                }
+            });
+        });
+    </script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+            $.ajax({
+                url: "/getPaymentList.do",
+                method: "GET",
+                dataType: "json",
+                success: function (response) {
+                    console.log("받아온 데이터:", response);
+                    console.log("paymentList: ", response.list);
+                    const paymentList = response.list;
+                    const tbody = $("#paymentTableBody");
+                    tbody.empty(); // 기존 내용 초기화
+
+                    if (paymentList && paymentList.length > 0) {
+                        paymentList.forEach(function (payment) {
+                            const row = `
+                            <tr class="odd gradeX">
+                                <td>\${payment.paymentDate}</td>
+                                <td>\${payment.userEmail}</td>
+                                <td>\${payment.paymentPrice}</td>
+                                <td class="center">\${payment.productName}</td>
+                            </tr>
+                        `;
+                            tbody.append(row);
+                        });
+                    } else {
+                        tbody.append(`<tr><td colspan="4" class="text-center">결제 내역이 없습니다.</td></tr>`);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("에러 발생:", error);
+                    alert("결제 내역을 불러오는 중 오류가 발생했습니다.");
                 }
             });
         });
