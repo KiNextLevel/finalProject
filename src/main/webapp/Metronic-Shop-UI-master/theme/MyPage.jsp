@@ -162,7 +162,7 @@
                                         ${userDTO.userName}
                                     </h3>
                                     <c:choose>
-                                        <c:when test="${userDTO.userPremium == 0}">
+                                        <c:when test="${userDTO.userPremium == 1}">
                                             <span class="profile-role">프리미엄 회원</span>
                                         </c:when>
                                         <c:otherwise>
