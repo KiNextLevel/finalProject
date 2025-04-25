@@ -128,7 +128,7 @@
                             <div class="report-container">
                                 <h2 class="report-title"><i class="fa fa-exclamation-triangle"></i> 사용자 신고</h2>
 
-                                <form action="/report.do" method="post" id="reportForm">
+                                <form action="/report.do" method="GET" id="reportForm">
                                     <h3 class="report-subtitle">${reportedUserNickname} 님에 대한 신고</h3>
 
                                     <div class="checkbox-group">

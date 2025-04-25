@@ -83,7 +83,7 @@ public class UserInteractionController {
 //            request.setAttribute("url", "mainPage.do");
             model.addAttribute("msg", "해당 유저는 이미 신고하셨습니다.");
             model.addAttribute("flag", false);
-            model.addAttribute("url", "mainPage.do");
+            model.addAttribute("url", "/mainPage.do");
 
         } else if (reportService.insert(reportVO)) {// 신고 데이터 삽입 시도
             // 신고 성공
@@ -92,7 +92,7 @@ public class UserInteractionController {
 //            request.setAttribute("url", "mainPage.do");
             model.addAttribute("msg", "신고가 완료되었습니다. 직원이 검토 후 처리됩니다.");
             model.addAttribute("flag", true);
-            model.addAttribute("url", "mainPage.do");
+            model.addAttribute("url", "/mainPage.do");
         } else {
             // 신고 실패
 //            request.setAttribute("msg", "신고 처리 중 오류가 발생했습니다. 다시 시도해주세요.");
@@ -100,7 +100,7 @@ public class UserInteractionController {
 //            request.setAttribute("url", "mainPage.do");
             model.addAttribute("msg", "신고 처리 중 오류가 발생했습니다. 다시 시도해주세요.");
             model.addAttribute("flag", false);
-            model.addAttribute("url", "mainPage.do");
+            model.addAttribute("url", "/mainPage.do");
 
             // 실패 원인 디버깅
             System.out.println("신고 실패 원인:");

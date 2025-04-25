@@ -135,13 +135,13 @@ public class NaverCallBackController {
                     // 로그인 성공 메시지 및 메인 페이지로 이동
                     model.addAttribute("msg", "네이버 계정으로 로그인되었습니다.");
                     model.addAttribute("flag", true);
-                    model.addAttribute("url", "mainPage.do");
+                    model.addAttribute("url", "/mainPage.do");
                     return "/Metronic-Shop-UI-master/theme/Alert";
                 } else {
                     // 블랙 or 탈퇴한 회원이면 로그인 불가능
                     model.addAttribute("msg", "블랙 계정이나 탈퇴한 계정은 로그인 할 수 없습니다.");
                     model.addAttribute("flag", true);
-                    model.addAttribute("url", "loginPage.do");
+                    model.addAttribute("url", "/loginPage.do");
                     return "/Metronic-Shop-UI-master/theme/Alert";
                 }
             }

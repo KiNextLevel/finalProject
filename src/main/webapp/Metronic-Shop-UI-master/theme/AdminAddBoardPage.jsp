@@ -168,8 +168,8 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
                         <div class="form-group">
                             <label class="col-lg-3 control-label" for="event-content">이벤트 내용<span class="require">*</span></label>
                             <div class="col-lg-9">
-        <textarea id="event-content" class="form-control" rows="10" name="boardContent"
-                  placeholder="이벤트 내용과 날짜를 입력하세요"></textarea>
+                        <textarea id="event-content" class="form-control" rows="10" name="boardContent"
+                                placeholder="이벤트 내용과 날짜를 입력하세요"></textarea>
                                 <span class="help-block">이벤트 내용, 진행 기간, 참여 방법, 혜택 등을 자세히 설명해주세요.</span>
                             </div>
                         </div>
