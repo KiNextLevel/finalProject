@@ -369,8 +369,13 @@ public class MyPageController {
 
         participantVO.setCondition("SELECTALL_EVENTPRINT");// 조건 설정 추가
 
-        userVO.setUserEmail(userEmail);
-        UserVO getUserVO = userService.getUser(userVO);//selectOne
+        userVO.setUserEmail(userEmail); //로그인 한 사용자
+        preferenceVO.setUserEmail(userEmail);
+        paymentVO.setUserEmail(userEmail); //로그인 한 사용자
+        participantVO.setParticipantUserEmail(userEmail);
+
+        UserVO userDTO = userService.getUser(userVO);//selectOne
+        System.out.println(userDTO);
         //PreferenceDTO preference = preferenceDAO.selectOne(preferenceDTO);
         PreferenceVO getPreferenceVO = preferenceService.getPreference(preferenceVO);
         List<PaymentVO> paymentList = paymentService.getPaymentList(paymentVO);
@@ -380,11 +385,11 @@ public class MyPageController {
             System.out.println(p);
         }
 
-        if (getUserVO != null) {
+        if (userDTO != null) {
             //request.setAttribute("paymentList", paymentList);
             model.addAttribute("paymentList", paymentList);
             //request.setAttribute("userDTO", getUserVO); // 첫 번째 사용자 정보
-            model.addAttribute("userVO", getUserVO);
+            model.addAttribute("userDTO", userDTO);
             //request.setAttribute("preferenceDTO", getPreferenceVO);
             model.addAttribute("preferenceVO", getPreferenceVO);
             //request.setAttribute("participantList", participantList);

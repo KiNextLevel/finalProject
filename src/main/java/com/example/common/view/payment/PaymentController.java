@@ -26,12 +26,17 @@ public class PaymentController {
 	@Autowired
 	private ProductSerivce productService;
 
+	private final int[] tokenList = {1, 5, 10};
+
+	//결제 내역 payment 테이블에 추가
+	//그리고 사용자 정보 update
     @PostMapping("/payment.do")
 	public String payment(HttpServletRequest request, HttpSession session, Model model, PaymentVO paymentVO, ProductVO productVO, UserVO userVO) {
 		System.out.println("CONT 로그: PAYMENT ACTION 도착1");
 		//SendMessage send = new SendMessage();
 
-		userVO.setUserEmail((String)session.getAttribute("userEmail"));
+		String userEmail = (String)session.getAttribute("userEmail");
+		userVO.setUserEmail(userEmail);
 		userVO.setCondition("SELECTONE_USERINFO");
 		userVO = userService.getUser(userVO);
 		String userName = userVO.getUserName();	//구매자 이름
@@ -47,23 +52,46 @@ public class PaymentController {
 		System.out.println("productPrice: ["+productPrice+"]");
 		System.out.println("productName:["+productName+"]");
 		System.out.println("productVO: ["+productVO+"]");
+		System.out.println("productNumber:["+productNumber+"]");
 
-		String path = "/addToken.do";
+		String path = "/mainPage.do";
 		if(productVO == null){	//상품을 못 찾으면
 			model.addAttribute("msg", "상품을 찾을 수 없습니다");
 			model.addAttribute("flag", false);
 			path = "/Metronic-Shop-UI-master/theme/Alert";
 		}
-		else{
-			paymentVO.setProductNumber(productPrice);
+		else{	//결제 내역 payment 테이블에 추가
+			paymentVO.setProductNumber(productNumber);
 			paymentVO.setUserEmail((String)session.getAttribute("userEmail"));
 			paymentVO.setPaymentPrice(productPrice);
 			paymentVO.setProductName(productName);
 			paymentService.insert(paymentVO);	//payment 테이블에 구매정보 추가
 			//send.sendPay(phone, userName, productPrice, productName);	//구매자에게 구매정보 문자 전송
 		}
-		model.addAttribute("productNumber", productNumber);
-        return path;
+
+		//그리고 사용자 정보 update
+		int userToken = userVO.getUserToken(); //로그인 한 사용자의 토큰 개수
+		System.out.println("userToken: ["+userToken+"]");
+
+		if(productNumber == 1){    //프리미엄 결제
+			userVO.setCondition("UPDATE_PREMIUM");
+			if(userService.update(userVO)) {
+				System.out.println("update successs");
+				userVO.setCondition("SELECTONE_USERINFO");
+				userVO = userService.getUser(userVO);   //DB에서 업데이트 된 프리미엄 여부 가져옴
+				session.setAttribute("userPremium", userVO.getUserPremium());//세션에 다시 저장
+			}
+			else{
+				System.out.println("update fail");
+			}
+		}
+		else {
+			userToken += tokenList[productNumber-2];
+			userVO.setUserToken(userToken);
+			userVO.setCondition("UPDATE_ADD_TOKEN");
+			userService.update(userVO);
+		}
+        return null;
 	}
 
 	@GetMapping("/productPage.do")

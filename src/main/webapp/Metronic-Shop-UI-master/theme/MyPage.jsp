@@ -162,7 +162,7 @@
                                         ${userDTO.userName}
                                     </h3>
                                     <c:choose>
-                                        <c:when test="${userDTO.userPremium}">
+                                        <c:when test="${userDTO.userPremium == 0}">
                                             <span class="profile-role">프리미엄 회원</span>
                                         </c:when>
                                         <c:otherwise>
@@ -237,7 +237,7 @@
                                     <div class="info-label">성별</div>
                                     <div class="info-value">
                                         <c:choose>
-                                            <c:when test="${userDTO.userGender}">
+                                            <c:when test="${userDTO.userGender == 0}">
                                                 여성
                                             </c:when>
                                             <c:otherwise>
@@ -336,7 +336,7 @@
                                     <div class="info-label">흡연</div>
                                     <div class="info-value">
                                         <c:choose>
-                                            <c:when test="${userDTO.userSmoke}">흡연</c:when>
+                                            <c:when test="${userDTO.userSmoke == 1}">흡연</c:when>
                                             <c:otherwise>비흡연</c:otherwise>
                                         </c:choose>
                                     </div>
