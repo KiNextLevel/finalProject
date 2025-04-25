@@ -72,7 +72,7 @@ public class MyPageController {
             // 사용자 정보가 없을 때 처리
 //            forward.setPath("loginPage.do");
 //            forward.setRedirect(true);
-        return "redirect:/loginPage.do";
+            return "redirect:/loginPage.do";
         }
         //return forward;
     }
@@ -211,7 +211,7 @@ public class MyPageController {
             if (userVO.getUserNickname() != null && !userVO.getUserNickname().trim().isEmpty()) {
                 System.out.println("userNickname 안가져와짐");
                 return "redirect:/myPage.do";
-               // userDTO.setUserNickname(newNickname);
+                // userDTO.setUserNickname(newNickname);
             }
 
             // 숫자형 데이터 변환 처리 (키)
@@ -343,7 +343,7 @@ public class MyPageController {
             return "/Metronic-Shop-UI-master/theme/MyPageEdit";
         }
 
-       // return forward;
+        // return forward;
     }
 
     //마이페이지 이동
