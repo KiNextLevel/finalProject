@@ -224,7 +224,7 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
                                                 </a>
                                                 <form action="/adminDeleteBoard.do" method="POST"
                                                       style="display: inline;">
-                                                    <input type="hidden" name="boardNum" value="${data.boardNumber}">
+                                                    <input type="hidden" name="boardNumber" value="${data.boardNumber}">
                                                     <button type="submit" class="btn btn-delete"
                                                             onclick="return confirm('정말로 이 이벤트를 삭제하시겠습니까?');">
                                                         <i class="fa fa-trash-o"></i> 삭제

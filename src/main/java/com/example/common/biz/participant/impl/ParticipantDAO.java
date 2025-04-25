@@ -24,6 +24,12 @@ public class ParticipantDAO {
                     " FROM PARTICIPANT P " +
                     " JOIN BOARD B ON P.PARTICIPANT_BOARD_NUM = B.BOARD_NUM " +
                     " WHERE P.PARTICIPANT_MEMBER_EMAIL = ?";
+    // 삭제할 때 해당 이벤트 있는지 확인
+    private final String SELECTALL_NUM =
+            "SELECT B.BOARD_TITLE " +
+                    " FROM PARTICIPANT P " +
+                    " JOIN BOARD B ON P.PARTICIPANT_BOARD_NUM = B.BOARD_NUM " +
+                    " WHERE P.PARTICIPANT_BOARD_NUM = ?";
     // 이벤트에 참여중인 사용자 수
     private final String SELECTONE = "SELECT COUNT(P.PARTICIPANT_MEMBER_EMAIL) " +
             " FROM PARTICIPANT P " +
@@ -61,6 +67,11 @@ public class ParticipantDAO {
             else if (ParticipantVO.getCondition().equals("SELECTALL_EVENTPRINT")) {
                 pstmt = conn.prepareStatement(SELECTALL_EVENTPRINT);
                 pstmt.setString(1, ParticipantVO.getParticipantUserEmail());
+            }
+            // 이벤트 번호로 있는지
+            else if (ParticipantVO.getCondition().equals("SELECTALL_NUM")) {
+                pstmt = conn.prepareStatement(SELECTALL_NUM);
+                pstmt.setInt(1, ParticipantVO.getParticipantBoardNumber());
             }
             rs = pstmt.executeQuery();
             while (rs.next()) {

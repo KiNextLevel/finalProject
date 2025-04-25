@@ -22,18 +22,46 @@ public class AdminDeleteBoardController {
     public String adminDeleteBoard(HttpServletRequest request, ParticipantVO participantVO, BoardVO boardVO, Model model) {
         System.out.println("adminDeleteBoardController 진입");
 
-        System.out.println(Integer.parseInt(request.getParameter("boardNum")));
-        boardVO.setBoardNumber(Integer.parseInt(request.getParameter("boardNum")));//삭제할 이벤트 번호
-        participantVO.setParticipantBoardNumber(Integer.parseInt(request.getParameter("boardNum")));//삭제할 이벤트 번호
-        participantVO.setCondition("DELETE_BOARD_NUM");
+        System.out.println(request.getParameter("boardNumber"));
+//        boardVO.setBoardNumber(Integer.parseInt(request.getParameter("boardNum")));//삭제할 이벤트 번호
 
-        if(boardService.delete(boardVO) && participantService.delete(participantVO)) {	//이벤트 삭제하면
-            System.out.println("삭제 성공 로그");										//참가자 테이블에서도 해당 이벤트 삭제
-            model.addAttribute("msg", "이벤트 삭제 성공");
-            model.addAttribute("url", "boardPage.do");
-            model.addAttribute("flag", true);
+        //participant 테이블에 삭제하려는 이벤트 있는지
+        participantVO.setParticipantBoardNumber(Integer.parseInt(request.getParameter("boardNumber")));
+        participantVO.setCondition("SELECTALL_NUM");
+
+        boolean participantDeleted = true;
+        System.out.println("이벤트 있는지 "+participantService.getParticipantList(participantVO));
+
+        if(!participantService.getParticipantList(participantVO).isEmpty()) {
+            participantVO.setParticipantBoardNumber(Integer.parseInt(request.getParameter("boardNumber")));//삭제할 이벤트 번호
+            participantVO.setCondition("DELETE_BOARD_NUM");
+            participantDeleted = participantService.delete(participantVO);
+            System.out.println("participantDeleted "+participantDeleted);
+
         }
-        else{
+
+
+
+//        boolean participantDeleted = participantService.delete(participantVO);
+//        System.out.println("participantDeleted: "+participantDeleted);
+        // 참가자 데이터가 있으면 삭제
+//        if (participantService.getParticipant(participantVO) != null) {
+//            System.out.println("해당 이벤트에 참가중인 유저 있음");
+//            participantDeleted = participantService.delete(participantVO);
+//            System.out.println("participantDeleted: ["+participantDeleted+"]");
+//        }
+
+        // 게시글은 무조건 삭제
+        boolean boardDeleted = boardService.delete(boardVO);
+
+        // 삭제 성공 여부 판단
+        if (boardDeleted && participantDeleted) {
+            System.out.println("삭제 성공 로그");
+            model.addAttribute("msg", "이벤트 삭제 성공");
+            model.addAttribute("flag", true);
+            model.addAttribute("url", "boardPage.do");
+        } else {
+            System.out.println("삭제 실패 로그");
             model.addAttribute("msg", "이벤트 삭제 실패");
             model.addAttribute("flag", false);
         }
