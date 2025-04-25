@@ -379,7 +379,7 @@ public class MyPageController {
         //PreferenceDTO preference = preferenceDAO.selectOne(preferenceDTO);
         PreferenceVO getPreferenceVO = preferenceService.getPreference(preferenceVO);
         List<PaymentVO> paymentList = paymentService.getPaymentList(paymentVO);
-        System.out.println("paymentList: ["+paymentList+"]");
+        System.out.println("paymentList: ["+paymentList+"]");   // 지금 결제 내역 안들어오고 있음
         List<ParticipantVO> participantList = participantService.getParticipantList(participantVO);
         for(ParticipantVO p : participantList) {
             System.out.println(p);
