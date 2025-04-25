@@ -7,19 +7,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class AdminAddBoardController {
     @Autowired
     private BoardService boardService;
 
-    @GetMapping("/adminAddBoardPage.do")
+    @PostMapping("/adminAddBoard.do")
     public String adminAddBoard(HttpServletRequest request, Model model, BoardVO boardVO) {
     System.out.println("AdminAddBoardController 진입");
+        System.out.println(request.getParameter("boardTitle"));
+        System.out.println(request.getParameter("boardContent"));
+        System.out.println(request.getParameter("boardLimit"));
 
-        boardVO.setBoardTitle(request.getParameter("boardTitle"));	//입력한 제목
-        boardVO.setBoardContent(request.getParameter("boardContent"));	//입력한 내용
-        boardVO.setBoardLimit(Integer.parseInt((String)request.getParameter("boardLimit")));	//입력한 제한인원
+//        boardVO.setBoardTitle(request.getParameter("boardTitle"));	//입력한 제목
+//        boardVO.setBoardContent(request.getParameter("boardContent"));	//입력한 내용
+//        boardVO.setBoardLimit(Integer.parseInt((String)request.getParameter("boardLimit")));	//입력한 제한인원
 
         //만약 추가 성공한다면?
         if(boardService.insert(boardVO)){
