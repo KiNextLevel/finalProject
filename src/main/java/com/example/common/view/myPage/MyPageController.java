@@ -1,5 +1,6 @@
 package com.example.common.view.myPage;
-
+// 화면 이동을 담당하는 컨트롤러
+// 마이페이지로 이동, 프로필 수정 페이지로 이동
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 

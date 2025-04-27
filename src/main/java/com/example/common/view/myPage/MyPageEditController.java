@@ -1,5 +1,5 @@
 package com.example.common.view.myPage;
-
+// 정보 수정하는 마이페이지
 import com.example.common.GeoCodingUtil;
 import com.example.common.biz.preference.PreferenceService;
 import com.example.common.biz.preference.PreferenceVO;

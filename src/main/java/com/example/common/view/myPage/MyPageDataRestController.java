@@ -1,5 +1,6 @@
 package com.example.common.view.myPage;
-//
+// 마이페이지 읽기 전용(조회 전용)
+// GET 방식으로 정보를 조회하는 API
 import com.example.common.biz.participant.ParticipantService;
 import com.example.common.biz.participant.ParticipantVO;
 import com.example.common.biz.payment.PaymentService;
@@ -8,17 +9,13 @@ import com.example.common.biz.preference.PreferenceService;
 import com.example.common.biz.preference.PreferenceVO;
 import com.example.common.biz.user.UserService;
 import com.example.common.biz.user.UserVO;
-import com.example.common.GeoCodingUtil;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 //
 ///**
 // * MyPageRestController
@@ -216,7 +213,7 @@ import java.util.UUID;
 //}
 
 @RestController
-public class MyPageRestController {
+public class MyPageDataRestController {
 
     @Autowired
     private UserService userService;
