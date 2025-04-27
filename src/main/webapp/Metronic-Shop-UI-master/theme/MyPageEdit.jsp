@@ -113,6 +113,7 @@
     </div>
     <!-- Header END -->
 
+    <!--/updateProfile.do가 없음 -->
     <form action="/updateProfile.do" method="POST" role="form" class="form-horizontal form-without-legend">
         <div class="container">
             <h1>정보 변경하기</h1>
@@ -382,9 +383,10 @@
                     });
 
                 </script>
+
             </div>
         </div>
     </div>
-    <script src="${pageContext.request.contextPath}js/MyPageEdit.js"></script>
+    <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/js/MyPageEdit.js"></script>
     </body>
     </html>
