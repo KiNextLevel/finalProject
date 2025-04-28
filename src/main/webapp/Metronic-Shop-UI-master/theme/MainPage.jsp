@@ -359,9 +359,9 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
             </div>
             <!-- END COPYRIGHT -->
         </div>
-            <!-- END BOTTOM CONTACTS -->
-        </div>
+        <!-- END BOTTOM CONTACTS -->
     </div>
+</div>
 </div>
 <!-- END FOOTER -->
 
