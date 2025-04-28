@@ -426,6 +426,6 @@
 
 
 </script>
-<script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/js/JoinPage.js"></script>
+<script src="${pageContext.request.contextPath}js/JoinPage.js"></script>
 </body>
 </html>
