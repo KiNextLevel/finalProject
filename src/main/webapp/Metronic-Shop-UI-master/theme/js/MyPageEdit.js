@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // 주소찾기 팝업 함수
 function openAddressPopup() {
-    window.open("API/addressAPI.html", "주소찾기", "width=600,height=500,scrollbars=yes");
+    window.open("/API/addressAPI.html", "주소찾기", "width=600,height=500,scrollbars=yes");
 }
 
 $(document).ready(function() {
