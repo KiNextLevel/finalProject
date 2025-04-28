@@ -42,6 +42,15 @@ public class PaymentTemplateDAO {
                     " WHERE M.PAYMENT_MEMBER_EMAIL = ? " +
                     " ORDER BY M.PAYMENT_DATE DESC";
 
+    // 상품별 매출액 출력
+    private final String SELECTALL_PRODUCT_PRICE =
+            "SELECT" +
+                    " PRODUCT_NUM," +
+                    " SUM(PAYMENT_PRICE) AS TOTAL_SALES " +
+                    " FROM PAYMENT " +
+                    " GROUP BY PRODUCT_NUM " +
+                    " ORDER BY PRODUCT_NUM ";
+
 
     // 사용자 결제 내역 저장하기
     // 유저 이메일, 금액, 결제 날짜, 결제 방법, 상품 번호
@@ -60,7 +69,10 @@ public class PaymentTemplateDAO {
         } else if ("SELECTALL_PRODUCTLIST".equals(PaymentVO.getCondition())) {
             Object[] args = {PaymentVO.getUserEmail()};
             return jdbcTemplate.query(SELECTALL_PRODUCTLIST, args, new UserPaymentRowMapper());
-        } else {
+        } else if ("SELECTALL_PRODUCT_PRICE".equals(PaymentVO.getCondition())) {
+            return jdbcTemplate.query(SELECTALL_PRODUCT_PRICE, new SELECTALL_PRODUCT_PRICE());
+        }
+        else {
             throw new IllegalArgumentException("알 수 없는 condition입니다: " + PaymentVO.getCondition());
         }
     }
@@ -83,8 +95,8 @@ public class PaymentTemplateDAO {
     }
 }
 
+// 관리자 결제 내역 페이지
 class PaymentRowMapper implements RowMapper<PaymentVO> {
-
     @Override
     public PaymentVO mapRow(ResultSet rs, int rowNum) throws SQLException {
         PaymentVO data = new PaymentVO();
@@ -98,6 +110,8 @@ class PaymentRowMapper implements RowMapper<PaymentVO> {
     }
 
 }
+
+//마이페이지에서 내 결제 내역
 class UserPaymentRowMapper implements RowMapper<PaymentVO> {
     @Override
     public PaymentVO mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -105,6 +119,17 @@ class UserPaymentRowMapper implements RowMapper<PaymentVO> {
         data.setProductName(rs.getString("PRODUCT_NAME"));
         data.setProductPrice(rs.getInt("PRODUCT_PRICE"));
         data.setPaymentDate(rs.getDate("PAYMENT_DATE"));
+        return data;
+    }
+}
+
+//관리자 메인페이지 상품별 매출액
+class SELECTALL_PRODUCT_PRICE implements RowMapper<PaymentVO> {
+    @Override
+    public PaymentVO mapRow(ResultSet rs, int rowNum) throws SQLException {
+        PaymentVO data = new PaymentVO();
+        data.setProductNumber(rs.getInt("PRODUCT_NUM"));
+        data.setProductPrice(rs.getInt("TOTAL_SALES"));
         return data;
     }
 }
