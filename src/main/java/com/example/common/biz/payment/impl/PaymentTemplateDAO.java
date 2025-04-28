@@ -59,7 +59,7 @@ public class PaymentTemplateDAO {
             return jdbcTemplate.query(SELECTALL_ADMIN_PAYMENTS, new PaymentRowMapper());
         } else if ("SELECTALL_PRODUCTLIST".equals(PaymentVO.getCondition())) {
             Object[] args = {PaymentVO.getUserEmail()};
-            return jdbcTemplate.query(SELECTALL_PRODUCTLIST, args, new PaymentRowMapper());
+            return jdbcTemplate.query(SELECTALL_PRODUCTLIST, args, new UserPaymentRowMapper());
         } else {
             throw new IllegalArgumentException("알 수 없는 condition입니다: " + PaymentVO.getCondition());
         }
@@ -93,6 +93,17 @@ class PaymentRowMapper implements RowMapper<PaymentVO> {
         data.setUserName(rs.getString("MEMBER_NAME"));
         data.setProductName(rs.getString("PRODUCT_NAME"));
         data.setPaymentPrice(rs.getInt("PAYMENT_PRICE"));
+        data.setPaymentDate(rs.getDate("PAYMENT_DATE"));
+        return data;
+    }
+
+}
+class UserPaymentRowMapper implements RowMapper<PaymentVO> {
+    @Override
+    public PaymentVO mapRow(ResultSet rs, int rowNum) throws SQLException {
+        PaymentVO data = new PaymentVO();
+        data.setProductName(rs.getString("PRODUCT_NAME"));
+        data.setProductPrice(rs.getInt("PRODUCT_PRICE"));
         data.setPaymentDate(rs.getDate("PAYMENT_DATE"));
         return data;
     }
