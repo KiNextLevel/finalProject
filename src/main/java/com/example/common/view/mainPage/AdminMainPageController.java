@@ -14,7 +14,7 @@ public class AdminMainPageController {
 
         return "redirect:/adminMainPage.do";
     }
-
+    //리다이렉트로 보냈기 때문에 그 경로에 대한@GetMapping있어야 함
     @GetMapping("/adminMainPage.do")
     public String adminMainPage() {
         return "/target-free-admin-template/AdminMainPage";

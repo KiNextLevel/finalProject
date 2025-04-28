@@ -35,6 +35,7 @@ public class PaymentController {
 		System.out.println("CONT 로그: PAYMENT ACTION 도착1");
 		//SendMessage send = new SendMessage();
 
+		// 1. 사용자 정보 조회
 		String userEmail = (String)session.getAttribute("userEmail");
 		userVO.setUserEmail(userEmail);
 		userVO.setCondition("SELECTONE_USERINFO");
@@ -44,8 +45,8 @@ public class PaymentController {
 		String phone = userVO.getUserPhone();	//구매자 핸드폰 번호
 		System.out.println("phone: ["+phone+"]");
 
-        // 상품에 해당하는 정보 가져오기
-        productVO = productService.getProduct(productVO);	//상품 정보
+        // 상품에 해당하는 정보 세션에서 가져오기
+        productVO = productService.getProduct(productVO);	//상품 정보,  여기서 NullPointerException
 		int productPrice = productVO.getProductPrice();
 		int productNumber = productVO.getProductNumber();
 		String productName = productVO.getProductName();
