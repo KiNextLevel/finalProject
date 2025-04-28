@@ -11,7 +11,7 @@
 <head>
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-32x32.png">
     <meta charset="utf-8">
-    <title>사용자 상세 페이지${param.userEmail}</title>
+    <title>사용자 상세 페이지</title>
     <link href="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/css/UserDetail.css" rel="stylesheet">
 
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -160,6 +160,37 @@
             }
         }
 
+        /* 로딩 스타일 */
+        .loading-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+        }
+
+        .spinner {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #e84d1c;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 에러 메시지 스타일 */
+        .error-message {
+            text-align: center;
+            padding: 20px;
+            background-color: #f8d7da;
+            color: #721c24;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
     </style>
 
     <!-- Fonts START -->
@@ -202,8 +233,6 @@
     <link href="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/corporate/css/custom.css"
           rel="stylesheet">
     <!-- Theme styles END -->
-
-
 </head>
 <!-- Head END -->
 
@@ -261,147 +290,128 @@
     </div>
 </div>
 <!-- Header END -->
-
 <div class="main">
     <div class="container">
         <!-- BEGIN CONTENT -->
         <div class="col-md-9 col-sm-7">
             <div class="product-page">
                 <div class="row">
-                    <div class="col-md-6 col-sm-6">
-                        <div class="product-main-image">
-                            <img src="${userVO.userProfile}" alt="User Profile"
-                                 class="img-responsive" data-BigImgsrc="${userVO.userProfile}">
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-sm-6">
-                        <h1>${userVO.userNickname}의 프로필</h1>
-                        <div class="price-availability-block clearfix">
-                            <div class="price">
-                                <strong>이름 : ${userVO.userName}</strong><br>
-                                <p>닉네임 : ${userVO.userNickname}</p>
-                            </div>
-                            <div class="availability">
-                                <!-- 앞에 2글자만 자르기 -->
-                                지역 : <strong>${fn:split(userVO.userRegion, ' ')[0]}</strong>
-                            </div>
-
-                        </div>
-                        <div class="description">
-                            <p>${userVO.userDescription}</p>
-                        </div>
-                        <div class="product-page-cart">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <!-- 채팅 구현은 NOT YET -->
-                                    <button class="btn btn-primary btn-block" type="submit">1:1 채팅하기</button>
-                                </div>
-                                <div class="col-md-6">
-                                    <a href="/reportPage.do?userEmail=${userVO.userEmail}"
-                                       class="btn btn-danger btn-block">
-                                        ${userVO.userNickname} 신고하기
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 지도 div -->
-                        <div id="map" style="width: 100%; height: 400px;"></div>
-
-                        <!-- 스크립트 파일 불러오기 -->
-                        <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=16e5b4c908303629d0e034ffce98abc8&libraries=services"></script>
-                        <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/js/MapView.js"></script>
-
-                        <script>
-                            initUserMap(${userVO.userLatitude}, ${userVO.userLongitude});
-                            console.log("위도:", ${userVO.userLatitude});
-                            console.log("경도:", ${userVO.userLongitude});
-                        </script>
+                    <!-- 초기 로딩 상태 표시 -->
+                    <div id="loading-container" class="loading-container">
+                        <div class="spinner"></div>
                     </div>
 
-                    <div class="product-page-content">
-                        <ul id="myTab" class="nav nav-tabs">
-                            <li><a href="#Information" data-toggle="tab">Information</a></li>
-                            <li class="active"><a href="#favorite" data-toggle="tab">Favorite</a></li>
-                        </ul>
-                        <div id="myTabContent" class="tab-content">
-                            <div class="tab-pane fade" id="Information">
-                                <div class="user-info-container">
-                                    <c:if test="${not empty userVO}">
+                    <!-- 에러 메시지 표시 영역 -->
+                    <div id="error-container" style="display: none;">
+                        <div class="error-message">
+                            <h3><i class="fas fa-exclamation-triangle"></i> 오류 발생</h3>
+                            <p id="error-message-text">사용자 정보를 불러오는 중 오류가 발생했습니다.</p>
+                        </div>
+                    </div>
+
+                    <!-- 사용자 정보 표시 영역 - 초기에는 숨김 -->
+                    <div id="user-profile-container" style="display: none;">
+                        <div class="col-md-6 col-sm-6">
+                            <div class="product-main-image">
+                                <img id="user-profile-image" src="" alt="User Profile"
+                                     class="img-responsive">
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <h1 id="user-nickname-title"></h1>
+                            <div class="price-availability-block clearfix">
+                                <div class="price">
+                                    <strong>이름: <span id="user-name"></span></strong><br>
+                                    <p>닉네임: <span id="user-nickname"></span></p>
+                                </div>
+                                <div class="availability">
+                                    지역: <strong id="user-region"></strong>
+                                </div>
+                            </div>
+                            <div class="description">
+                                <p id="user-description"></p>
+                            </div>
+                            <div class="product-page-cart">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <button class="btn btn-primary btn-block" type="button">1:1 채팅하기</button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a id="report-link" href="" class="btn btn-danger btn-block">
+                                            <span id="report-nickname"></span> 신고하기
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 지도 div -->
+                            <div id="map" style="width: 100%; height: 400px; margin-top: 20px;"></div>
+                        </div>
+
+                        <div class="product-page-content">
+                            <ul id="myTab" class="nav nav-tabs">
+                                <li><a href="#Information" data-toggle="tab">Information</a></li>
+                                <li class="active"><a href="#favorite" data-toggle="tab">Favorite</a></li>
+                            </ul>
+                            <div id="myTabContent" class="tab-content">
+                                <div class="tab-pane fade" id="Information">
+                                    <div class="user-info-container">
                                         <div class="row user-info-row">
                                             <div class="col-md-6">
                                                 <div class="info-item">
                                                     <i class="fas fa-birthday-cake"></i>
                                                     <span class="info-label">생년월일:</span>
-                                                    <span class="info-value">${userVO.userBirth}</span>
+                                                    <span id="user-birth" class="info-value"></span>
                                                 </div>
                                                 <div class="info-item">
                                                     <i class="fas fa-arrows-alt-v"></i>
                                                     <span class="info-label">키:</span>
-                                                    <span class="info-value">${userVO.userHeight}</span>
+                                                    <span id="user-height" class="info-value"></span>
                                                 </div>
                                                 <div class="info-item">
                                                     <i class="fas fa-user"></i>
                                                     <span class="info-label">체형:</span>
-                                                    <span class="info-value">${userVO.userBody}</span>
+                                                    <span id="user-body" class="info-value"></span>
                                                 </div>
                                                 <div class="info-item">
                                                     <i class="fas fa-brain"></i>
                                                     <span class="info-label">MBTI:</span>
-                                                    <span class="info-value">${userVO.userMbti}</span>
+                                                    <span id="user-mbti" class="info-value"></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="info-item">
                                                     <i class="fas fa-graduation-cap"></i>
                                                     <span class="info-label">학력:</span>
-                                                    <span class="info-value">${userVO.userEducation}</span>
+                                                    <span id="user-education" class="info-value"></span>
                                                 </div>
                                                 <div class="info-item">
                                                     <i class="fas fa-heart"></i>
                                                     <span class="info-label">종교:</span>
-                                                    <span class="info-value">${userVO.userReligion}</span>
+                                                    <span id="user-religion" class="info-value"></span>
                                                 </div>
                                                 <div class="info-item">
                                                     <i class="fas fa-glass-cheers"></i>
                                                     <span class="info-label">음주:</span>
-                                                    <span class="info-value">
-                            <c:choose>
-                                <c:when test="${userVO.userDrink == 0}">전혀 안함</c:when>
-                                <c:when test="${userVO.userDrink == 1}">가끔</c:when>
-                                <c:when test="${userVO.userDrink == 2}">자주</c:when>
-                                <c:otherwise>입력 안됨</c:otherwise>
-                            </c:choose>
-                        </span>
+                                                    <span id="user-drink" class="info-value"></span>
                                                 </div>
                                                 <div class="info-item">
                                                     <i class="fas fa-smoking"></i>
                                                     <span class="info-label">흡연:</span>
-                                                    <span class="info-value">
-                            <c:choose>
-                                <c:when test="${userVO.userSmoke == 1}">흡연</c:when>
-                                <c:otherwise>비흡연</c:otherwise>
-                            </c:choose>
-                        </span>
+                                                    <span id="user-smoke" class="info-value"></span>
                                                 </div>
                                                 <div class="info-item">
                                                     <i class="fas fa-briefcase"></i>
                                                     <span class="info-label">직업:</span>
-                                                    <span class="info-value">${userVO.userJob}</span>
+                                                    <span id="user-job" class="info-value"></span>
                                                 </div>
                                             </div>
                                         </div>
-                                    </c:if>
-
-                                    <c:if test="${empty userVO}">
-                                        <div class="alert alert-info">사용자 정보를 찾을 수 없습니다.</div>
-                                    </c:if>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="tab-pane fade in active" id="favorite">
-                                <div class="user-preference-container">
-                                    <c:choose>
-                                        <c:when test="${not empty preferenceVO}">
+                                <div class="tab-pane fade in active" id="favorite">
+                                    <div class="user-preference-container">
+                                        <div id="preference-content">
                                             <div class="preference-header">
                                                 <h3>선호하는 조건</h3>
                                             </div>
@@ -413,7 +423,7 @@
                                                         </div>
                                                         <div class="preference-content">
                                                             <h4>선호 키</h4>
-                                                            <p>${preferenceVO.preferenceHeight}</p>
+                                                            <p id="preference-height"></p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -424,7 +434,7 @@
                                                         </div>
                                                         <div class="preference-content">
                                                             <h4>선호 체형</h4>
-                                                            <p>${preferenceVO.preferenceBody}</p>
+                                                            <p id="preference-body"></p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -435,19 +445,18 @@
                                                         </div>
                                                         <div class="preference-content">
                                                             <h4>선호 나이</h4>
-                                                            <p>${preferenceVO.preferenceAge}</p>
+                                                            <p id="preference-age"></p>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </c:when>
-                                        <c:otherwise>
+                                        </div>
+                                        <div id="no-preference-message" style="display: none;">
                                             <div class="alert alert-info">사용자의 선호 정보를 찾을 수 없습니다.</div>
-                                        </c:otherwise>
-                                    </c:choose>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -457,7 +466,7 @@
     </div>
     <!-- END SIDEBAR & CONTENT -->
 </div>
-</div>
+
 <!-- BEGIN PRE-FOOTER -->
 <div class="pre-footer">
     <div class="container">
@@ -510,81 +519,8 @@
             </div>
             <!-- END COPYRIGHT -->
         </div>
-        <!-- END BOTTOM CONTACTS -->
-    </div>
-    <hr>
-    <div class="row">
-        <!-- Load javascripts at bottom, this will reduce page load time -->
-        <!-- BEGIN CORE PLUGINS(REQUIRED FOR ALL PAGES) -->
-        <!--[if lt IE 9]>
-            <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/plugins/respond.min.js"></script>
-            <![endif]-->
-        <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/plugins/jquery.min.js"
-                type="text/javascript"></script>
-        <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/plugins/jquery-migrate.min.js"
-                type="text/javascript"></script>
-        <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/plugins/bootstrap/js/bootstrap.min.js"
-                type="text/javascript"></script>
-        <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js"
-                type="text/javascript"></script>
-        <!-- END CORE PLUGINS -->
-
-        <!-- BEGIN PAGE LEVEL JAVASCRIPTS (REQUIRED ONLY FOR CURRENT PAGE) -->
-        <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/plugins/fancybox/source/jquery.fancybox.pack.js"
-                type="text/javascript"></script>
-        <!-- pop up -->
-        <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/plugins/owl.carousel/owl.carousel.min.js"
-                type="text/javascript"></script>
-        <!-- slider for products -->
-
-        <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/corporate/scripts/layout.js"
-                type="text/javascript"></script>
-        <script type="text/javascript">
-            jQuery(document).ready(function () {
-                Layout.init();
-                Layout.initOWL();
-                Layout.initTwitter();
-            });
-        </script>
-        <!-- END PAGE LEVEL JAVASCRIPTS -->
     </div>
 </div>
-</div>
-
-<!-- BEGIN fast view of a product -->
-<div id="product-pop-up" style="display: none; width: 700px;">
-    <div class="product-page product-pop-up">
-        <div class="row">
-            <div class="col-md-6 col-sm-6 col-xs-3">
-                <div class="product-main-image">
-                    <img src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/pages/img/products/model7.jpg"
-                         alt="Cool green dress with red bell"
-                         class="img-responsive">
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-6 col-xs-9">
-                <h2>Cool green dress with red bell</h2>
-                <div class="description">
-                    <p>Lorem ipsum dolor ut sit ame dolore adipiscing elit, sed nonumy nibh sed euismod laoreet dolore
-                        magna
-                        aliquarm erat volutpat
-                        Nostrud duis molestie at dolore.</p>
-                </div>
-            </div>
-            <div class="product-page-cart">
-                <div class="product-quantity">
-                    <input id="product-quantity2" type="text" value="1" readonly class="form-control input-sm">
-                </div>
-                <button class="btn btn-primary" type="submit">Add to cart</button>
-                <a href="shop-item.html" class="btn btn-default">More details</a>
-            </div>
-        </div>
-
-        <div class="sticker sticker-sale"></div>
-    </div>
-</div>
-</div>
-<!-- END fast view of a product -->
 
 <!-- Load javascripts at bottom, this will reduce page load time -->
 <!-- BEGIN CORE PLUGINS(REQUIRED FOR ALL PAGES) -->
@@ -623,8 +559,162 @@
         type="text/javascript"></script>
 <!-- END PAGE LEVEL JAVASCRIPTS -->
 
+<!-- 카카오맵 API -->
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=16e5b4c908303629d0e034ffce98abc8&libraries=services"></script>
+<script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/js/MapView.js"></script>
 
-</body>
-<!-- END BODY -->
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        Layout.init();
+        Layout.initOWL();
+        Layout.initTwitter();
 
-</html>
+        // 로딩 타임아웃 설정
+        var loadingTimeout = setTimeout(function() {
+            $('#loading-container').hide();
+            showError("데이터 로딩 시간이 초과되었습니다. 페이지를 새로고침 해주세요.");
+        }, 15000); // 15초 후 타임아웃
+
+        // URL에서 userEmail 파라미터 가져오기
+        var userEmail = getParameterByName('userEmail');
+
+        if (!userEmail) {
+            clearTimeout(loadingTimeout);
+            $('#loading-container').hide();
+            showError("사용자 이메일 정보가 없습니다.");
+            return;
+        }
+
+        // 사용자 정보 가져오기
+        $.ajax({
+            url: '/userDetailData.do',
+            type: 'GET',
+            data: { userEmail: userEmail },
+            dataType: 'json',
+            timeout: 10000, // 10초 타임아웃 설정
+            success: function(data) {
+                clearTimeout(loadingTimeout);
+                $('#loading-container').hide();
+
+                console.log("서버 응답 데이터:", data); // 디버깅용
+
+                if (!data || data.flag === false) {
+                    showError(data && data.msg ? data.msg : "사용자 정보를 찾을 수 없습니다.");
+                    return;
+                }
+
+                // 사용자 정보 표시
+                renderUserData(data);
+                $('#user-profile-container').show();
+            },
+            error: function(xhr, status, error) {
+                clearTimeout(loadingTimeout);
+                $('#loading-container').hide();
+                console.error('사용자 정보 로딩 실패:', status, error);
+
+                if (status === 'timeout') {
+                    showError("서버 응답 시간이 초과되었습니다. 네트워크 연결을 확인해주세요.");
+                } else if (status === 'parsererror') {
+                    showError("서버 응답을 처리할 수 없습니다. 관리자에게 문의해주세요.");
+                } else {
+                    showError("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+                }
+            }
+        });
+
+        // URL 파라미터 추출 함수
+        function getParameterByName(name) {
+            var url = window.location.href;
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        // 에러 메시지 표시 함수
+        function showError(message) {
+            $('#error-message-text').text(message);
+            $('#error-container').show();
+        }
+
+        // 사용자 데이터 렌더링 함수
+        function renderUserData(data) {
+            try {
+                var userVO = data.userVO;
+                var preferenceVO = data.preferenceVO;
+
+                if (!userVO) {
+                    showError("사용자 정보를 찾을 수 없습니다.");
+                    return;
+                }
+
+                // 사용자 프로필 정보 설정
+                $('#user-profile-image').attr('src', userVO.userProfile || '/default-profile.jpg');
+                $('#user-nickname-title').text((userVO.userNickname || '사용자') + '의 프로필');
+                $('#user-name').text(userVO.userName || '정보 없음');
+                $('#user-nickname').text(userVO.userNickname || '정보 없음');
+
+                // 지역 정보 설정
+                if (userVO.userRegion) {
+                    var regionParts = userVO.userRegion.split(' ');
+                    $('#user-region').text(regionParts[0] || '정보 없음');
+                } else {
+                    $('#user-region').text('정보 없음');
+                }
+
+                $('#user-description').text(userVO.userDescription || '자기소개가 없습니다.');
+
+                // 신고 링크 설정
+                $('#report-link').attr('href', '/reportPage.do?userEmail=' + userVO.userEmail);
+                $('#report-nickname').text(userVO.userNickname || '사용자');
+
+                // 사용자 상세 정보 설정
+                $('#user-birth').text(userVO.userBirth || '정보 없음');
+                $('#user-height').text(userVO.userHeight || '정보 없음');
+                $('#user-body').text(userVO.userBody || '정보 없음');
+                $('#user-mbti').text(userVO.userMbti || '정보 없음');
+                $('#user-education').text(userVO.userEducation || '정보 없음');
+                $('#user-religion').text(userVO.userReligion || '정보 없음');
+                $('#user-job').text(userVO.userJob || '정보 없음');
+
+                // 음주 정보
+                var drinkText = '정보 없음';
+                if (userVO.userDrink === 0) drinkText = '전혀 안함';
+                else if (userVO.userDrink === 1) drinkText = '가끔';
+                else if (userVO.userDrink === 2) drinkText = '자주';
+                $('#user-drink').text(drinkText);
+
+                // 흡연 정보
+                var smokeText = userVO.userSmoke === 1 ? '흡연' : '비흡연';
+                $('#user-smoke').text(smokeText);
+
+                // 선호 정보 설정
+                if (preferenceVO) {
+                    $('#preference-height').text(preferenceVO.preferenceHeight || '정보 없음');
+                    $('#preference-body').text(preferenceVO.preferenceBody || '정보 없음');
+                    $('#preference-age').text(preferenceVO.preferenceAge || '정보 없음');
+                    $('#preference-content').show();
+                    $('#no-preference-message').hide();
+                } else {
+                    $('#preference-content').hide();
+                    $('#no-preference-message').show();
+                }
+
+                // 지도 초기화 (좌표가 있는 경우)
+                if (userVO.userLatitude && userVO.userLongitude) {
+                    try {
+                        initUserMap(userVO.userLatitude, userVO.userLongitude);
+                        console.log("지도 초기화 - 위도:", userVO.userLatitude, "경도:", userVO.userLongitude);
+                    } catch (e) {
+                        console.error("지도 초기화 오류:", e);
+                    }
+                }
+            } catch (e) {
+                console.error("데이터 렌더링 오류:", e);
+                showError("데이터 표시 중 오류가 발생했습니다.");
+            }
+        }
+    });
+</script>
