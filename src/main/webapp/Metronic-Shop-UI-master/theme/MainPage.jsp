@@ -398,14 +398,46 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
 <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/corporate/scripts/layout.js"
         type="text/javascript"></script>
 <script type="text/javascript">
-    // 전역 변수 설정 (JSP에서 JavaScript로 데이터 전달)
-    window.allUsers = ${userDatas};
+    // 전역 변수 초기화 (배열로 설정)
+    window.allUsers = [];
+    window.alertDatasJson = [];
     window.currentUserEmail = "${sessionScope.userEmail}";
     window.currentUserLatitude = "${sessionScope.userLatitude}";
     window.currentUserLongitude = "${sessionScope.userLongitude}";
-    window.alertDatasJson = '${sessionScope.alertDatasJson}';
 
-    console.log("Raw userDatas:", window.allUsers);
+    $(document).ready(function () {
+        $.ajax({
+            url: "/api/mainPageData",
+            type: "GET",
+            dataType: "json",
+            cache: false,
+            success: function(response) {
+                console.log("MainPage 데이터:", response);
+
+                // 선호취향 입력 여부 확인
+                if (response.flag) {
+                    alert(response.msg);
+                    window.location.href = response.url; // userPreferencePage.do로 이동
+                    return;
+                }
+
+                // 전역 변수 업데이트
+                window.allUsers = response.userDatas || [];
+                window.alertDatasJson = response.alertDatas || [];
+                console.log("MainPage allUsers 데이터:", window.allUsers);
+                console.log("MainPage alertDatasJson 데이터:", window.alertDatasJson);
+
+                // mainPage.js의 렌더링 함수 호출
+                applyFilters(); // 사용자 목록 필터링 및 렌더링
+                renderAlerts(); // 알림 목록 렌더링
+                checkAllAlertsRead(); // 알림 읽음 상태 확인
+            },
+            error: function(xhr, status, error) {
+                console.error("MainPage 데이터 로드 실패:", error);
+                alert("데이터 로드에 실패했습니다. 다시 시도해주세요.");
+            }
+        });
+    });
 </script>
 <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/js/MainPage.js"></script>
 <!-- END PAGE LEVEL JAVASCRIPTS -->
