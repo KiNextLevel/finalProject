@@ -1,7 +1,6 @@
 package com.example.common.view.userInteraction;
 
 import com.example.common.biz.preference.PreferenceService;
-import com.example.common.biz.preference.PreferenceVO;
 import com.example.common.biz.report.ReportService;
 import com.example.common.biz.report.ReportVO;
 import com.example.common.biz.user.UserService;
@@ -9,31 +8,36 @@ import com.example.common.biz.user.UserVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.Map;
-
-@RestController
-public class UserInteractionRestController {
+@Controller
+public class UserReportController {
     @Autowired
     private UserService userService;
     @Autowired
-    private PreferenceService preferenceService;
-    @Autowired
     private ReportService reportService;
 
-    // 신고 데이터 처리
-    @GetMapping("/reportData.do")
-    public Map<String, Object> reportData(HttpSession session, HttpServletRequest request, UserVO userVO, ReportVO reportVO) {
-        Map<String, Object> result = new HashMap<>();
+    //신고하기 액션
+    @GetMapping("/report.do")
+    public String report(Model model, HttpSession session, HttpServletRequest request,
+                         UserVO userVO, ReportVO reportVO) {
+        System.out.println("CONT 로그: REPORT ACTION 도착");
+
+        // 디버깅: 모든 파라미터 출력
+//        System.out.println("모든 파라미터 목록:");
+//        java.util.Enumeration<String> paramNames = request.getParameterNames();
+//        while(paramNames.hasMoreElements()) {
+//            String paramName = paramNames.nextElement();
+//            System.out.println(paramName + ": " + request.getParameter(paramName));
+//        }
 
         // getParameter()로 폼 데이터 가져오기
         String reportedUserEmail = request.getParameter("userEmail");
 
         // 사용자 닉네임 조회
+        //VO에 이메일 들어감
         userVO.setCondition("SELECTONE_USERINFO");
         UserVO userData = userService.getUser(userVO);
 
@@ -41,6 +45,9 @@ public class UserInteractionRestController {
         if (userData != null && userData.getUserNickname() != null) {
             userNickname = userData.getUserNickname();
         }
+
+        // 닉네임을 request에 저장
+        model.addAttribute("reportedUserNickname", userNickname);
 
         // 체크박스 다중 선택 처리
         String[] reasons = request.getParameterValues("reason");
@@ -61,21 +68,36 @@ public class UserInteractionRestController {
         String reporterEmail = (String) session.getAttribute("userEmail");
 
         // 필요한 정보 설정
+        //reportDTO.setReportReported(reportedUserEmail); // 피신고자
         reportVO.setReportReason(combinedReasons);     // 신고 이유
+        //reportDTO.setReportDescription(description);    // 신고 상세 설명
         reportVO.setReportReporter(reporterEmail);     // 신고자
 
-        if (reportService.getReport(reportVO) != null) {
-            result.put("msg", "해당 유저는 이미 신고하셨습니다.");
-            result.put("flag", false);
-            result.put("url", "/mainPage.do");
-        } else if (reportService.insert(reportVO)) {
-            result.put("msg", "신고가 완료되었습니다. 직원이 검토 후 처리됩니다.");
-            result.put("flag", true);
-            result.put("url", "/mainPage.do");
+        if (reportService.getReport(reportVO) != null) { // 신고자가 이미 피 신고자를 신고한 적이 있으며, 처리 대기중이다
+            //신고 못하게 함
+//            request.setAttribute("msg", "해당 유저는 이미 신고하셨습니다.");
+//            request.setAttribute("flag", false);
+//            request.setAttribute("url", "mainPage.do");
+            model.addAttribute("msg", "해당 유저는 이미 신고하셨습니다.");
+            model.addAttribute("flag", false);
+            model.addAttribute("url", "/mainPage.do");
+
+        } else if (reportService.insert(reportVO)) {// 신고 데이터 삽입 시도
+            // 신고 성공
+//            request.setAttribute("msg", "신고가 완료되었습니다. 직원이 검토 후 처리됩니다.");
+//            request.setAttribute("flag", true);
+//            request.setAttribute("url", "mainPage.do");
+            model.addAttribute("msg", "신고가 완료되었습니다. 직원이 검토 후 처리됩니다.");
+            model.addAttribute("flag", true);
+            model.addAttribute("url", "/mainPage.do");
         } else {
-            result.put("msg", "신고 처리 중 오류가 발생했습니다. 다시 시도해주세요.");
-            result.put("flag", false);
-            result.put("url", "/mainPage.do");
+            // 신고 실패
+//            request.setAttribute("msg", "신고 처리 중 오류가 발생했습니다. 다시 시도해주세요.");
+//            request.setAttribute("flag", false);
+//            request.setAttribute("url", "mainPage.do");
+            model.addAttribute("msg", "신고 처리 중 오류가 발생했습니다. 다시 시도해주세요.");
+            model.addAttribute("flag", false);
+            model.addAttribute("url", "/mainPage.do");
 
             // 실패 원인 디버깅
             System.out.println("신고 실패 원인:");
@@ -84,14 +106,16 @@ public class UserInteractionRestController {
             System.out.println("combinedReasons: " + combinedReasons);
             System.out.println("description: " + description);
         }
-
-        return result;
+//        forward.setPath("/Metronic-Shop-UI-master/theme/Alert.jsp");
+//        forward.setRedirect(false);
+//        return forward;
+        return "/Metronic-Shop-UI-master/theme/Alert";
     }
 
-    // 신고 페이지 데이터
-    @GetMapping("/reportPageData.do")
-    public Map<String, Object> reportPageData(HttpServletRequest request, UserVO userVO) {
-        Map<String, Object> result = new HashMap<>();
+    //신고페이지 이동 액션
+    @GetMapping("/reportPage.do")
+    public String reportPage(Model model, HttpServletRequest request, UserVO userVO, ReportVO reportVO) {
+        System.out.println("CONT 로그: REPORTPAGE ACTION 도착");
 
         try {
             // 요청 인코딩 설정
@@ -102,6 +126,8 @@ public class UserInteractionRestController {
             System.out.println("ReportPageAction에서 받은 userEmail: " + userEmail);
 
             // 사용자 정보 조회
+
+            //userVO.setUserEmail(userEmail);
             userVO.setCondition("SELECTONE_USERINFO");
 
             System.out.println("사용자 정보 조회 시작: " + userEmail);
@@ -116,43 +142,13 @@ public class UserInteractionRestController {
 
             System.out.println("설정할 닉네임: " + userNickname);
 
-            // 결과 설정
-            result.put("reportedUserEmail", userEmail);
-            result.put("reportedUserNickname", userNickname);
+            // request에 속성 설정
+            model.addAttribute("reportedUserEmail", userEmail);
+            model.addAttribute("reportedUserNickname", userNickname);
         } catch (Exception e) {
             System.out.println("ReportPageAction 실행 중 오류 발생: " + e.getMessage());
             e.printStackTrace();
-            result.put("error", e.getMessage());
         }
-
-        return result;
-    }
-
-    // 사용자 상세 정보 데이터
-    @GetMapping("/userDetailData.do")
-    public Map<String, Object> userDetailData(UserVO userVO, PreferenceVO preferenceVO) {
-        Map<String, Object> result = new HashMap<>();
-
-        userVO.setCondition("SELECTONE_USERINFO");
-        userVO = userService.getUser(userVO);
-
-        preferenceVO.setCondition("SELECTONE");
-        preferenceVO = preferenceService.getPreference(preferenceVO);
-        System.out.println("CONT 로그: 선호 정보 조회 결과 - " + preferenceVO);
-
-        if (preferenceVO == null) {
-            System.out.println("CONT 로그: preferenceDTO가 null이어서 새 객체 생성");
-        }
-
-        if (userVO == null) {
-            result.put("msg", "존재하지 않는 회원입니다");
-            result.put("flag", false);
-        } else {
-            System.out.println(userVO);
-            result.put("userVO", userVO);
-            result.put("preferenceVO", preferenceVO);
-        }
-
-        return result;
+        return "/Metronic-Shop-UI-master/theme/Report";
     }
 }

@@ -14,6 +14,7 @@ public class MyPageController {
      // 데이터는 AJAX로 따로 불러오기
     @GetMapping("/myPage.do")
     public String myPage() {
+        System.out.println("myPage 로그");
         return "/Metronic-Shop-UI-master/theme/MyPage"; // myPage.jsp 띄움
     }
      // 프로필 수정 페이지로 이동
