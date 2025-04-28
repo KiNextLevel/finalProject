@@ -10,7 +10,7 @@ import java.util.List;
 @Service("paymentService")
 public class PaymentServiceImpl implements PaymentService {
     @Autowired
-    private PaymentDAO paymentDAO;
+    private PaymentTemplateDAO paymentDAO;
 
     @Override
     public boolean insert(PaymentVO vo) {

@@ -143,12 +143,12 @@
     <script src="${pageContext.request.contextPath}/target-free-admin-template/assets/js/dataTables/dataTables.bootstrap.js"></script>
     <script>
         $(document).ready(function () {
-            $('#dataTables-example').dataTable({
+            var table = $('#dataTables-example').DataTable({
                 "order": [[0, "desc"]], // 첫 번째 열(결제 날짜) 내림차순
                 "language": {
-                    "zeroRecords": "일치하는 검색 결과가 없습니다.",  // 필터링 후 데이터가 없을 때 메시지
-                    "emptyTable": "테이블에 데이터가 없습니다.",   // 테이블이 완전히 비어 있을 때 메시지
-                    "info": "총 _TOTAL_건 중 _START_ - _END_건 표시", // 페이지 정보
+                    "zeroRecords": "일치하는 검색 결과가 없습니다.",
+                    "emptyTable": "테이블에 데이터가 없습니다.",
+                    "info": "총 _TOTAL_건 중 _START_ - _END_건 표시",
                     "infoEmpty": "데이터 없음",
                     "infoFiltered": "(총 _MAX_건 중 필터링됨)",
                     "search": "검색:",
@@ -161,10 +161,8 @@
                     }
                 }
             });
-        });
-    </script>
-        <script type="text/javascript">
-            $(document).ready(function () {
+
+            // Ajax로 데이터를 가져와서 테이블에 추가하는 부분
             $.ajax({
                 url: "/getPaymentList.do",
                 method: "GET",
@@ -188,6 +186,7 @@
                         `;
                             tbody.append(row);
                         });
+                        table.rows.add(tbody.find('tr')).draw(); // 테이블에 새로운 데이터 추가
                     } else {
                         tbody.append(`<tr><td colspan="4" class="text-center">결제 내역이 없습니다.</td></tr>`);
                     }
