@@ -86,7 +86,7 @@ public class UserDAO {
             " FROM (" +
             " SELECT * " +
             " FROM MEMBER" +
-            " ORDER BY MEMBER_REGDATE)" +
+            " ORDER BY MEMBER_REGDATE DESC)" +
             " WHERE ROWNUM <= 4";
 
     Connection conn = null;

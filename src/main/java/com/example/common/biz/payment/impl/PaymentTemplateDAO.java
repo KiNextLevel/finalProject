@@ -54,30 +54,30 @@ public class PaymentTemplateDAO {
     //일별 매출액
     private final String SELECTALL_DAY =
             "SELECT" +
-                    " TO_CHAR(PAYMENT_DATE, 'YYYY-MM-DD') AS DATE," +
+                    " TO_CHAR(PAYMENT_DATE, 'YYYY-MM-DD') AS PERIOD," +
                     " SUM(PAYMENT_PRICE) AS TOTAL_SALES" +
                     " FROM PAYMENT" +
                     " GROUP BY TO_CHAR(PAYMENT_DATE, 'YYYY-MM-DD')" +
-                    " ORDER BY DATE DESC";
+                    " ORDER BY PERIOD";
 
     //주별 매출액
     private final String SELECTALL_WEEK =
             "SELECT" +
-                    " TO_CHAR(PAYMENT_DATE, 'IYYY-IW') AS DATE," +
+                    " TO_CHAR(PAYMENT_DATE, 'IYYY-IW') AS PERIOD," +
                     " SUM(PAYMENT_PRICE) AS TOTAL_SALES" +
                     " FROM PAYMENT" +
-                    " WHERE PAYMENT_DATE >= ADD_MONTHS(SYSDATE, -2)  -- 2개월(약 8주) 전부터" +
+                    " WHERE PAYMENT_DATE >= ADD_MONTHS(SYSDATE, -2) " +
                     " GROUP BY TO_CHAR(PAYMENT_DATE, 'IYYY-IW')" +
-                    " ORDER BY DATE DESC";
+                    " ORDER BY PERIOD";
 
     //월별 매출액
     private final String SELECTALL_MONTH =
             "SELECT" +
-                    " TO_CHAR(PAYMENT_DATE, 'YYYY-MM') AS DATE," +
+                    " TO_CHAR(PAYMENT_DATE, 'YYYY-MM') AS PERIOD," +
                     " SUM(PAYMENT_PRICE) AS TOTAL_SALES" +
                     " FROM PAYMENT" +
                     " GROUP BY TO_CHAR(PAYMENT_DATE, 'YYYY-MM')" +
-                    " ORDER BY DATE";
+                    " ORDER BY PERIOD";
 
     // 사용자 결제 내역 저장하기
     // 유저 이메일, 금액, 결제 날짜, 결제 방법, 상품 번호
@@ -100,13 +100,13 @@ public class PaymentTemplateDAO {
             Object[] args = {PaymentVO.getUserEmail()};
             return jdbcTemplate.query(SELECTALL_PRODUCTLIST, args, new UserPaymentRowMapper());
         } else if ("SELECTALL_PRODUCT_PRICE".equals(PaymentVO.getCondition())) {
-            return jdbcTemplate.query(SELECTALL_PRODUCT_PRICE, new SELECTALL_PRODUCT_PRICE());
+            return jdbcTemplate.query(SELECTALL_PRODUCT_PRICE, new selectProductPrice());
         } else if ("SELECTALL_DAY".equals(PaymentVO.getCondition())) {
             return jdbcTemplate.query(SELECTALL_DAY, new getPrice());
         } else if ("SELECTALL_WEEK".equals(PaymentVO.getCondition())) {
-            return jdbcTemplate.query(SELECTALL_WEEK, new getPrice());
+            return jdbcTemplate.query(SELECTALL_WEEK, new getDatePrice());
         } else if ("SELECTALL_MONTH".equals(PaymentVO.getCondition())) {
-            return jdbcTemplate.query(SELECTALL_MONTH, new getPrice());
+            return jdbcTemplate.query(SELECTALL_MONTH, new getDatePrice());
         } else {
             throw new IllegalArgumentException("알 수 없는 condition입니다: " + PaymentVO.getCondition());
         }
@@ -163,7 +163,7 @@ class UserPaymentRowMapper implements RowMapper<PaymentVO> {
 }
 
 //관리자 메인페이지 상품별 매출액
-class SELECTALL_PRODUCT_PRICE implements RowMapper<PaymentVO> {
+class selectProductPrice implements RowMapper<PaymentVO> {
     @Override
     public PaymentVO mapRow(ResultSet rs, int rowNum) throws SQLException {
         PaymentVO data = new PaymentVO();
@@ -173,12 +173,23 @@ class SELECTALL_PRODUCT_PRICE implements RowMapper<PaymentVO> {
     }
 }
 
-//날짜별(일, 월, 주) 매출액
+//날짜별(일) 매출액
 class getPrice implements RowMapper<PaymentVO> {
     @Override
     public PaymentVO mapRow(ResultSet rs, int rowNum) throws SQLException {
         PaymentVO data = new PaymentVO();
-        data.setPaymentDate(rs.getDate("DATE"));
+        data.setPaymentDate(rs.getDate("PERIOD"));
+        data.setProductPrice(rs.getInt("TOTAL_SALES"));
+        return data;
+    }
+}
+
+//날짜별(일) 매출액
+class getDatePrice implements RowMapper<PaymentVO> {
+    @Override
+    public PaymentVO mapRow(ResultSet rs, int rowNum) throws SQLException {
+        PaymentVO data = new PaymentVO();
+        data.setSearchKeyword(rs.getString("PERIOD"));
         data.setProductPrice(rs.getInt("TOTAL_SALES"));
         return data;
     }
