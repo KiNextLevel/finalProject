@@ -87,6 +87,7 @@
                         <div class="card-action">
                             Advanced Tables
                         </div>
+                        <a href="/excel.do"> excel로 내보내기 </a>
                         <div class="card-content">
                             <div class="table-responsive">                                            <!-- 이게 정렬 -->
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">

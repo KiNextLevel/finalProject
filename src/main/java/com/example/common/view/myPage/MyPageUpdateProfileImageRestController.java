@@ -1,6 +1,8 @@
 package com.example.common.view.myPage;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.common.biz.user.UserService;
@@ -8,47 +10,46 @@ import com.example.common.biz.user.UserVO;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 
-@RestController
+@Controller
 public class MyPageUpdateProfileImageRestController {
     @Autowired
     private UserService userService;
 
      //프로필 이미지 수정
     @PostMapping("/updateProfileImage.do")
-    public Map<String, Object> updateProfileImage(
+    public String updateProfileImage(
             @RequestParam("profileImage") MultipartFile profileImage,
-            HttpSession session) {
+            HttpSession session, Model model) {
 
-        Map<String, Object> result = new HashMap<>();
+        String result = "/Metronic-Shop-UI-master/theme/Alert";
         String userEmail = (String) session.getAttribute("userEmail");
-
+//        model.addAttribute("url", "myPage.do");
+        model.addAttribute("flag", false);
         if (userEmail == null) {
-            result.put("success", false);
-            result.put("message", "로그인이 필요합니다.");
+            model.addAttribute("msg", "로그인이 필요합니다.");
             return result;
         }
 
         if (profileImage == null || profileImage.isEmpty()) {
-            result.put("success", false);
-            result.put("message", "파일이 선택되지 않았습니다.");
+            model.addAttribute("msg", "파일이 선택되지 않았습니다.");
             return result;
         }
 
         if (profileImage.getSize() > 5 * 1024 * 1024) {
-            result.put("success", false);
-            result.put("message", "파일 크기는 5MB 이하여야 합니다.");
+            model.addAttribute("msg", "파일 크기는 5MB 이하여야 합니다.");
             return result;
         }
 
         if (!profileImage.getContentType().startsWith("image/")) {
-            result.put("success", false);
-            result.put("message", "이미지 파일만 업로드 가능합니다.");
+            model.addAttribute("msg", "이미지 파일만 업로드 가능합니다.");
             return result;
         }
 
@@ -78,17 +79,14 @@ public class MyPageUpdateProfileImageRestController {
 
             if (updateResult) {
                 session.setAttribute("userProfile", webPath);
-                result.put("success", true);
-                result.put("message", "프로필 이미지가 성공적으로 업데이트되었습니다.");
+                model.addAttribute("msg", "프로필 이미지가 성공적으로 업데이트되었습니다.");
             } else {
-                result.put("success", false);
-                result.put("message", "프로필 이미지 업데이트에 실패했습니다.");
+                model.addAttribute("msg", "프로필 이미지 업데이트에 실패했습니다.");
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            result.put("success", false);
-            result.put("message", "프로필 이미지 처리 중 오류 발생: " + e.getMessage());
+            model.addAttribute("msg", "프로필 이미지 처리 중 오류 발생: " + e.getMessage());
         }
 
         return result;

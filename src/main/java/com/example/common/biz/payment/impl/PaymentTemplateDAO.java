@@ -1,7 +1,6 @@
 package com.example.common.biz.payment.impl;
 
 import com.example.common.biz.payment.PaymentVO;
-import com.example.common.JDBCUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -54,30 +52,30 @@ public class PaymentTemplateDAO {
     //일별 매출액
     private final String SELECTALL_DAY =
             "SELECT" +
-                    " TO_CHAR(PAYMENT_DATE, 'YYYY-MM-DD') AS DATE," +
+                    " TO_CHAR(PAYMENT_DATE, 'YYYY-MM-DD') AS PERIOD," +
                     " SUM(PAYMENT_PRICE) AS TOTAL_SALES" +
                     " FROM PAYMENT" +
                     " GROUP BY TO_CHAR(PAYMENT_DATE, 'YYYY-MM-DD')" +
-                    " ORDER BY DATE DESC";
+                    " ORDER BY PERIOD DESC";
 
     //주별 매출액
     private final String SELECTALL_WEEK =
             "SELECT" +
-                    " TO_CHAR(PAYMENT_DATE, 'IYYY-IW') AS DATE," +
+                    " TO_CHAR(PAYMENT_DATE, 'IYYY-IW') AS PERIOD," +
                     " SUM(PAYMENT_PRICE) AS TOTAL_SALES" +
                     " FROM PAYMENT" +
-                    " WHERE PAYMENT_DATE >= ADD_MONTHS(SYSDATE, -2)  -- 2개월(약 8주) 전부터" +
+                    " WHERE PAYMENT_DATE >= ADD_MONTHS(SYSDATE, -2)" + //-- 2개월(약 8주) 전부터
                     " GROUP BY TO_CHAR(PAYMENT_DATE, 'IYYY-IW')" +
-                    " ORDER BY DATE DESC";
+                    " ORDER BY PERIOD DESC";
 
     //월별 매출액
     private final String SELECTALL_MONTH =
             "SELECT" +
-                    " TO_CHAR(PAYMENT_DATE, 'YYYY-MM') AS DATE," +
+                    " TO_CHAR(PAYMENT_DATE, 'YYYY-MM') AS PERIOD," +
                     " SUM(PAYMENT_PRICE) AS TOTAL_SALES" +
                     " FROM PAYMENT" +
                     " GROUP BY TO_CHAR(PAYMENT_DATE, 'YYYY-MM')" +
-                    " ORDER BY DATE";
+                    " ORDER BY PERIOD";
 
     // 사용자 결제 내역 저장하기
     // 유저 이메일, 금액, 결제 날짜, 결제 방법, 상품 번호
@@ -178,7 +176,7 @@ class getPrice implements RowMapper<PaymentVO> {
     @Override
     public PaymentVO mapRow(ResultSet rs, int rowNum) throws SQLException {
         PaymentVO data = new PaymentVO();
-        data.setPaymentDate(rs.getDate("DATE"));
+        data.setPaymentDate(rs.getDate("PERIOD"));
         data.setProductPrice(rs.getInt("TOTAL_SALES"));
         return data;
     }
