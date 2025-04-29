@@ -29,7 +29,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public PaymentVO getPayment(PaymentVO vo) {
-        return null;
+        return paymentDAO.getPayment(vo);
     }
 
     @Override
