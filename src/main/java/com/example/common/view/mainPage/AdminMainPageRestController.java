@@ -4,6 +4,8 @@ import com.example.common.biz.payment.PaymentService;
 import com.example.common.biz.payment.PaymentVO;
 import com.example.common.biz.user.UserService;
 import com.example.common.biz.user.UserVO;
+import com.example.common.biz.visitor.VisitorService;
+import com.example.common.biz.visitor.VisitorVO;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -21,6 +23,8 @@ public class AdminMainPageRestController {
 private PaymentService paymentService;
 @Autowired
 private UserService userService;
+@Autowired
+private VisitorService visitorService;
 
     //상품별 매출 가져오기
     @GetMapping("/getProductPrice.do")
@@ -93,9 +97,41 @@ private UserService userService;
     @GetMapping("/getPaidUser.do")
     public Map<String, Object> getPaidUser(PaymentVO paymentVO) {
         Map<String, Object> result = new HashMap<>();
+        paymentVO.setCondition("SELECTONE_PAID_USER");
         paymentVO = paymentService.getPayment(paymentVO);
         System.out.println("userVO: [" + paymentVO + "]");
         result.put("paidUser", paymentVO.getPaymentNumber());
+        return result;
+    }
+
+    //오늘 방문 회원수
+    @GetMapping("/getTodayVisit.do")
+    public Map<String, Object> getTodayVisit(VisitorVO visitorVO) {
+        Map<String, Object> result = new HashMap<>();
+        visitorVO.setCondition("GETONE_TODAY");
+        visitorVO = visitorService.getVisitor(visitorVO);
+        System.out.println("visitor" + visitorVO);
+        result.put("visitor", visitorVO);
+        return result;
+    }
+    //남녀별 일별 방문 회원수
+    @GetMapping("/getDailyVisit.do")
+    public Map<String, Object> getDailyVisit(VisitorVO visitorVO) {
+        Map<String, Object> result = new HashMap<>();
+        List<VisitorVO> datas = visitorService.getVisitorList(visitorVO);
+        System.out.println("datas" + datas);
+        result.put("visitors", datas);
+        return result;
+    }
+
+    //총 매출액
+    @GetMapping("/getTotalPrice.do")
+    public Map<String, Object> getTotalPrice(PaymentVO paymentVO) {
+        Map<String, Object> result = new HashMap<>();
+        paymentVO.setCondition("SELECTONE_TOTAL");
+        PaymentVO data = paymentService.getPayment(paymentVO);
+        System.out.println("data" + data);
+        result.put("data", data);
         return result;
     }
 }

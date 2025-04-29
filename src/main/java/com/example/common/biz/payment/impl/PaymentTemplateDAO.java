@@ -90,7 +90,7 @@ public class PaymentTemplateDAO {
             "SELECT COUNT(DISTINCT PAYMENT_MEMBER_EMAIL) AS PAID_MEMBER_CNT FROM PAYMENT";
 
     //총 매출액
-    private final String SELECTONE_TOTAL_PRICE = "SELECT SUM(PAYMENT_PRICE) AS TOTAL_PRICE FROM PAYMENT";
+    private final String SELECTONE_TOTAL_PRICE = "SELECT SUM(PAYMENT_PRICE) AS PAID_MEMBER_CNT FROM PAYMENT";
 
     private final String UPDATE = "";
     private final String DELETE = "";
@@ -115,8 +115,14 @@ public class PaymentTemplateDAO {
         }
     }
 
-    public PaymentVO getPayment(PaymentVO PaymentVO) {
-        return jdbcTemplate.queryForObject(SELECTONE_PAID_USER, new getPaidUser());
+    public PaymentVO getPayment(PaymentVO paymentVO) {
+        if(paymentVO.getCondition().equals("SELECTONE_PAID_USER")) {
+            return jdbcTemplate.queryForObject(SELECTONE_PAID_USER, new getPaidUser());
+        }
+        else if(paymentVO.getCondition().equals("SELECTONE_TOTAL")){
+            return jdbcTemplate.queryForObject(SELECTONE_TOTAL_PRICE, new getPaidUser());
+        }
+        return null;
     }
 
     public boolean insert(PaymentVO PaymentVO) {

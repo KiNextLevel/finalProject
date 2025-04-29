@@ -14,11 +14,11 @@
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 	<style>
 		.chart-container {
-			width: 100%; /* 가로 전체 너비 */
+			width: 50%; /* 가로 전체 너비 */
 			padding: 10px; /* 약간의 여백 추가 */
 		}
 		.chart-container canvas {
-			width: 100%; /* 가로 전체 채움 */
+			width: 50%; /* 가로 전체 채움 */
 			max-height: 300px; /* 최대 높이 제한 */
 		}
 		.users-collection {
@@ -121,7 +121,7 @@
 				<div class="row">
 					<div class="col-xs-12 col-sm-6 col-md-3">
 						<div class="card horizontal cardIcon waves-effect waves-dark">
-							<div class="card-image purple"><i class="material-icons dp48">import_export</i></div>
+							<div class="card-image green"><i class="material-icons dp48">import_export</i></div>
 							<div class="card-stacked purple">
 								<div class="card-content totalUser"><h3></h3></div>
 								<div class="card-action"><strong>전체 회원 수</strong></div>
@@ -137,12 +137,38 @@
 							</div>
 						</div>
 					</div>
+					<div class="col-xs-12 col-sm-6 col-md-3">
+						<div class="card horizontal cardIcon waves-effect waves-dark">
+							<div class="card-image cyan"><i class="material-icons dp48">import_export</i></div>
+							<div class="card-stacked lime">
+								<div class="card-content todayVisit"><h3></h3></div>
+								<div class="card-action"><strong>오늘 방문자 수</strong></div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-6 col-md-3">
+						<div class="card horizontal cardIcon waves-effect waves-dark">
+							<div class="card-image cyan"><i class="material-icons dp48">import_export</i></div>
+							<div class="card-stacked lime">
+								<div class="card-content totalPrice"><h3></h3></div>
+								<div class="card-action"><strong>총 매출액</strong></div>
+							</div>
+						</div>
+					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-12">
 						<h4>상품별 매출</h4>
 						<div class="chart-container">
 							<canvas id="product-doughnut-chart"></canvas>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<h4>일별 방문자</h4>
+						<div class="chart-container">
+							<canvas id="day-line-chart2"></canvas>
 						</div>
 					</div>
 				</div>
@@ -352,6 +378,22 @@
 		});
 	});
 
+	// 총 매출액
+	$(document).ready(function(){
+		$.ajax({
+			url: '/getTotalPrice.do',
+			type: 'GET',
+			dataType: 'json',
+			success: function(data) {
+				console.log(data);
+				$(".totalPrice h3").text(data.data.paymentNumber + "원");
+			},
+			error: function(xhr, status, error) {
+				console.error("총 매출액 조회 실패:", error);
+			}
+		});
+	});
+
 	// 결제한 회원 수
 	$(document).ready(function(){
 		$.ajax({
@@ -387,6 +429,142 @@
 			},
 			error: function(xhr, status, error) {
 				console.error("회원 조회 실패:", error);
+			}
+		});
+	});
+
+	//남여 일별 방문자
+	$(document).ready(function() {
+		$.ajax({
+			url: '/getDailyVisit.do',
+			type: 'GET',
+			dataType: 'json',
+			success: function(data) {
+				console.log(data);
+
+				// 날짜 레이블 배열 생성 (중복 제거)
+				var labels = [...new Set(data.visitors.map(item => item.visitorDate))].sort();
+
+				// 남자(0)와 여자(1) 데이터 분리
+				var maleData = new Array(labels.length).fill(0); // 남자 방문자 수
+				var femaleData = new Array(labels.length).fill(0); // 여자 방문자 수
+
+				// 날짜별로 남녀 방문자 수 매핑
+				data.visitors.forEach(function(item) {
+					var dateIndex = labels.indexOf(item.visitorDate);
+					if (item.visitorGender === 1) { // 남자 (0)
+						maleData[dateIndex] = item.visitorDaily;
+					} else if (item.visitorGender === 0) { // 여자 (1)
+						femaleData[dateIndex] = item.visitorDaily;
+					}
+				});
+
+				// 차트 생성
+				var ctx = document.getElementById('day-line-chart2').getContext('2d');
+
+				// 남자 데이터 색상
+				var maleColor = 'rgba(54, 162, 235, 0.8)'; // 파랑
+
+				// 여자 데이터 색상
+				var femaleColor = 'rgba(255, 99, 132, 0.8)'; // 분홍
+
+				var myBarChart = new Chart(ctx, {
+					type: 'bar',
+					data: {
+						labels: labels,
+						datasets: [
+							{
+								label: '남자 방문자 수',
+								data: maleData,
+								backgroundColor: maleColor,
+								borderColor: 'rgba(54, 162, 235, 1)',
+								borderWidth: 1,
+								barThickness: 20, // 막대 두께 조정
+								categoryPercentage: 0.5, // 카테고리 내 막대 간격 조정
+								barPercentage: 0.8 // 막대 자체의 너비 비율
+							},
+							{
+								label: '여자 방문자 수',
+								data: femaleData,
+								backgroundColor: femaleColor,
+								borderColor: 'rgba(255, 99, 132, 1)',
+								borderWidth: 1,
+								barThickness: 20,
+								categoryPercentage: 0.5,
+								barPercentage: 0.8
+							}
+						]
+					},
+					options: {
+						responsive: true,
+						maintainAspectRatio: true,
+						aspectRatio: 2.5, // 가로 폭을 늘려 간격 확보
+						plugins: {
+							legend: {
+								labels: {
+									font: {
+										size: 12,
+										family: 'Open Sans'
+									}
+								}
+							},
+							tooltip: {
+								callbacks: {
+									label: function(tooltipItem) {
+										return tooltipItem.dataset.label + ': ' + tooltipItem.raw + '명';
+									}
+								}
+							}
+						},
+						scales: {
+							x: {
+								stacked: true, // X축에서 막대 쌓기
+								grid: {
+									display: false
+								},
+								ticks: {
+									font: {
+										family: 'Open Sans',
+										size: 12
+									},
+								}
+							},
+							y: {
+								stacked: true, // Y축에서 막대 쌓기
+								beginAtZero: true,
+								grid: {
+									color: 'rgba(200, 200, 200, 0.2)'
+								},
+								ticks: {
+									font: {
+										family: 'Open Sans',
+										size: 12
+									},
+									stepSize: 1 // 방문자 수는 정수이므로 1 단위로 설정
+								}
+							}
+						}
+					}
+				});
+			},
+			error: function(xhr, status, error) {
+				console.error("일별 방문자 조회 실패:", error);
+			}
+		});
+	});
+
+	// 오늘 방문 회원수
+	$(document).ready(function() {
+		$.ajax({
+			url: '/getTodayVisit.do',
+			type: 'GET',
+			dataType: 'json',
+			success: function(data) {
+				console.log("ㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓ"+data);
+				$(".todayVisit h3").text(data.visitor.visitorToday + "명");
+			},
+			error: function(xhr, status, error) {
+				console.error("일별 매출 조회 실패:", error);
 			}
 		});
 	});
