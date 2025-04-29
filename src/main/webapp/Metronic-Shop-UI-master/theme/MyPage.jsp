@@ -497,7 +497,6 @@
                             </table>
                         </div>
 
-
                         <%--                        <div id="delete-info" class="info-card">--%>
                         <%--                            <h3>계정 설정</h3>--%>
                         <%--                            <!-- 계정 설정 -->--%>
