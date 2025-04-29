@@ -79,7 +79,7 @@ public class UserDAO {
     private final String DELETE = "DELETE FROM MEMBER WHERE MEMBER_EMAIL = ?";
 
     //전체 회원 수
-    private final String USER_CNT = "SELECT COUNT(*) as CNT FROM MEMBER;";
+    private final String USER_CNT = "SELECT COUNT(*) as CNT FROM MEMBER";
 
     //최근 가입한 회원 4명
     private final String USER_FOUR = "SELECT * " +

@@ -79,6 +79,23 @@ private UserService userService;
     }
 
     //전체 회원 수 가져오기
+    @GetMapping("/getTotalUserCount.do")
+    public Map<String, Object> getTotalUserCount(UserVO userVO) {
+        Map<String, Object> result = new HashMap<>();
+        userVO.setCondition("USER_CNT");
+        userVO = userService.getUser(userVO);
+        System.out.println("userVO: [" + userVO + "]");
+        result.put("userCount", userVO.getSearchKeyword());
+        return result;
+    }
 
     //결제 한 회원 수 가져오기
+    @GetMapping("/getPaidUser.do")
+    public Map<String, Object> getPaidUser(PaymentVO paymentVO) {
+        Map<String, Object> result = new HashMap<>();
+        paymentVO = paymentService.getPayment(paymentVO);
+        System.out.println("userVO: [" + paymentVO + "]");
+        result.put("paidUser", paymentVO.getPaymentNumber());
+        return result;
+    }
 }

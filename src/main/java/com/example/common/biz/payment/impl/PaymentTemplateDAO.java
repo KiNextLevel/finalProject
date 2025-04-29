@@ -89,6 +89,9 @@ public class PaymentTemplateDAO {
     private final String SELECTONE_PAID_USER =
             "SELECT COUNT(DISTINCT PAYMENT_MEMBER_EMAIL) AS PAID_MEMBER_CNT FROM PAYMENT";
 
+    //총 매출액
+    private final String SELECTONE_TOTAL_PRICE = "SELECT SUM(PAYMENT_PRICE) AS TOTAL_PRICE FROM PAYMENT";
+
     private final String UPDATE = "";
     private final String DELETE = "";
 
@@ -201,6 +204,16 @@ class getPaidUser implements RowMapper<PaymentVO> {
     public PaymentVO mapRow(ResultSet rs, int rowNum) throws SQLException {
         PaymentVO data = new PaymentVO();
         data.setPaymentNumber(rs.getInt("PAID_MEMBER_CNT"));
+        return data;
+    }
+}
+
+//총 매출액
+class getTotalPrice implements RowMapper<PaymentVO> {
+    @Override
+    public PaymentVO mapRow(ResultSet rs, int rowNum) throws SQLException {
+        PaymentVO data = new PaymentVO();
+        data.setProductPrice(rs.getInt("TOTAL_PRICE"));
         return data;
     }
 }
