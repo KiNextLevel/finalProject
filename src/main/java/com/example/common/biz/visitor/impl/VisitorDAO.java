@@ -68,9 +68,7 @@ class VisitorRowMapperGetOneToday implements RowMapper<VisitorVO> {
     @Override
     public VisitorVO mapRow(ResultSet rs, int rowNum) throws SQLException {
         VisitorVO vo = new VisitorVO();
-        if (rs.next()) {
-            vo.setVisitorToday(rs.getInt("today_visitor_count"));
-        }
+        vo.setVisitorToday(rs.getInt("today_visitor_count"));
         return vo;
     }
 }
@@ -79,11 +77,9 @@ class VisitorRowMapperGetAllDaily implements RowMapper<VisitorVO> {
     @Override
     public VisitorVO mapRow(ResultSet rs, int rowNum) throws SQLException {
         VisitorVO vo = new VisitorVO();
-        if (rs.next()) {
-            vo.setVisitorDate(rs.getDate("VISITOR_DATE"));
-            vo.setVisitorGender(rs.getInt("VISITOR_GENDER"));
-            vo.setVisitorToday(rs.getInt("today_visitor_count"));
-        }
+        vo.setVisitorDate(rs.getDate("VISITOR_DATE"));
+        vo.setVisitorGender(rs.getInt("MEMBER_GENDER"));
+        vo.setVisitorDaily(rs.getInt("daily_visitor_count"));
         return vo;
     }
 }
