@@ -1,6 +1,8 @@
 package com.example.common.biz.report.impl;
 
 import com.example.common.biz.report.ReportVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.example.common.JDBCUtil;
@@ -11,6 +13,7 @@ import java.util.ArrayList;
 
 @Repository("reportDAO")
 public class ReportDAO {
+
     // (관리자용) 00유저 신고자, 신고사유, 신고날짜, 00유저 피신고자, 신고 설명 전체 출력하기
     private final String SELECTALL = "SELECT REPORT_NUM, REPORT_REPORTER, REPORT_REASON, REPORT_DATE, REPORT_REPORTED, REPORT_DESCRIPTION "
             + "FROM REPORT ORDER BY REPORT_NUM DESC";
