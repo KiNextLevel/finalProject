@@ -3,6 +3,7 @@ package com.example.common.view.auth;
 import com.example.common.biz.user.UserService;
 import com.example.common.biz.user.UserVO;
 import com.example.common.view.asyn.RandomPassword;
+import com.example.common.view.logic.CheckVisit;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.json.simple.JSONObject;
@@ -23,9 +24,10 @@ import java.net.URL;
 
 @Controller
 public class KakaoCallBackController {
-
     @Autowired
     private UserService userService;
+    @Autowired
+    private CheckVisit checkVisit;
 
     // ID 보안
     @Value("${kakao.client_id}")
@@ -86,6 +88,9 @@ public class KakaoCallBackController {
 
                 // 회원이나 관리자일 경우만 로그인
                 if (user.getUserRole() == 0 || user.getUserRole() == 1) {
+                    if (user.getUserRole() == 0) { // 방문
+                        checkVisit.checkVisitIfFirstLogin(user);
+                    }
                     // 세션에 로그인 정보 저장
                     HttpSession session = request.getSession();
                     session.setAttribute("userEmail", user.getUserEmail());

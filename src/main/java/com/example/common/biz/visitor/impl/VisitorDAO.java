@@ -31,8 +31,6 @@ public class VisitorDAO {
                     "GROUP BY V.VISITOR_DATE, M.MEMBER_GENDER " +
                     "ORDER BY V.VISITOR_DATE DESC";
 
-    private final static String GETALL_TIME = "";
-
     // 한명 insert
     private final static String INSERT= "INSERT INTO VISITOR (VISITOR_MEMBER_EMAIL, VISITOR_DATE, VISITOR_TIME)" +
             "VALUES (?, TRUNC(SYSDATE), SYSTIMESTAMP)";
@@ -41,20 +39,13 @@ public class VisitorDAO {
         return jdbcTemplate.update(INSERT, vo.getUserEmail()) >= 1;
     }
 
-    private boolean update(VisitorVO vo) {
-        return false;
-    }
-
-    private boolean delete(VisitorVO vo) {
-        return false;
-    }
-
     public VisitorVO getVisitor(VisitorVO vo) {
         if (vo.getCondition().equals("GETONE_TODAY")) {
-            return (VisitorVO) jdbcTemplate.query(GETONE_TODAY, new VisitorRowMapperGetOneToday() {});
-        } else if (vo.getCondition().equals("GETALL_DAILY")) {
+            return jdbcTemplate.queryForObject(GETONE_TODAY, new VisitorRowMapperGetOneToday() {});
+        } else if (vo.getCondition().equals("GETONE")) {
             String[] args = {vo.getUserEmail()};
-            return (VisitorVO) jdbcTemplate.query(GETONE, args, new VisitorRowMapperGetOne() {});
+            Integer count = jdbcTemplate.queryForObject(GETONE, args, Integer.class);
+            return (count <= 0) ? null : new VisitorVO();
         } else {
             return null;
         }
@@ -63,12 +54,13 @@ public class VisitorDAO {
     public List<VisitorVO> getVisitorList(VisitorVO vo) {
         return jdbcTemplate.query(GETALL_DAILY, new VisitorRowMapperGetAllDaily() {});
     }
-}
 
-class VisitorRowMapperGetOne implements RowMapper<VisitorVO> {
-    @Override
-    public VisitorVO mapRow(ResultSet rs, int rowNum) throws SQLException {
-        return rs.next() ? new VisitorVO() : null; // 결과 있음 = 빈객체, 없음 = null
+    private boolean update(VisitorVO vo) {
+        return false;
+    }
+
+    private boolean delete(VisitorVO vo) {
+        return false;
     }
 }
 
