@@ -78,6 +78,17 @@ public class UserDAO {
     // 회원 탈퇴(유저 role 변경으로 바꿨지만 추후 유지보수 혹은 기능 추가를 위해 남겨둠)
     private final String DELETE = "DELETE FROM MEMBER WHERE MEMBER_EMAIL = ?";
 
+    //전체 회원 수
+    private final String USER_CNT = "SELECT COUNT(*) as CNT FROM MEMBER;";
+
+    //최근 가입한 회원 4명
+    private final String USER_FOUR = "SELECT * " +
+            " FROM (" +
+            " SELECT * " +
+            " FROM MEMBER" +
+            " ORDER BY MEMBER_REGDATE)" +
+            " WHERE ROWNUM <= 4";
+
     Connection conn = null;
     PreparedStatement pstmt = null;
     ResultSet rs = null;
@@ -119,6 +130,10 @@ public class UserDAO {
             // 블랙리스트 유저 불러오기
             else if (userVO.getCondition() != null && userVO.getCondition().equals("SELECTALL_BLACK")) {
                 pstmt = conn.prepareStatement(SELECTALL_BLACK);
+            }
+            //최근 가입한 회원 4명
+            else if (userVO.getCondition() != null && userVO.getCondition().equals("USER_FOUR")) {
+                pstmt = conn.prepareStatement(USER_FOUR);
             }
 
             rs = pstmt.executeQuery();
@@ -269,6 +284,16 @@ public class UserDAO {
                         data.setUserEmail(rs.getString("MEMBER_EMAIL"));
                         data.setUserLatitude(rs.getDouble("MEMBER_LATITUDE"));
                         data.setUserLongitude(rs.getDouble("MEMBER_LONGITUDE"));
+                    }
+                }
+                // 회원 수
+                else if (userVO.getCondition().equals("USER_CNT")) {
+                    pstmt = conn.prepareStatement(USER_CNT);
+
+                    rs = pstmt.executeQuery();
+                    if (rs.next()) {
+                        data = new UserVO();
+                        data.setSearchKeyword(rs.getString("CNT"));
                     }
                 }
                 // 알 수 없는 조건인 경우 로그 출력 및 null 반환
