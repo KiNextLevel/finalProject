@@ -69,6 +69,9 @@ public class UserDAO {
     //토큰 추가
     private final String UPDATE_ADD_TOKEN = "UPDATE MEMBER SET MEMBER_TOKEN = ? WHERE MEMBER_EMAIL =?";
 
+    // 토큰 1개 차감
+    private final String UPDATE_MINUS_TOKEN = "UPDATE MEMBER SET MEMBER_TOKEN = MEMBER_TOKEN - 1 WHERE MEMBER_EMAIL = ? AND MEMBER_TOKEN > 0";
+
     // 회원 프로필사진 변경
     private final String UPDATE_PROFILE_IMAGE = "UPDATE MEMBER SET MEMBER_PROFILE = ? WHERE MEMBER_EMAIL = ?";
 
@@ -434,6 +437,11 @@ public class UserDAO {
                 pstmt = conn.prepareStatement(UPDATE_ADD_TOKEN);
                 pstmt.setInt(1, userVO.getUserToken());
                 pstmt.setString(2, userVO.getUserEmail());
+            }
+            // 토큰 1개 차감
+            else if(userVO.getCondition() != null && userVO.getCondition().equals("UPDATE_MINUS_TOKEN")){
+                pstmt = conn.prepareStatement(UPDATE_MINUS_TOKEN);
+                pstmt.setString(1, userVO.getUserEmail());
             }
             int result = pstmt.executeUpdate();
             return result > 0;

@@ -334,7 +334,8 @@
                             <div class="product-page-cart">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <button class="btn btn-primary btn-block" type="button">1:1 채팅하기</button>
+                                        <!-- 1:1 채팅하기 버튼  id추가 -->
+                                        <button  id="chatButton" class="btn btn-primary btn-block" type="button">1:1 채팅하기</button>
                                     </div>
                                     <div class="col-md-6">
                                         <a id="report-link" href="" class="btn btn-danger btn-block">
@@ -564,20 +565,236 @@
 <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/js/MapView.js"></script>
 
 <script type="text/javascript">
+    <%-- let targetEmail = "";  // 전역 변수로 선언 (채팅 대상 이메일)--%>
+    <%--// ① URL 파라미터 가져오는 함수 선언 (맨 위에 위치)--%>
+    <%--function getParameterByName(name) {--%>
+    <%--    const url = window.location.href;--%>
+    <%--    name = name.replace(/[\[\]]/g, "\\$&");--%>
+    <%--    const regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)");--%>
+    <%--    const results = regex.exec(url);--%>
+    <%--    if (!results) return null;--%>
+    <%--    if (!results[2]) return "";--%>
+    <%--    return decodeURIComponent(results[2].replace(/\+/g, " "));--%>
+    <%--}--%>
+
+    <%--jQuery(document).ready(function () {--%>
+    <%--    Layout.init();--%>
+    <%--    Layout.initOWL();--%>
+    <%--    Layout.initTwitter();--%>
+
+
+    <%--    // 로딩 타임아웃 설정--%>
+    <%--    var loadingTimeout = setTimeout(function() {--%>
+    <%--        $('#loading-container').hide();--%>
+    <%--        showError("데이터 로딩 시간이 초과되었습니다. 페이지를 새로고침 해주세요.");--%>
+    <%--    }, 15000); // 15초 후 타임아웃--%>
+
+    <%--    // URL에서 userEmail 파라미터 가져오기--%>
+    <%--    var userEmail = getParameterByName('userEmail');--%>
+
+    <%--    if (!userEmail) {--%>
+    <%--        clearTimeout(loadingTimeout);--%>
+    <%--        $('#loading-container').hide();--%>
+    <%--        showError("사용자 이메일 정보가 없습니다.");--%>
+    <%--        return;--%>
+    <%--    }--%>
+
+    <%--    // 사용자 정보 가져오기--%>
+    <%--    $.ajax({--%>
+    <%--        url: '/userDetailData.do',--%>
+    <%--        type: 'GET',--%>
+    <%--        data: { userEmail: userEmail },--%>
+    <%--        dataType: 'json',--%>
+    <%--        timeout: 10000, // 10초 타임아웃 설정--%>
+    <%--        success: function(data) {--%>
+    <%--            clearTimeout(loadingTimeout);--%>
+    <%--            $('#loading-container').hide();--%>
+
+    <%--            console.log("서버 응답 데이터:", data); // 디버깅용--%>
+
+    <%--            if (!data || data.flag === false) {--%>
+    <%--                showError(data && data.msg ? data.msg : "사용자 정보를 찾을 수 없습니다.");--%>
+    <%--                return;--%>
+    <%--            }--%>
+
+    <%--            // 사용자 정보 표시--%>
+    <%--            renderUserData(data);--%>
+    <%--            $('#user-profile-container').show();--%>
+    <%--        },--%>
+    <%--        error: function(xhr, status, error) {--%>
+    <%--            clearTimeout(loadingTimeout);--%>
+    <%--            $('#loading-container').hide();--%>
+    <%--            console.error('사용자 정보 로딩 실패:', status, error);--%>
+
+    <%--            if (status === 'timeout') {--%>
+    <%--                showError("서버 응답 시간이 초과되었습니다. 네트워크 연결을 확인해주세요.");--%>
+    <%--            } else if (status === 'parsererror') {--%>
+    <%--                showError("서버 응답을 처리할 수 없습니다. 관리자에게 문의해주세요.");--%>
+    <%--            } else {--%>
+    <%--                showError("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");--%>
+    <%--            }--%>
+    <%--        }--%>
+    <%--    });--%>
+
+    <%--    // URL 파라미터 추출 함수--%>
+    <%--    function getParameterByName(name) {--%>
+    <%--        var url = window.location.href;--%>
+    <%--        name = name.replace(/[\[\]]/g, '\\$&');--%>
+    <%--        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),--%>
+    <%--            results = regex.exec(url);--%>
+    <%--        if (!results) return null;--%>
+    <%--        if (!results[2]) return '';--%>
+    <%--        return decodeURIComponent(results[2].replace(/\+/g, ' '));--%>
+    <%--    }--%>
+
+    <%--    // 에러 메시지 표시 함수--%>
+    <%--    function showError(message) {--%>
+    <%--        $('#error-message-text').text(message);--%>
+    <%--        $('#error-container').show();--%>
+    <%--    }--%>
+
+    <%--    // 사용자 데이터 렌더링 함수--%>
+    <%--    function renderUserData(data) {--%>
+    <%--        try {--%>
+    <%--            var userVO = data.userVO;--%>
+    <%--            var preferenceVO = data.preferenceVO;--%>
+    <%--            //targetEmail = userVO.userEmail;--%>
+
+    <%--            if (!userVO) {--%>
+    <%--                showError("사용자 정보를 찾을 수 없습니다.");--%>
+    <%--                return;--%>
+    <%--            }--%>
+
+    <%--            // 채팅 대상 이메일 저장!!!!--%>
+    <%--            targetEmail = userVO.userEmail;--%>
+
+
+    <%--            // 사용자 프로필 정보 설정--%>
+    <%--            $('#user-profile-image').attr('src', userVO.userProfile || '/default-profile.jpg');--%>
+    <%--            $('#user-nickname-title').text((userVO.userNickname || '사용자') + '의 프로필');--%>
+    <%--            $('#user-name').text(userVO.userName || '정보 없음');--%>
+    <%--            $('#user-nickname').text(userVO.userNickname || '정보 없음');--%>
+
+    <%--            // 지역 정보 설정--%>
+    <%--            if (userVO.userRegion) {--%>
+    <%--                var regionParts = userVO.userRegion.split(' ');--%>
+    <%--                $('#user-region').text(regionParts[0] || '정보 없음');--%>
+    <%--            } else {--%>
+    <%--                $('#user-region').text('정보 없음');--%>
+    <%--            }--%>
+
+    <%--            $('#user-description').text(userVO.userDescription || '자기소개가 없습니다.');--%>
+
+    <%--            // 신고 링크 설정--%>
+    <%--            $('#report-link').attr('href', '/reportPage.do?userEmail=' + userVO.userEmail);--%>
+    <%--            $('#report-nickname').text(userVO.userNickname || '사용자');--%>
+
+    <%--            // 사용자 상세 정보 설정--%>
+    <%--            $('#user-birth').text(userVO.userBirth || '정보 없음');--%>
+    <%--            $('#user-height').text(userVO.userHeight || '정보 없음');--%>
+    <%--            $('#user-body').text(userVO.userBody || '정보 없음');--%>
+    <%--            $('#user-mbti').text(userVO.userMbti || '정보 없음');--%>
+    <%--            $('#user-education').text(userVO.userEducation || '정보 없음');--%>
+    <%--            $('#user-religion').text(userVO.userReligion || '정보 없음');--%>
+    <%--            $('#user-job').text(userVO.userJob || '정보 없음');--%>
+
+    <%--            // 음주 정보--%>
+    <%--            var drinkText = '정보 없음';--%>
+    <%--            if (userVO.userDrink === 0) drinkText = '전혀 안함';--%>
+    <%--            else if (userVO.userDrink === 1) drinkText = '가끔';--%>
+    <%--            else if (userVO.userDrink === 2) drinkText = '자주';--%>
+    <%--            $('#user-drink').text(drinkText);--%>
+
+    <%--            // 흡연 정보--%>
+    <%--            var smokeText = userVO.userSmoke === 1 ? '흡연' : '비흡연';--%>
+    <%--            $('#user-smoke').text(smokeText);--%>
+
+    <%--            // 선호 정보 설정--%>
+    <%--            if (preferenceVO) {--%>
+    <%--                $('#preference-height').text(preferenceVO.preferenceHeight || '정보 없음');--%>
+    <%--                $('#preference-body').text(preferenceVO.preferenceBody || '정보 없음');--%>
+    <%--                $('#preference-age').text(preferenceVO.preferenceAge || '정보 없음');--%>
+    <%--                $('#preference-content').show();--%>
+    <%--                $('#no-preference-message').hide();--%>
+    <%--            } else {--%>
+    <%--                $('#preference-content').hide();--%>
+    <%--                $('#no-preference-message').show();--%>
+    <%--            }--%>
+
+    <%--            // 지도 초기화 (좌표가 있는 경우)--%>
+    <%--            if (userVO.userLatitude && userVO.userLongitude) {--%>
+    <%--                try {--%>
+    <%--                    initUserMap(userVO.userLatitude, userVO.userLongitude);--%>
+    <%--                    console.log("지도 초기화 - 위도:", userVO.userLatitude, "경도:", userVO.userLongitude);--%>
+    <%--                } catch (e) {--%>
+    <%--                    console.error("지도 초기화 오류:", e);--%>
+    <%--                }--%>
+    <%--            }--%>
+    <%--        } catch (e) {--%>
+    <%--            console.error("데이터 렌더링 오류:", e);--%>
+    <%--            showError("데이터 표시 중 오류가 발생했습니다.");--%>
+    <%--        }--%>
+    <%--    }--%>
+    <%--});--%>
+
+    <%--// 채팅방 구현 자바스크립트!!!!--%>
+    <%--// JSP 서버에서 넘어온 데이터 (session에서 가져온 사용자 이메일)--%>
+    <%--//const userEmail = '<c:out value="ㄹ{userVO.userEmail}" />';--%>
+    <%--//let targetEmail = ""; // 상대방 이메일 저장용--%>
+
+    <%--// 채팅 버튼 클릭했을 때 동작--%>
+    <%--$(document).ready(function () {--%>
+    <%--    $('#chatButton').on('click', function () {--%>
+    <%--        $.ajax({--%>
+    <%--            url: '/checkToken.do',  // 토큰 존재 여부 확인 요청--%>
+    <%--            type: 'POST',--%>
+    <%--            dataType: 'json',--%>
+    <%--            success: function (response) {--%>
+    <%--                if (response.status === 'success') {--%>
+    <%--                    if (confirm("대화를 시작하시겠습니까? ('확인'을 누르면 토큰이 1개 차감됩니다)")) {--%>
+    <%--                        // '확인' 클릭하면 토큰 차감하고 채팅방으로 이동--%>
+    <%--                     //   window.location.href = '/deductToken.do?targetEmail=' + userEmail;--%>
+    <%--                        window.location.href = '/deductToken.do?targetEmail=' + encodeURIComponent(targetEmail);--%>
+    <%--                    }--%>
+    <%--                } else {--%>
+    <%--                    alert(response.message); //  "보유한 토큰이 없습니다."--%>
+    <%--                }--%>
+    <%--            },--%>
+    <%--            error: function () {--%>
+    <%--                alert("서버 오류가 발생했습니다. 다시 시도해주세요.");--%>
+    <%--            }--%>
+    <%--        });--%>
+    <%--    });--%>
+    <%--});--%>
+    // 채팅 대상 이메일 전역 변수 선언
+    let targetEmail = "";
+
+    // URL에서 파라미터 값을 추출하는 함수 정의
+    function getParameterByName(name) {
+        const url = window.location.href;   // 현재 URL 가져오기
+        name = name.replace(/[\[\]]/g, "\\$&"); // 이름에 특수문자 있으면 escape 처리
+        const regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"); // 파라미터 찾는 정규식
+        const results = regex.exec(url);  // 정규식 실행
+        if (!results) return null;
+        if (!results[2]) return "";
+        return decodeURIComponent(results[2].replace(/\+/g, " "));  // 디코딩해서 반환
+    }
+
     jQuery(document).ready(function () {
         Layout.init();
         Layout.initOWL();
         Layout.initTwitter();
 
         // 로딩 타임아웃 설정
-        var loadingTimeout = setTimeout(function() {
+        const loadingTimeout = setTimeout(function () {
             $('#loading-container').hide();
             showError("데이터 로딩 시간이 초과되었습니다. 페이지를 새로고침 해주세요.");
-        }, 15000); // 15초 후 타임아웃
+        }, 15000);
 
         // URL에서 userEmail 파라미터 가져오기
-        var userEmail = getParameterByName('userEmail');
+        const userEmail = getParameterByName('userEmail');
 
+        // userEmail이 없으면 에러 처리
         if (!userEmail) {
             clearTimeout(loadingTimeout);
             $('#loading-container').hide();
@@ -591,47 +808,25 @@
             type: 'GET',
             data: { userEmail: userEmail },
             dataType: 'json',
-            timeout: 10000, // 10초 타임아웃 설정
-            success: function(data) {
+            timeout: 10000,
+            success: function (data) {
                 clearTimeout(loadingTimeout);
                 $('#loading-container').hide();
-
-                console.log("서버 응답 데이터:", data); // 디버깅용
 
                 if (!data || data.flag === false) {
                     showError(data && data.msg ? data.msg : "사용자 정보를 찾을 수 없습니다.");
                     return;
                 }
 
-                // 사용자 정보 표시
                 renderUserData(data);
                 $('#user-profile-container').show();
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 clearTimeout(loadingTimeout);
                 $('#loading-container').hide();
-                console.error('사용자 정보 로딩 실패:', status, error);
-
-                if (status === 'timeout') {
-                    showError("서버 응답 시간이 초과되었습니다. 네트워크 연결을 확인해주세요.");
-                } else if (status === 'parsererror') {
-                    showError("서버 응답을 처리할 수 없습니다. 관리자에게 문의해주세요.");
-                } else {
-                    showError("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
-                }
+                showError("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
             }
         });
-
-        // URL 파라미터 추출 함수
-        function getParameterByName(name) {
-            var url = window.location.href;
-            name = name.replace(/[\[\]]/g, '\\$&');
-            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-                results = regex.exec(url);
-            if (!results) return null;
-            if (!results[2]) return '';
-            return decodeURIComponent(results[2].replace(/\+/g, ' '));
-        }
 
         // 에러 메시지 표시 함수
         function showError(message) {
@@ -642,35 +837,29 @@
         // 사용자 데이터 렌더링 함수
         function renderUserData(data) {
             try {
-                var userVO = data.userVO;
-                var preferenceVO = data.preferenceVO;
+                const userVO = data.userVO;
+                const preferenceVO = data.preferenceVO;
 
                 if (!userVO) {
                     showError("사용자 정보를 찾을 수 없습니다.");
                     return;
                 }
 
-                // 사용자 프로필 정보 설정
+                // 채팅 대상 이메일 저장
+                targetEmail = userVO.userEmail;
+
                 $('#user-profile-image').attr('src', userVO.userProfile || '/default-profile.jpg');
                 $('#user-nickname-title').text((userVO.userNickname || '사용자') + '의 프로필');
                 $('#user-name').text(userVO.userName || '정보 없음');
                 $('#user-nickname').text(userVO.userNickname || '정보 없음');
 
-                // 지역 정보 설정
-                if (userVO.userRegion) {
-                    var regionParts = userVO.userRegion.split(' ');
-                    $('#user-region').text(regionParts[0] || '정보 없음');
-                } else {
-                    $('#user-region').text('정보 없음');
-                }
+                const regionParts = (userVO.userRegion || '').split(' ');
+                $('#user-region').text(regionParts[0] || '정보 없음');
 
                 $('#user-description').text(userVO.userDescription || '자기소개가 없습니다.');
-
-                // 신고 링크 설정
                 $('#report-link').attr('href', '/reportPage.do?userEmail=' + userVO.userEmail);
                 $('#report-nickname').text(userVO.userNickname || '사용자');
 
-                // 사용자 상세 정보 설정
                 $('#user-birth').text(userVO.userBirth || '정보 없음');
                 $('#user-height').text(userVO.userHeight || '정보 없음');
                 $('#user-body').text(userVO.userBody || '정보 없음');
@@ -679,18 +868,12 @@
                 $('#user-religion').text(userVO.userReligion || '정보 없음');
                 $('#user-job').text(userVO.userJob || '정보 없음');
 
-                // 음주 정보
-                var drinkText = '정보 없음';
-                if (userVO.userDrink === 0) drinkText = '전혀 안함';
-                else if (userVO.userDrink === 1) drinkText = '가끔';
-                else if (userVO.userDrink === 2) drinkText = '자주';
+                const drinkText = userVO.userDrink === 0 ? '전혀 안함' : userVO.userDrink === 1 ? '가끔' : userVO.userDrink === 2 ? '자주' : '정보 없음';
                 $('#user-drink').text(drinkText);
 
-                // 흡연 정보
-                var smokeText = userVO.userSmoke === 1 ? '흡연' : '비흡연';
+                const smokeText = userVO.userSmoke === 1 ? '흡연' : '비흡연';
                 $('#user-smoke').text(smokeText);
 
-                // 선호 정보 설정
                 if (preferenceVO) {
                     $('#preference-height').text(preferenceVO.preferenceHeight || '정보 없음');
                     $('#preference-body').text(preferenceVO.preferenceBody || '정보 없음');
@@ -702,19 +885,36 @@
                     $('#no-preference-message').show();
                 }
 
-                // 지도 초기화 (좌표가 있는 경우)
                 if (userVO.userLatitude && userVO.userLongitude) {
-                    try {
-                        initUserMap(userVO.userLatitude, userVO.userLongitude);
-                        console.log("지도 초기화 - 위도:", userVO.userLatitude, "경도:", userVO.userLongitude);
-                    } catch (e) {
-                        console.error("지도 초기화 오류:", e);
-                    }
+                    initUserMap(userVO.userLatitude, userVO.userLongitude);
                 }
             } catch (e) {
-                console.error("데이터 렌더링 오류:", e);
                 showError("데이터 표시 중 오류가 발생했습니다.");
             }
         }
+
+        // 채팅 버튼 클릭 이벤트
+        $('#chatButton').on('click', function () {
+            $.ajax({
+                url: '/checkToken.do',
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    if (response.status === 'success') {
+                        // 확인 창 띄우고, '확인' 누르면 채팅방으로 이동 (토큰 차감)
+                        if (confirm("대화를 시작하시겠습니까? ('확인'을 누르면 토큰이 1개 차감됩니다)")) {
+                            // 채팅방 이동 시 targetEmail을 파라미터로 포함
+                            window.location.href = '/deductToken.do?targetEmail=' + encodeURIComponent(targetEmail);
+                        }
+                    } else {
+                        alert(response.message);  // 실패 시 메시지 출력
+                    }
+                },
+                error: function () {
+                    alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
+                }
+            });
+        });
     });
+
 </script>
