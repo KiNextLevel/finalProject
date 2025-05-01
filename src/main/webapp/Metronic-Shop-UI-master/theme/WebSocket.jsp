@@ -68,10 +68,13 @@
     };
     socket.send(JSON.stringify(joinMsg));
 
-    // 상대방 정보 표시
+    // JSP 파일에서
+    const userNickname = "${sessionScope.userNickname}" || "상대방";
+
+// 상대방 정보 표시
     const roomInfoElement = document.createElement("div");
     roomInfoElement.className = "join-message";
-    roomInfoElement.innerHTML = `<i class="fas fa-info-circle"></i> ${targetEmail}님과의 대화방입니다`;
+    roomInfoElement.innerHTML = `<i class="fas fa-info-circle"></i> ${userNickname}님과의 대화방입니다`;
     chatBox.appendChild(roomInfoElement);
   };
 
