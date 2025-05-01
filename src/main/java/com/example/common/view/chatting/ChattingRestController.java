@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;
-
 // 보유 토큰 확인 후, 채팅 가능 여부를 JSON 형태로 응답하는 컨트롤러
 @RestController
 public class ChattingRestController {
@@ -36,10 +35,16 @@ public class ChattingRestController {
         userVO = userService.getUser(userVO);
         System.out.println("사용자 정보 조회 요청: " + userVO);
 
+        String userNickname = userVO.getUserNickname();
+        System.out.println("사용자 닉네임: " + userNickname);
+
         // 보유 토큰이 1개 이상이면 채팅 가능 (성공)
         if (userVO.getUserToken() >= 1) {
             System.out.println("유저 잔여 토큰 확인: " + userVO.getUserToken() + "개 보유");
             result.put("status", "success");
+            // 닉네임 반환
+            result.put("userNickname", userNickname);
+            session.setAttribute("userNickname", userNickname);
             // 만약 토큰이 없다면? (실패)
         } else {
             System.out.println("토큰 없음: 채팅 불가");
