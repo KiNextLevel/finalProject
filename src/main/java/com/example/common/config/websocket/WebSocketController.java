@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Slf4j
@@ -14,11 +15,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequiredArgsConstructor
 public class WebSocketController {
     @GetMapping("/websocket.do")
-    public String websocket(HttpServletRequest request, HttpServletResponse response) {
-
+    public String websocket(HttpServletRequest request, HttpServletResponse response, Model model) {
         HttpSession session = request.getSession();
-        System.out.println("웹소켓 테스트 컨트롤러...................................");
+        String userEmail = (String) session.getAttribute("userEmail");
 
+        log.info("session test: {}", userEmail);
+        model.addAttribute("currentUser", userEmail);
         return "/Metronic-Shop-UI-master/theme/WebSocket";
     }
 }
