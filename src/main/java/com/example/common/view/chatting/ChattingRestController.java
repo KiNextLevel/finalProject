@@ -36,15 +36,15 @@ public class ChattingRestController {
         System.out.println("사용자 정보 조회 요청: " + userVO);
 
         // 보유 토큰이 1개 이상이면 채팅 가능 (성공)
-        if (userVO.getUserToken() >= 0) {
+        if (userVO.getUserToken() >= 1) {
             System.out.println("유저 잔여 토큰 확인: " + userVO.getUserToken() + "개 보유");
             result.put("status", "success");
+        // 만약 토큰이 없다면? (실패)
         } else {
             System.out.println("토큰 없음: 채팅 불가");
             result.put("status", "fail");
             result.put("message", "보유한 토큰이 없습니다.");
         }
-
         return result;
     }
 }

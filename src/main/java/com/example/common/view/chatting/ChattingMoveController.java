@@ -15,7 +15,7 @@ public class ChattingMoveController {
     private UserService userService;
     // 채팅 시작 전, 토큰 1개를 차감하고 채팅방으로 이동하는 컨트롤러
     @GetMapping("/deductToken.do")
-    public String deductToken(HttpSession session, @RequestParam String targetEmail) {
+    public String deductToken(HttpSession session, @RequestParam String targetEmail, UserVO userVO) {
         // 현재 로그인된 사용자의 이메일 가져오기 (세션에서 가져옴)
         String userEmail = (String) session.getAttribute("userEmail");
         System.out.println("세션에서 가져온 사용자 이메일: " + userEmail);
@@ -23,10 +23,9 @@ public class ChattingMoveController {
 
         // 로그인 상태일 경우에만 토큰 차감
         if (userEmail != null) {
-            UserVO userVO = new UserVO();
             userVO.setUserEmail(userEmail);
             userVO.setCondition("UPDATE_MINUS_TOKEN");  // 토큰 1개 차감 쿼리
-            System.out.println("[로그] 토큰 차감 요청 전: " + userVO);
+            System.out.println("토큰 차감 요청 전: " + userVO);
             // DB에 업데이트 요청
             userService.update(userVO);
             System.out.println("토큰 차감 완료");
@@ -39,7 +38,6 @@ public class ChattingMoveController {
         return "redirect:/chattingRoom.do?targetEmail=" + targetEmail;
         //return "redirect:/Metronic-Shop-UI-master/theme/WebSocket.jsp" + targetEmail;
     }
-
 
     // 채팅방으로 이동하는 컨트롤러
     @GetMapping("/chattingRoom.do")

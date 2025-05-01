@@ -906,9 +906,9 @@
                             // 채팅방 이동 시 targetEmail을 파라미터로 포함
                             window.location.href = '/deductToken.do?targetEmail=' + encodeURIComponent(targetEmail);
                         }
-                    } else {
+                        // 토큰 보유 0개이면
+                    } else (response.status === 'fail')
                         alert(response.message);  // 실패 시 메시지 출력
-                    }
                 },
                 error: function () {
                     alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
