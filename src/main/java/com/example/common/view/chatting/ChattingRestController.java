@@ -1,5 +1,5 @@
 package com.example.common.view.chatting;
-// 보유 토큰 확인하고 차감하는 컨트롤러
+// 보유 토큰 확인하고 채팅 가능 여부를 알려주는 컨트롤러
 import com.example.common.biz.user.UserService;
 import com.example.common.biz.user.UserVO;
 import jakarta.servlet.http.HttpSession;
@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;
+
 // 보유 토큰 확인 후, 채팅 가능 여부를 JSON 형태로 응답하는 컨트롤러
 @RestController
 public class ChattingRestController {
@@ -39,7 +40,7 @@ public class ChattingRestController {
         if (userVO.getUserToken() >= 1) {
             System.out.println("유저 잔여 토큰 확인: " + userVO.getUserToken() + "개 보유");
             result.put("status", "success");
-        // 만약 토큰이 없다면? (실패)
+            // 만약 토큰이 없다면? (실패)
         } else {
             System.out.println("토큰 없음: 채팅 불가");
             result.put("status", "fail");
