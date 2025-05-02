@@ -497,7 +497,6 @@
                             </table>
                         </div>
 
-
                         <%--                        <div id="delete-info" class="info-card">--%>
                         <%--                            <h3>계정 설정</h3>--%>
                         <%--                            <!-- 계정 설정 -->--%>
@@ -522,7 +521,6 @@
             </div>
         </div>
     </div>
-
 
     <!-- 자바스크립트 -->
     <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/plugins/jquery.min.js"

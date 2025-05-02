@@ -3,6 +3,7 @@ package com.example.common.view.auth;
 import com.example.common.biz.user.UserService;
 import com.example.common.biz.user.UserVO;
 import com.example.common.view.asyn.RandomPassword;
+import com.example.common.view.logic.CheckVisit;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.json.simple.JSONObject;
@@ -24,6 +25,8 @@ import java.net.URLEncoder;
 public class NaverCallBackController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private CheckVisit checkVisit;
 
     // ID와 SECRET KEY 보안
     @Value("${naver.client_id}")
@@ -121,6 +124,9 @@ public class NaverCallBackController {
 
                 // 사용자 권한 확인
                 if (userVO.getUserRole() == 0 || userVO.getUserRole() == 1) {
+                    if (userVO.getUserRole() == 0) { // 방문
+                        checkVisit.checkVisitIfFirstLogin(userVO);
+                    }
                     // 세션에 로그인 정보 저장
                     session.setAttribute("userEmail", userVO.getUserEmail());
                     session.setAttribute("userRole", userVO.getUserRole());

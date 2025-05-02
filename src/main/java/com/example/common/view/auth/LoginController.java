@@ -2,6 +2,7 @@ package com.example.common.view.auth;
 
 import com.example.common.biz.user.UserService;
 import com.example.common.biz.user.UserVO;
+import com.example.common.view.logic.CheckVisit;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class LoginController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private CheckVisit checkVisit;
 
     // 로그인페이지로 이동. 파라미터에 userEmail 담아서 이동
     @GetMapping("/loginPage.do")
@@ -54,6 +57,7 @@ public class LoginController {
                 model.addAttribute("msg", "로그인 성공!");
                 model.addAttribute("url", "mainPage.do");
                 model.addAttribute("flag", true);
+                checkVisit.checkVisitIfFirstLogin(userVO);
                 setSession(userVO, request); // 세션에 정보 저장
             } else if (userVO.getUserRole() == 1) { // 관리자
                 model.addAttribute("msg", "관리자 로그인 성공!");

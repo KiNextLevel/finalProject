@@ -45,7 +45,7 @@ public class PaymentController {
 		String phone = userVO.getUserPhone();	//구매자 핸드폰 번호
 		System.out.println("phone: ["+phone+"]");
 
-        // 상품에 해당하는 정보 세션에서 가져오기
+        // 상품에 해당하는 정보 서비스에서 가져오기
         productVO = productService.getProduct(productVO);	//상품 정보,  여기서 NullPointerException
 		int productPrice = productVO.getProductPrice();
 		int productNumber = productVO.getProductNumber();

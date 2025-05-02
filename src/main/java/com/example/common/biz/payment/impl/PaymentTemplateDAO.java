@@ -1,6 +1,7 @@
 package com.example.common.biz.payment.impl;
 
 import com.example.common.biz.payment.PaymentVO;
+import com.example.common.JDBCUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -56,7 +58,7 @@ public class PaymentTemplateDAO {
                     " SUM(PAYMENT_PRICE) AS TOTAL_SALES" +
                     " FROM PAYMENT" +
                     " GROUP BY TO_CHAR(PAYMENT_DATE, 'YYYY-MM-DD')" +
-                    " ORDER BY PERIOD DESC";
+                    " ORDER BY PERIOD";
 
     //주별 매출액
     private final String SELECTALL_WEEK =
@@ -64,9 +66,9 @@ public class PaymentTemplateDAO {
                     " TO_CHAR(PAYMENT_DATE, 'IYYY-IW') AS PERIOD," +
                     " SUM(PAYMENT_PRICE) AS TOTAL_SALES" +
                     " FROM PAYMENT" +
-                    " WHERE PAYMENT_DATE >= ADD_MONTHS(SYSDATE, -2)" + //-- 2개월(약 8주) 전부터
+                    " WHERE PAYMENT_DATE >= ADD_MONTHS(SYSDATE, -2) " +
                     " GROUP BY TO_CHAR(PAYMENT_DATE, 'IYYY-IW')" +
-                    " ORDER BY PERIOD DESC";
+                    " ORDER BY PERIOD";
 
     //월별 매출액
     private final String SELECTALL_MONTH =
@@ -87,6 +89,9 @@ public class PaymentTemplateDAO {
     private final String SELECTONE_PAID_USER =
             "SELECT COUNT(DISTINCT PAYMENT_MEMBER_EMAIL) AS PAID_MEMBER_CNT FROM PAYMENT";
 
+    //총 매출액
+    private final String SELECTONE_TOTAL_PRICE = "SELECT SUM(PAYMENT_PRICE) AS PAID_MEMBER_CNT FROM PAYMENT";
+
     private final String UPDATE = "";
     private final String DELETE = "";
 
@@ -98,20 +103,26 @@ public class PaymentTemplateDAO {
             Object[] args = {PaymentVO.getUserEmail()};
             return jdbcTemplate.query(SELECTALL_PRODUCTLIST, args, new UserPaymentRowMapper());
         } else if ("SELECTALL_PRODUCT_PRICE".equals(PaymentVO.getCondition())) {
-            return jdbcTemplate.query(SELECTALL_PRODUCT_PRICE, new SELECTALL_PRODUCT_PRICE());
+            return jdbcTemplate.query(SELECTALL_PRODUCT_PRICE, new selectProductPrice());
         } else if ("SELECTALL_DAY".equals(PaymentVO.getCondition())) {
             return jdbcTemplate.query(SELECTALL_DAY, new getPrice());
         } else if ("SELECTALL_WEEK".equals(PaymentVO.getCondition())) {
-            return jdbcTemplate.query(SELECTALL_WEEK, new getPrice());
+            return jdbcTemplate.query(SELECTALL_WEEK, new getDatePrice());
         } else if ("SELECTALL_MONTH".equals(PaymentVO.getCondition())) {
-            return jdbcTemplate.query(SELECTALL_MONTH, new getPrice());
+            return jdbcTemplate.query(SELECTALL_MONTH, new getDatePrice());
         } else {
             throw new IllegalArgumentException("알 수 없는 condition입니다: " + PaymentVO.getCondition());
         }
     }
 
-    public PaymentVO getPayment(PaymentVO PaymentVO) {
-        return jdbcTemplate.queryForObject(SELECTONE_PAID_USER, new getPaidUser());
+    public PaymentVO getPayment(PaymentVO paymentVO) {
+        if(paymentVO.getCondition().equals("SELECTONE_PAID_USER")) {
+            return jdbcTemplate.queryForObject(SELECTONE_PAID_USER, new getPaidUser());
+        }
+        else if(paymentVO.getCondition().equals("SELECTONE_TOTAL")){
+            return jdbcTemplate.queryForObject(SELECTONE_TOTAL_PRICE, new getPaidUser());
+        }
+        return null;
     }
 
     public boolean insert(PaymentVO PaymentVO) {
@@ -161,7 +172,7 @@ class UserPaymentRowMapper implements RowMapper<PaymentVO> {
 }
 
 //관리자 메인페이지 상품별 매출액
-class SELECTALL_PRODUCT_PRICE implements RowMapper<PaymentVO> {
+class selectProductPrice implements RowMapper<PaymentVO> {
     @Override
     public PaymentVO mapRow(ResultSet rs, int rowNum) throws SQLException {
         PaymentVO data = new PaymentVO();
@@ -171,12 +182,23 @@ class SELECTALL_PRODUCT_PRICE implements RowMapper<PaymentVO> {
     }
 }
 
-//날짜별(일, 월, 주) 매출액
+//날짜별(일) 매출액
 class getPrice implements RowMapper<PaymentVO> {
     @Override
     public PaymentVO mapRow(ResultSet rs, int rowNum) throws SQLException {
         PaymentVO data = new PaymentVO();
         data.setPaymentDate(rs.getDate("PERIOD"));
+        data.setProductPrice(rs.getInt("TOTAL_SALES"));
+        return data;
+    }
+}
+
+//날짜별(일) 매출액
+class getDatePrice implements RowMapper<PaymentVO> {
+    @Override
+    public PaymentVO mapRow(ResultSet rs, int rowNum) throws SQLException {
+        PaymentVO data = new PaymentVO();
+        data.setSearchKeyword(rs.getString("PERIOD"));
         data.setProductPrice(rs.getInt("TOTAL_SALES"));
         return data;
     }
@@ -188,6 +210,16 @@ class getPaidUser implements RowMapper<PaymentVO> {
     public PaymentVO mapRow(ResultSet rs, int rowNum) throws SQLException {
         PaymentVO data = new PaymentVO();
         data.setPaymentNumber(rs.getInt("PAID_MEMBER_CNT"));
+        return data;
+    }
+}
+
+//총 매출액
+class getTotalPrice implements RowMapper<PaymentVO> {
+    @Override
+    public PaymentVO mapRow(ResultSet rs, int rowNum) throws SQLException {
+        PaymentVO data = new PaymentVO();
+        data.setProductPrice(rs.getInt("TOTAL_PRICE"));
         return data;
     }
 }
