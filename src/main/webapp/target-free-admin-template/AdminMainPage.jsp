@@ -14,7 +14,7 @@
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 	<style>
 		.chart-container {
-			width: 50%; /* 가로 전체 너비 */
+			width: 100%; /* 가로 전체 너비 */
 			padding: 10px; /* 약간의 여백 추가 */
 		}
 		.chart-container canvas {
@@ -122,27 +122,9 @@
 					<div class="col-xs-12 col-sm-6 col-md-3">
 						<div class="card horizontal cardIcon waves-effect waves-dark">
 							<div class="card-image green"><i class="material-icons dp48">import_export</i></div>
-							<div class="card-stacked purple">
+							<div class="card-stacked red">
 								<div class="card-content totalUser"><h3></h3></div>
 								<div class="card-action"><strong>전체 회원 수</strong></div>
-							</div>
-						</div>
-					</div>
-					<div class="col-xs-12 col-sm-6 col-md-3">
-						<div class="card horizontal cardIcon waves-effect waves-dark">
-							<div class="card-image cyan"><i class="material-icons dp48">import_export</i></div>
-							<div class="card-stacked lime">
-								<div class="card-content paidUser"><h3></h3></div>
-								<div class="card-action"><strong>결제한 회원 수</strong></div>
-							</div>
-						</div>
-					</div>
-					<div class="col-xs-12 col-sm-6 col-md-3">
-						<div class="card horizontal cardIcon waves-effect waves-dark">
-							<div class="card-image cyan"><i class="material-icons dp48">import_export</i></div>
-							<div class="card-stacked lime">
-								<div class="card-content todayVisit"><h3></h3></div>
-								<div class="card-action"><strong>오늘 방문자 수</strong></div>
 							</div>
 						</div>
 					</div>
@@ -155,17 +137,33 @@
 							</div>
 						</div>
 					</div>
+					<div class="col-xs-12 col-sm-6 col-md-3">
+						<div class="card horizontal cardIcon waves-effect waves-dark">
+							<div class="card-image cyan"><i class="material-icons dp48">import_export</i></div>
+							<div class="card-stacked blue">
+								<div class="card-content paidUser"><h3></h3></div>
+								<div class="card-action"><strong>결제한 회원 수</strong></div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-6 col-md-3">
+						<div class="card horizontal cardIcon waves-effect waves-dark">
+							<div class="card-image cyan"><i class="material-icons dp48">import_export</i></div>
+							<div class="card-stacked grey">
+								<div class="card-content todayVisit"><h3></h3></div>
+								<div class="card-action"><strong>오늘 방문자 수</strong></div>
+							</div>
+						</div>
+					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-12">
+					<div class="col-md-6">
 						<h4>상품별 매출</h4>
 						<div class="chart-container">
 							<canvas id="product-doughnut-chart"></canvas>
 						</div>
 					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12">
+					<div class="col-md-6">
 						<h4>일별 방문자</h4>
 						<div class="chart-container">
 							<canvas id="day-line-chart2"></canvas>
@@ -176,20 +174,21 @@
 
 			<!-- Sales Charts -->
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-md-6">
 					<h4>일간 매출</h4>
 					<div class="chart-container">
 						<canvas id="day-line-chart"></canvas>
 					</div>
 				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-12">
+				<div class="col-md-6">
 					<h4>주간 매출</h4>
 					<div class="chart-container">
 						<canvas id="week-bar-chart"></canvas>
 					</div>
 				</div>
+			</div>
+			<div class="row">
+
 			</div>
 			<div class="row">
 				<div class="col-md-12">
@@ -201,24 +200,7 @@
 			</div>
 
 			<div class="row">
-				<div class="col-md-4 col-sm-12 col-xs-12">
-					<div class="card">
-						<div class="card-action"><b>Tasks Panel</b></div>
-						<div class="card-image">
-							<div class="collection">
-								<a href="#!" class="collection-item">Red<span class="new badge red" data-badge-caption="red">4</span></a>
-								<a href="#!" class="collection-item">Blue<span class="new badge blue" data-badge-caption="blue">4</span></a>
-								<a href="#!" class="collection-item"><span class="badge">1</span>Alan</a>
-								<a href="#!" class="collection-item"><span class="new badge">4</span>Alan</a>
-								<a href="#!" class="collection-item">Alan<span class="new badge blue" data-badge-caption="blue">4</span></a>
-								<a href="#!" class="collection-item"><span class="badge">14</span>Alan</a>
-								<a href="#!" class="collection-item">Custom Badge Captions<span class="new badge" data-badge-caption="custom caption">4</span></a>
-								<a href="#!" class="collection-item">Custom Badge Captions<span class="badge" data-badge-caption="custom caption">4</span></a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-8 col-sm-12 col-xs-12">
+				<div class="col-md-12 col-sm-12 col-xs-12">
 					<div class="card">
 						<div class="card-action"><b>최근 회원가입 한 회원</b></div>
 						<div class="card-image">
@@ -228,6 +210,7 @@
 									<div class="user-info">
 										<span class="title">Title</span>
 										<p>First Line <br>Second Line</p>
+										<p class="regdate"></p>
 									</div>
 								</li>
 								<li class="users">
@@ -235,6 +218,7 @@
 									<div class="user-info">
 										<span class="title">Title</span>
 										<p>First Line <br>Second Line</p>
+										<p class="regdate"></p>
 									</div>
 								</li>
 								<li class="users">
@@ -242,6 +226,7 @@
 									<div class="user-info">
 										<span class="title">Title</span>
 										<p>First Line <br>Second Line</p>
+										<p class="regdate"></p>
 									</div>
 								</li>
 								<li class="users">
@@ -249,6 +234,7 @@
 									<div class="user-info">
 										<span class="title">Title</span>
 										<p>First Line <br>Second Line</p>
+										<p class="regdate"></p>
 									</div>
 								</li>
 							</ul>
@@ -267,7 +253,7 @@
 				</ul>
 			</div>
 
-			<footer><p>All right reserved. Template by: <a href="https://webthemez.com/admin-template/">WebThemez.com</a></p></footer>
+			<footer><p></p></footer>
 		</div>
 	</div>
 </div>
@@ -424,6 +410,7 @@
 						const $currentItem = $(items[index]);
 						$currentItem.find('.title').text("이름: "+item.userName);
 						$currentItem.find('p').html("이메일: "+item.userEmail + "<br>보유 토큰: " + item.userToken);
+						$currentItem.find('.regdate').text("가입일: "+item.userRegdate);
 					}
 				});
 			},
@@ -775,7 +762,7 @@
 							borderColor: 'rgba(153, 102, 255, 1)',
 							borderWidth: 3,
 							fill: true,
-							tension: 0.4,
+							tension: 0,
 							pointBackgroundColor: 'rgba(153, 102, 255, 1)',
 							pointBorderColor: '#fff',
 							pointHoverBackgroundColor: '#fff',
