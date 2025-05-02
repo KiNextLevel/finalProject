@@ -83,14 +83,32 @@ private VisitorService visitorService;
     }
 
     //전체 회원 수 가져오기
+    @GetMapping("/getTotalUserCount.do")
+    public Map<String, Object> getTotalUserCount(UserVO userVO) {
+        Map<String, Object> result = new HashMap<>();
+        userVO.setCondition("USER_CNT");
+        userVO = userService.getUser(userVO);
+        System.out.println("userVO: [" + userVO + "]");
+        result.put("userCount", userVO.getSearchKeyword());
+        return result;
+    }
 
     //결제 한 회원 수 가져오기
+    @GetMapping("/getPaidUser.do")
+    public Map<String, Object> getPaidUser(PaymentVO paymentVO) {
+        Map<String, Object> result = new HashMap<>();
+        paymentVO.setCondition("SELECTONE_PAID_USER");
+        paymentVO = paymentService.getPayment(paymentVO);
+        System.out.println("userVO: [" + paymentVO + "]");
+        result.put("paidUser", paymentVO.getPaymentNumber());
+        return result;
+    }
 
     //오늘 방문 회원수
     @GetMapping("/getTodayVisit.do")
     public Map<String, Object> getTodayVisit(VisitorVO visitorVO) {
         Map<String, Object> result = new HashMap<>();
-        visitorVO.setCondition("USER_FOUR");
+        visitorVO.setCondition("GETONE_TODAY");
         visitorVO = visitorService.getVisitor(visitorVO);
         System.out.println("visitor" + visitorVO);
         result.put("visitor", visitorVO);
@@ -100,10 +118,20 @@ private VisitorService visitorService;
     @GetMapping("/getDailyVisit.do")
     public Map<String, Object> getDailyVisit(VisitorVO visitorVO) {
         Map<String, Object> result = new HashMap<>();
-        visitorVO.setCondition("USER_FOUR");
         List<VisitorVO> datas = visitorService.getVisitorList(visitorVO);
         System.out.println("datas" + datas);
         result.put("visitors", datas);
+        return result;
+    }
+
+    //총 매출액
+    @GetMapping("/getTotalPrice.do")
+    public Map<String, Object> getTotalPrice(PaymentVO paymentVO) {
+        Map<String, Object> result = new HashMap<>();
+        paymentVO.setCondition("SELECTONE_TOTAL");
+        PaymentVO data = paymentService.getPayment(paymentVO);
+        System.out.println("data" + data);
+        result.put("data", data);
         return result;
     }
 }

@@ -20,10 +20,10 @@ public class CheckVisit {
         if (visitorService.getVisitor(visitorVO) == null) {
             visitorService.insert(visitorVO);
         }
-//        visitorVO.setCondition("GETONE_TODAY");
-//        System.out.println("visitor Td = " + visitorService.getVisitor(visitorVO));
-//        for (VisitorVO vo : visitorService.getVisitorList(visitorVO)) {
-//            System.out.println(vo);
-//        }
+        visitorVO.setCondition("GETONE_TODAY");
+        System.out.println("visitor Td = " + visitorService.getVisitor(visitorVO));
+        for (VisitorVO vo : visitorService.getVisitorList(visitorVO)) {
+            System.out.println(vo);
+        }
     }
 }

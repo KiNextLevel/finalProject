@@ -128,8 +128,9 @@ dependencies {
 	implementation 'org.springframework:spring-jdbc:6.1.6'
 	implementation 'commons-dbcp:commons-dbcp:1.4'
 
-	//EXCEL
-	implementation 'org.apache.poi:poi-ooxml:5.0.0'
+	// excel
+	implementation 'org.apache.poi:poi:5.2.3'
+	implementation 'org.apache.poi:poi-ooxml:5.2.3'
 }
 
 configurations {
