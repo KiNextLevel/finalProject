@@ -13,14 +13,31 @@
 	<link href="${pageContext.request.contextPath}/target-free-admin-template/assets/css/custom-styles.css" rel="stylesheet" />
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 	<style>
+		/* 차트 컨테이너 스타일 수정 */
 		.chart-container {
-			width: 50%; /* 가로 전체 너비 */
-			padding: 10px; /* 약간의 여백 추가 */
+			width: 100%; /* 너비를 100%로 변경 */
+			padding: 15px;
+			margin-bottom: 20px;
+			background-color: white;
+			border-radius: 8px;
+			box-shadow: 0 2px 5px rgba(0,0,0,0.08);
 		}
+
 		.chart-container canvas {
-			width: 50%; /* 가로 전체 채움 */
-			max-height: 300px; /* 최대 높이 제한 */
+			width: 100% !important; /* 캔버스 너비 100%로 강제 지정 */
+			max-height: 350px; /* 최대 높이 조금 늘림 */
 		}
+
+		/* 섹션 제목 스타일 개선 */
+		h4 {
+			font-size: 18px;
+			font-weight: 600;
+			color: #333;
+			margin: 25px 0 15px;
+			padding-bottom: 8px;
+			border-bottom: 1px solid #eaeaea;
+		}
+
 		.users-collection {
 			margin: 0;
 			border: none;
@@ -66,7 +83,12 @@
 		.users-collection .users .secondary-content:hover {
 			color: #01579b;
 		}
-		@media (max-width: 600px) {
+
+		/* 반응형 조정 */
+		@media (max-width: 768px) {
+			.chart-container {
+				padding: 10px;
+			}
 			.users-collection .users {
 				flex-direction: column;
 				align-items: flex-start;
@@ -159,7 +181,7 @@
 				<div class="row">
 					<div class="col-md-12">
 						<h4>상품별 매출</h4>
-						<div class="chart-container">
+						<div class="chart-container" style="height: 350px;">
 							<canvas id="product-doughnut-chart"></canvas>
 						</div>
 					</div>
@@ -167,7 +189,7 @@
 				<div class="row">
 					<div class="col-md-12">
 						<h4>일별 방문자</h4>
-						<div class="chart-container">
+						<div class="chart-container" style="height: 350px;">
 							<canvas id="day-line-chart2"></canvas>
 						</div>
 					</div>
@@ -178,7 +200,7 @@
 			<div class="row">
 				<div class="col-md-12">
 					<h4>일간 매출</h4>
-					<div class="chart-container">
+					<div class="chart-container" style="height: 350px;">
 						<canvas id="day-line-chart"></canvas>
 					</div>
 				</div>
@@ -186,7 +208,7 @@
 			<div class="row">
 				<div class="col-md-12">
 					<h4>주간 매출</h4>
-					<div class="chart-container">
+					<div class="chart-container" style="height: 350px;">
 						<canvas id="week-bar-chart"></canvas>
 					</div>
 				</div>
@@ -194,30 +216,13 @@
 			<div class="row">
 				<div class="col-md-12">
 					<h4>월간 매출</h4>
-					<div class="chart-container">
+					<div class="chart-container" style="height: 350px;">
 						<canvas id="month-bar-chart"></canvas>
 					</div>
 				</div>
 			</div>
 
 			<div class="row">
-				<div class="col-md-4 col-sm-12 col-xs-12">
-					<div class="card">
-						<div class="card-action"><b>Tasks Panel</b></div>
-						<div class="card-image">
-							<div class="collection">
-								<a href="#!" class="collection-item">Red<span class="new badge red" data-badge-caption="red">4</span></a>
-								<a href="#!" class="collection-item">Blue<span class="new badge blue" data-badge-caption="blue">4</span></a>
-								<a href="#!" class="collection-item"><span class="badge">1</span>Alan</a>
-								<a href="#!" class="collection-item"><span class="new badge">4</span>Alan</a>
-								<a href="#!" class="collection-item">Alan<span class="new badge blue" data-badge-caption="blue">4</span></a>
-								<a href="#!" class="collection-item"><span class="badge">14</span>Alan</a>
-								<a href="#!" class="collection-item">Custom Badge Captions<span class="new badge" data-badge-caption="custom caption">4</span></a>
-								<a href="#!" class="collection-item">Custom Badge Captions<span class="badge" data-badge-caption="custom caption">4</span></a>
-							</div>
-						</div>
-					</div>
-				</div>
 				<div class="col-md-8 col-sm-12 col-xs-12">
 					<div class="card">
 						<div class="card-action"><b>최근 회원가입 한 회원</b></div>
@@ -256,18 +261,6 @@
 					</div>
 				</div>
 			</div>
-
-			<div class="fixed-action-btn horizontal click-to-toggle">
-				<a class="btn-floating btn-large red"><i class="material-icons">menu</i></a>
-				<ul>
-					<li><a class="btn-floating red"><i class="material-icons">track_changes</i></a></li>
-					<li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
-					<li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
-					<li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
-				</ul>
-			</div>
-
-			<footer><p>All right reserved. Template by: <a href="https://webthemez.com/admin-template/">WebThemez.com</a></p></footer>
 		</div>
 	</div>
 </div>
@@ -323,8 +316,7 @@
 					},
 					options: {
 						responsive: true,
-						maintainAspectRatio: true,
-						aspectRatio: 2,
+						maintainAspectRatio: false,
 						plugins: {
 							legend: {
 								position: 'bottom',
@@ -497,10 +489,10 @@
 					},
 					options: {
 						responsive: true,
-						maintainAspectRatio: true,
-						aspectRatio: 2.5, // 가로 폭을 늘려 간격 확보
+						maintainAspectRatio: false,
 						plugins: {
 							legend: {
+								position: 'top',
 								labels: {
 									font: {
 										size: 12,
@@ -610,10 +602,10 @@
 					},
 					options: {
 						responsive: true,
-						maintainAspectRatio: true,
-						aspectRatio: 2,
+						maintainAspectRatio: false,
 						plugins: {
 							legend: {
+								position: 'top',
 								labels: {
 									font: {
 										size: 12,
@@ -695,10 +687,10 @@
 					},
 					options: {
 						responsive: true,
-						maintainAspectRatio: true,
-						aspectRatio: 2,
+						maintainAspectRatio: false,
 						plugins: {
 							legend: {
+								position: 'top',
 								labels: {
 									font: {
 										size: 12,
@@ -786,10 +778,10 @@
 					},
 					options: {
 						responsive: true,
-						maintainAspectRatio: true,
-						aspectRatio: 2,
+						maintainAspectRatio: false,
 						plugins: {
 							legend: {
+								position: 'top',
 								labels: {
 									font: {
 										size: 12,
