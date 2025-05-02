@@ -99,7 +99,7 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
                     <li><i class="fa fa-phone"></i><span>010 - 1234 - 1234</span></li>
                     <!-- BEGIN LANGS -->
                     <li class="langs-block">
-                        <a href="productPage.do" class="current"> 플러스샵 </a>
+                        <a href="/productPage.do" class="current"> 플러스샵 </a>
                     </li>
                     <!-- END LANGS -->
                 </ul>
@@ -109,11 +109,11 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
             <div class="col-md-6 col-sm-6 additional-nav">
                 <ul class="list-unstyled list-inline pull-right">
                     <c:if test="${userRole==1}">
-                        <li><a href="adminPage.do">관리자페이지</a></li>
+                        <li><a href="/adminPage.do">관리자페이지</a></li>
                     </c:if>
-                    <li><a href="myPage.do">마이페이지</a></li>
+                    <li><a href="/myPage.do">마이페이지</a></li>
                     <li>메시지</li>
-                    <li><a href="logout.do">로그아웃</a></li>
+                    <li><a href="/logout.do">로그아웃</a></li>
                 </ul>
             </div>
             <!-- END TOP BAR MENU -->
@@ -125,7 +125,7 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
 <!-- BEGIN HEADER -->
 <div class="header">
     <div class="container">
-        <a class="site-logo" href="mainPage.do"><img
+        <a class="site-logo" href="/mainPage.do"><img
                 src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/corporate/img/logos/3.png"
                 alt="mainPage"/></a>
 
@@ -156,7 +156,7 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
      style="margin: -23px 0 23px; position: relative; overflow: hidden; background: #72c2ff url('${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/corporate/img/logos/123.png') no-repeat 100% 100%; min-height: 280px; padding-top: 79px; width: 100%;">
     <div class="container">
         <div class="container-inner">
-            <a href="boardPage.do">
+            <a href="/boardPage.do">
                 <h1><span>이벤트!</span></h1>
                 <em>온/오프라인 이벤트 참여하기</em>
             </a>
@@ -179,8 +179,8 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
                     <!-- 성별 필터 -->
                     <h3>성별</h3>
                     <div class="checkbox-list" id="gender-filters">
-                        <label><input type="checkbox" name="gender" value="여" > 남</label>
-                        <label><input type="checkbox" name="gender" value="남" > 여</label>
+                        <label><input type="checkbox" name="gender" value="남" > 남</label>
+                        <label><input type="checkbox" name="gender" value="여" > 여</label>
                     </div>
 
                     <!-- 거리 필터 -->
@@ -225,28 +225,28 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
                     </div>
                 </div>
 
-                <c:if test="${not empty userEmail and !userPremium}">
+                <c:if test="${not empty userEmail and userPremium == 0}">
                     <div class="sidebar-products clearfix">
                         <h2>구글 광고</h2>
                         <div class="item">
-                            <a href="productPage.do"><img
+                            <a href="/productPage.do"><img
                                     src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/pages/img/products/k1.jpg"
                                     alt="Some Shoes in Animal with Cut Out"></a>
-                            <h3><a href="productPage.do">Some Shoes in Animal with Cut Out</a></h3>
+                            <h3><a href="/productPage.do">Some Shoes in Animal with Cut Out</a></h3>
                             <div class="price">$31.00</div>
                         </div>
                         <div class="item">
-                            <a href="productPage.do"><img
+                            <a href="/productPage.do"><img
                                     src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/pages/img/products/k4.jpg"
                                     alt="Some Shoes in Animal with Cut Out"></a>
-                            <h3><a href="productPage.do">Some Shoes in Animal with Cut Out</a></h3>
+                            <h3><a href="/productPage.do">Some Shoes in Animal with Cut Out</a></h3>
                             <div class="price">$23.00</div>
                         </div>
                         <div class="item">
-                            <a href="productPage.do"><img
+                            <a href="/productPage.do"><img
                                     src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/pages/img/products/k3.jpg"
                                     alt="Some Shoes in Animal with Cut Out"></a>
-                            <h3><a href="productPage.do">Some Shoes in Animal with Cut Out</a></h3>
+                            <h3><a href="/productPage.do">Some Shoes in Animal with Cut Out</a></h3>
                             <div class="price">$86.00</div>
                         </div>
                     </div>
@@ -259,8 +259,8 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
             <div class="col-md-9 col-sm-7">
                 <div class="row list-view-sorting clearfix">
                     <div class="col-md-2 col-sm-2 list-view">
-                        <a href="javascript:;"><i class="fa fa-th-large"></i></a>
-                        <a href="javascript:;"><i class="fa fa-th-list"></i></a>
+                        <a href="javascript:"><i class="fa fa-th-large"></i></a>
+                        <a href="javascript:"><i class="fa fa-th-list"></i></a>
                     </div>
                     <!--
                     최프때 추후 사용 가능
@@ -398,14 +398,46 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
 <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/corporate/scripts/layout.js"
         type="text/javascript"></script>
 <script type="text/javascript">
-    // 전역 변수 설정 (JSP에서 JavaScript로 데이터 전달)
-    window.allUsers = ${userDatas};
+    // 전역 변수 초기화 (배열로 설정)
+    window.allUsers = [];
+    window.alertDatasJson = [];
     window.currentUserEmail = "${sessionScope.userEmail}";
     window.currentUserLatitude = "${sessionScope.userLatitude}";
     window.currentUserLongitude = "${sessionScope.userLongitude}";
-    window.alertDatasJson = '${sessionScope.alertDatasJson}';
 
-    console.log("Raw userDatas:", window.allUsers);
+    $(document).ready(function () {
+        $.ajax({
+            url: "/api/mainPageData",
+            type: "GET",
+            dataType: "json",
+            cache: false,
+            success: function(response) {
+                console.log("MainPage 데이터:", response);
+
+                // 선호취향 입력 여부 확인
+                if (response.flag) {
+                    alert(response.msg);
+                    window.location.href = response.url; // userPreferencePage.do로 이동
+                    return;
+                }
+
+                // 전역 변수 업데이트
+                window.allUsers = response.userDatas || [];
+                window.alertDatasJson = response.alertDatas || [];
+                console.log("MainPage allUsers 데이터:", window.allUsers);
+                console.log("MainPage alertDatasJson 데이터:", window.alertDatasJson);
+
+                // mainPage.js의 렌더링 함수 호출
+                applyFilters(); // 사용자 목록 필터링 및 렌더링
+                renderAlerts(); // 알림 목록 렌더링
+                checkAllAlertsRead(); // 알림 읽음 상태 확인
+            },
+            error: function(xhr, status, error) {
+                console.error("MainPage 데이터 로드 실패:", error);
+                alert("데이터 로드에 실패했습니다. 다시 시도해주세요.");
+            }
+        });
+    });
 </script>
 <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/js/MainPage.js"></script>
 <!-- END PAGE LEVEL JAVASCRIPTS -->

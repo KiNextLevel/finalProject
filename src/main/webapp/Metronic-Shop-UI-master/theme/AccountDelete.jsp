@@ -86,7 +86,7 @@
                     <li><i class="fa fa-phone"></i><span>010 - 1234 - 1234</span></li>
                     <!-- BEGIN LANGS -->
                     <li class="langs-block">
-                        <a href="productPage.do" class="current"> 플러스샵 </a>
+                        <a href="/productPage.do" class="current"> 플러스샵 </a>
                     </li>
                     <!-- END LANGS -->
                 </ul>
@@ -96,11 +96,11 @@
             <div class="col-md-6 col-sm-6 additional-nav">
                 <ul class="list-unstyled list-inline pull-right">
                     <c:if test="${userRole==1}">
-                        <li><a href="adminPage.do">관리자페이지</a></li>
+                        <li><a href="/adminPage.do">관리자페이지</a></li>
                     </c:if>
-                    <li><a href="myPage.do">마이페이지</a></li>
+                    <li><a href="/myPage.do">마이페이지</a></li>
                     <li>메시지</li>
-                    <li><a href="logout.do">로그아웃</a></li>
+                    <li><a href="/logout.do">로그아웃</a></li>
                 </ul>
             </div>
             <!-- END TOP BAR MENU -->
@@ -112,7 +112,7 @@
 <!-- BEGIN HEADER -->
 <div class="header">
     <div class="container">
-        <a class="site-logo" href="mainPage.do"><img src="assets/corporate/img/logos/3.png" alt="mainPage"></a>
+        <a class="site-logo" href="/mainPage.do"><img src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/corporate/img/logos/3.png" alt="mainPage"></a>
 
         <a href="javascript:void(0);" class="mobi-toggler"><i class="fa fa-bars"></i></a>
 
@@ -131,14 +131,14 @@
     <div class="container">
         <div class="withdrawal-container">
             <div class="withdrawal-card">
-                <!-- 헤더 부분 - 더 부드러운 색상으로 변경 -->
+                <!-- 헤더 부분 -->
                 <div class="card-header">
                     <i class="fa fa-info-circle header-icon"></i>
                     <h2>회원탈퇴 안내</h2>
                     <p>탈퇴 전 아래 내용을 반드시 확인해주세요.</p>
                 </div>
 
-                <!-- 유의사항 섹션 - 배경색 부드럽게 변경 -->
+                <!-- 유의사항 섹션 -->
                 <div class="card-body">
                     <div class="notice-section">
                         <h3>탈퇴 시 유의사항</h3>
@@ -190,11 +190,13 @@
                     </div>
 
 
-                    <!-- 버튼 섹션 -->
-                    <div class="buttons-section">
-                        <button type="button" class="btn btn-cancel"><a href="myPage.do">취소하기</a></button>
-                        <button type="button" class="btn btn-withdraw">회원탈퇴</button>
-                    </div>
+                        <!-- 버튼 섹션 -->
+                    <form id="withdrawForm" action="/deleteUser.do" method="post">
+                        <div class="buttons-section">
+                            <button type="button" class="btn btn-cancel" onclick="location.href='/myPage.do'">취소하기</button>
+                            <button type="submit" class="btn btn-withdraw" id="withdrawButton" disabled>회원탈퇴</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -259,23 +261,23 @@
         <!-- Load javascripts at bottom, this will reduce page load time -->
         <!-- BEGIN CORE PLUGINS(REQUIRED FOR ALL PAGES) -->
         <!--[if lt IE 9]>
-        <script src="assets/plugins/respond.min.js"></script>
+        <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/plugins/respond.min.js"></script>
         <![endif]-->
-        <script src="assets/plugins/jquery.min.js" type="text/javascript"></script>
-        <script src="assets/plugins/jquery-migrate.min.js" type="text/javascript"></script>
-        <script src="assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js"
+        <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/plugins/jquery.min.js" type="text/javascript"></script>
+        <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/plugins/jquery-migrate.min.js" type="text/javascript"></script>
+        <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js"
                 type="text/javascript"></script>
         <!-- END CORE PLUGINS -->
 
         <!-- BEGIN PAGE LEVEL JAVASCRIPTS (REQUIRED ONLY FOR CURRENT PAGE) -->
-        <script src="assets/plugins/fancybox/source/jquery.fancybox.pack.js"
+        <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/plugins/fancybox/source/jquery.fancybox.pack.js"
                 type="text/javascript"></script>
         <!-- pop up -->
-        <script src="assets/plugins/owl.carousel/owl.carousel.min.js" type="text/javascript"></script>
+        <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/plugins/owl.carousel/owl.carousel.min.js" type="text/javascript"></script>
         <!-- slider for products -->
 
-        <script src="assets/corporate/scripts/layout.js" type="text/javascript"></script>
+        <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/corporate/scripts/layout.js" type="text/javascript"></script>
         <script type="text/javascript">
             jQuery(document).ready(function () {
                 Layout.init();
@@ -287,7 +289,7 @@
     </div>
 </div>
 </div>
-<script src="${pageContext.request.contextPath}js/AccountDelete.js"></script>
+<script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/js/AccountDelete.js"></script>
 
 </body>
 

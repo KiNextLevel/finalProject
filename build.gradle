@@ -25,58 +25,117 @@ repositories {
 }
 
 dependencies {
+	// === Spring Boot 핵심 스타터 ===
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
+	// === 데이터 액세스 ===
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-	implementation 'org.springframework.boot:spring-boot-starter-mail'
-	implementation 'org.springframework.boot:spring-boot-starter-mustache'
-	//implementation 'org.springframework.boot:spring-boot-starter-oauth2-authorization-server'
-	//implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-	//implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-web-services'
-	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'
+
+	// === 템플릿 엔진 ===
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-freemarker'
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+	implementation 'com.github.zhanhb:thymeleaf-layout-dialect:2.4.1'
+	implementation 'org.springframework.boot:spring-boot-starter-mustache'
+	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+
+	// === 로깅 ===
+	implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
+
+	// === 통신 및 메시징 ===
+	implementation 'org.springframework.boot:spring-boot-starter-web-services'
 	implementation 'org.springframework.kafka:spring-kafka'
-	//implementation 'org.springframework.session:spring-session-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
 
-	// Jakarta EE 관련 의존성 추가
-	implementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
-	implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0'
-	implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.1'
-
-	// Spring MVC 명시적 의존성 추가
-	implementation 'org.springframework:spring-webmvc:6.1.5'
-
-	// XML 처리 관련 의존성 추가
+	// === JSON/XML 처리 ===
+	implementation 'com.google.code.gson:gson:2.10.1'
+	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+	implementation 'org.json:json:20240303'
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.16.1'
 	implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
 	implementation 'org.glassfish.jaxb:jaxb-runtime:4.0.3'
 
-	// JSON 관련 의존성 추가
-	implementation 'org.json:json:20240303'            // org.json 라이브러리 (JSONObject 클래스용)
-	implementation 'com.googlecode.json-simple:json-simple:1.1.1'  // json-simple 라이브러리 (JSONParser 클래스용)
-	implementation 'com.fasterxml.jackson.core:jackson-databind:2.16.1'  // Jackson 라이브러리 (객체-JSON 변환용)
+	// === HTTP 클라이언트 ===
+	implementation platform("com.squareup.okhttp3:okhttp-bom:4.12.0")
+	implementation 'com.squareup.okhttp3:okhttp'
+	implementation 'com.squareup.okhttp3:logging-interceptor'
 
+	// === JWT ===
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+	implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
+	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+	// === 서블릿/JSP ===
+	implementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+	implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0'
+	implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.1'
+	implementation 'org.springframework:spring-webmvc:6.1.5'
+
+	// === 이메일 ===
+	implementation 'javax.mail:javax.mail-api:1.6.2'
+	implementation 'com.sun.mail:javax.mail:1.6.2'
+	implementation 'javax.activation:activation:1.1'
+
+	// === SMS ===
+	implementation 'net.nurigo:sdk:4.3.2'
+
+	// === 문서화 ===
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.4.0'
+
+	// === 캐싱 ===
+	implementation 'org.springframework.boot:spring-boot-starter-cache'
+	implementation 'com.github.ben-manes.caffeine:caffeine:3.1.8'
+
+	// === 유효성 검사 ===
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	// === 파일 처리 ===
+	implementation 'commons-io:commons-io:2.15.1'
+	implementation 'commons-fileupload:commons-fileupload:1.5'
+
+	// === OAuth ===
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+	// === 모니터링 ===
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+	// === 개발 도구 ===
 	compileOnly 'org.projectlombok:lombok'
-	//runtimeOnly 'com.mysql:mysql-connector-j'
-	runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
 	annotationProcessor 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+	// === 데이터베이스 드라이버 ===
+	runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+
+	// === 서버 ===
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+
+	// === 테스트 ===
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4'
 	testImplementation 'org.springframework.kafka:spring-kafka-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	// JavaMail API
-	implementation 'javax.mail:javax.mail-api:1.6.2'
 
-	// JavaMail 구현체 (실제 메일 전송에 필요)
-	implementation 'com.sun.mail:javax.mail:1.6.2'
+	// === 보안 ===
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 
-	// Java Activation Framework
-	implementation 'javax.activation:activation:1.1'
-
-	//문자 API
-	implementation 'net.nurigo:sdk:4.3.2'
 }
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+	// 기본 로깅 제외 설정
+	all {
+		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+	}
+}
+
 
 tasks.named('test') {
 	useJUnitPlatform()
