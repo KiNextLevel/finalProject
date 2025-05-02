@@ -4,6 +4,8 @@ import com.example.common.biz.payment.PaymentService;
 import com.example.common.biz.payment.PaymentVO;
 import com.example.common.biz.user.UserService;
 import com.example.common.biz.user.UserVO;
+import com.example.common.biz.visitor.VisitorService;
+import com.example.common.biz.visitor.VisitorVO;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -21,6 +23,8 @@ public class AdminMainPageRestController {
 private PaymentService paymentService;
 @Autowired
 private UserService userService;
+@Autowired
+private VisitorService visitorService;
 
     //상품별 매출 가져오기
     @GetMapping("/getProductPrice.do")
@@ -81,4 +85,25 @@ private UserService userService;
     //전체 회원 수 가져오기
 
     //결제 한 회원 수 가져오기
+
+    //오늘 방문 회원수
+    @GetMapping("/getTodayVisit.do")
+    public Map<String, Object> getTodayVisit(VisitorVO visitorVO) {
+        Map<String, Object> result = new HashMap<>();
+        visitorVO.setCondition("USER_FOUR");
+        visitorVO = visitorService.getVisitor(visitorVO);
+        System.out.println("visitor" + visitorVO);
+        result.put("visitor", visitorVO);
+        return result;
+    }
+    //남녀별 일별 방문 회원수
+    @GetMapping("/getDailyVisit.do")
+    public Map<String, Object> getDailyVisit(VisitorVO visitorVO) {
+        Map<String, Object> result = new HashMap<>();
+        visitorVO.setCondition("USER_FOUR");
+        List<VisitorVO> datas = visitorService.getVisitorList(visitorVO);
+        System.out.println("datas" + datas);
+        result.put("visitors", datas);
+        return result;
+    }
 }
