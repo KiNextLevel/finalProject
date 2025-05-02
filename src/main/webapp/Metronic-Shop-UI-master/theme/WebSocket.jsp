@@ -6,224 +6,7 @@
   <title>실시간 채팅</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Noto Sans KR', sans-serif;
-    }
-
-    body {
-      background-color: #f5f7fb;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
-    }
-
-    .chat-container {
-      width: 100%;
-      max-width: 600px;
-      background-color: white;
-      border-radius: 8px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-    }
-
-    .chat-header {
-      background: linear-gradient(135deg, #e94d1c, #d43e0a);
-      color: white;
-      padding: 20px;
-      text-align: center;
-      font-weight: 600;
-      font-size: 20px;
-      border-radius: 8px 8px 0 0;
-      position: relative;
-    }
-
-    .chat-header h2 {
-      margin: 0;
-      font-size: 22px;
-      font-weight: 600;
-      display: inline-block;
-    }
-
-    .chat-header h2 i {
-      margin-right: 10px;
-    }
-
-    #chat-box {
-      height: 450px;
-      padding: 20px;
-      overflow-y: auto;
-      background-color: #f9f9f9;
-    }
-
-    .message {
-      margin-bottom: 15px;
-      max-width: 80%;
-      word-wrap: break-word;
-      position: relative;
-    }
-
-    .join-message {
-      text-align: center;
-      color: #888;
-      font-size: 14px;
-      margin: 15px 0;
-      background-color: #f0f0f0;
-      padding: 8px 15px;
-      border-radius: 20px;
-      display: inline-block;
-      position: relative;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-
-    .sender-message {
-      margin-left: auto;
-      background-color: #e94d1c;
-      color: white;
-      border-radius: 18px 18px 0 18px;
-      padding: 12px 15px;
-      box-shadow: 0 2px 5px rgba(233, 77, 28, 0.2);
-    }
-
-    .receiver-message {
-      margin-right: auto;
-      background-color: #f0f2f5;
-      color: #333;
-      border-radius: 18px 18px 18px 0;
-      padding: 12px 15px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    }
-
-    .message-info {
-      font-size: 12px;
-      color: #888;
-      margin-bottom: 5px;
-      font-weight: 500;
-    }
-
-    .chat-input {
-      display: flex;
-      padding: 15px;
-      background-color: #f9f9f9;
-      border-top: 1px solid #eee;
-    }
-
-    #msgInput {
-      flex: 1;
-      padding: 15px;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-      outline: none;
-      background-color: white;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-      font-size: 15px;
-      transition: all 0.3s ease;
-    }
-
-    #msgInput:focus {
-      border-color: #e94d1c;
-      box-shadow: 0 0 0 3px rgba(233, 77, 28, 0.1);
-    }
-
-    .send-btn {
-      background: linear-gradient(135deg, #e94d1c, #d43e0a);
-      color: white;
-      border: none;
-      border-radius: 6px;
-      width: 50px;
-      height: 50px;
-      margin-left: 10px;
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 8px rgba(233, 77, 28, 0.2);
-    }
-
-    .send-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(233, 77, 28, 0.3);
-    }
-
-    .send-btn:active {
-      transform: scale(0.95);
-    }
-
-    /* 스크롤바 디자인 */
-    #chat-box::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    #chat-box::-webkit-scrollbar-track {
-      background: #f1f1f1;
-      border-radius: 10px;
-    }
-
-    #chat-box::-webkit-scrollbar-thumb {
-      background: #e0e0e0;
-      border-radius: 10px;
-    }
-
-    #chat-box::-webkit-scrollbar-thumb:hover {
-      background: #d43e0a;
-    }
-
-    /* 시간 표시 */
-    .message-time {
-      font-size: 11px;
-      color: #aaa;
-      margin-top: 5px;
-      text-align: right;
-    }
-
-    .receiver-message .message-time {
-      text-align: left;
-    }
-
-    /* 상태 표시 */
-    .status-indicator {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background-color: #4CAF50;
-      box-shadow: 0 0 5px #4CAF50;
-    }
-
-    .status-text {
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.8);
-      position: absolute;
-      top: 13px;
-      right: 30px;
-    }
-
-    /* 반응형 디자인 */
-    @media (max-width: 767px) {
-      .chat-container {
-        max-width: 100%;
-        height: 100vh;
-        border-radius: 0;
-      }
-
-      .chat-header {
-        border-radius: 0;
-      }
-
-      #chat-box {
-        height: calc(100vh - 130px);
-      }
-    }
-  </style>
+  <link href="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/css/WebSocket.css" rel="stylesheet">
 </head>
 <body>
 <div class="chat-container">
@@ -242,28 +25,57 @@
 </div>
 
 <script>
+  // 서버에서 전달받은 현재 사용자 정보 (이메일)
+  const currentUser = "${sessionScope.userEmail}" || "나";
+
+  // URL 파라미터에서 상대방 이메일 가져오기
+  const urlParams = new URLSearchParams(window.location.search);
+  const targetEmail = urlParams.get('targetEmail') || "상대방";
+
+  // 채팅방 ID 생성 (두 사용자 이메일 조합)
+  String.prototype.hashCode = function() {
+    let hash = 0;
+    for (let i = 0; i < this.length; i++) {
+      hash = ((hash << 5) - hash) + this.charCodeAt(i);
+      hash = hash & hash;
+    }
+    return Math.abs(hash);
+  };
+
+  const chatRoomId = [currentUser, targetEmail].sort().join('_').hashCode();
+
   const socket = new WebSocket("ws://localhost:8088/ws/chat");
   const chatBox = document.getElementById("chat-box");
   const msgInput = document.getElementById("msgInput");
-  const currentUser = "yunji"; // 현재 사용자 이름
 
   // 현재 시간을 포맷팅하는 함수
   function getCurrentTime() {
     const now = new Date();
-    const hours = now.getHours().toString().padStart(2, '0');
+    const hours = now.getHours();
     const minutes = now.getMinutes().toString().padStart(2, '0');
-    return `${hours}:${minutes}`;
+    const ampm = hours >= 12 ? '오후' : '오전';
+    const displayHours = hours % 12 || 12;
+    return `${ampm} ${displayHours}:${minutes}`;
   }
 
   socket.onopen = () => {
     // 입장 메시지 전송
     const joinMsg = {
-      chatRoomId: 1,
+      chatRoomId: chatRoomId,
       sender: currentUser,
       messageType: "JOIN",
-      message: "입장합니다"
+      message: "입장했습니다"
     };
     socket.send(JSON.stringify(joinMsg));
+
+    // JSP 파일에서
+    const userNickname = "${sessionScope.userNickname}" || "상대방";
+
+// 상대방 정보 표시
+    const roomInfoElement = document.createElement("div");
+    roomInfoElement.className = "join-message";
+    roomInfoElement.innerHTML = `<i class="fas fa-info-circle"></i> ${userNickname}님과의 대화방입니다`;
+    chatBox.appendChild(roomInfoElement);
   };
 
   socket.onmessage = (event) => {
@@ -275,32 +87,45 @@
       joinElement.className = "join-message";
       joinElement.innerHTML = `<i class="fas fa-user-plus"></i> ${data.sender}님이 ${data.message}`;
       chatBox.appendChild(joinElement);
+    } else if (data.messageType === "LEAVE") {
+      // 퇴장 메시지 표시
+      const leaveElement = document.createElement("div");
+      leaveElement.className = "join-message";
+      leaveElement.innerHTML = `<i class="fas fa-user-minus"></i> ${data.sender}님이 ${data.message}`;
+      chatBox.appendChild(leaveElement);
     } else {
       // 채팅 메시지 표시
-      const messageDiv = document.createElement("div");
       const isMine = data.sender === currentUser;
       const currentTime = getCurrentTime();
 
-      messageDiv.className = `message ${isMine ? 'sender-message' : 'receiver-message'}`;
+      // 메시지 래퍼 생성 (정렬을 위한 컨테이너)
+      const messageWrapper = document.createElement("div");
+      messageWrapper.className = isMine ? "message-wrapper my-message-wrapper" : "message-wrapper other-message-wrapper";
 
+      // 메시지 요소 생성
+      const messageElement = document.createElement("div");
+      messageElement.className = `message ${isMine ? 'sender-message' : 'receiver-message'}`;
+      messageElement.textContent = data.message;
+
+      // 메시지 시간 표시
+      const timeElement = document.createElement("div");
+      timeElement.className = "message-time";
+      timeElement.textContent = currentTime;
+
+      // 발신자 정보 (상대방 메시지인 경우만)
       if (!isMine) {
-        const nameSpan = document.createElement("div");
-        nameSpan.className = "message-info";
-        nameSpan.innerHTML = `<i class="fas fa-user"></i> ${data.sender}`;
-        messageDiv.appendChild(nameSpan);
+        const infoElement = document.createElement("div");
+        infoElement.className = "message-info";
+        infoElement.textContent = data.sender;
+        messageWrapper.appendChild(infoElement);
       }
 
-      const messageContent = document.createElement("div");
-      messageContent.className = "message-content";
-      messageContent.textContent = data.message;
-      messageDiv.appendChild(messageContent);
+      // 메시지와 시간을 래퍼에 추가
+      messageWrapper.appendChild(messageElement);
+      messageWrapper.appendChild(timeElement);
 
-      const timeSpan = document.createElement("div");
-      timeSpan.className = "message-time";
-      timeSpan.textContent = currentTime;
-      messageDiv.appendChild(timeSpan);
-
-      chatBox.appendChild(messageDiv);
+      // 채팅창에 추가
+      chatBox.appendChild(messageWrapper);
     }
 
     // 스크롤을 항상 아래로 유지
@@ -308,6 +133,20 @@
   };
 
   socket.onclose = () => {
+    // 퇴장 메시지 전송
+    const leaveMsg = {
+      chatRoomId: chatRoomId,
+      sender: currentUser,
+      messageType: "LEAVE",
+      message: "퇴장했습니다"
+    };
+
+    try {
+      socket.send(JSON.stringify(leaveMsg));
+    } catch (e) {
+      // 이미 연결이 끊긴 경우 무시
+    }
+
     const disconnectMsg = document.createElement("div");
     disconnectMsg.className = "join-message";
     disconnectMsg.innerHTML = `<i class="fas fa-exclamation-triangle"></i> 서버와의 연결이 종료되었습니다.`;
@@ -322,7 +161,7 @@
     const msg = msgInput.value.trim();
     if (msg !== "") {
       const sendMsg = {
-        chatRoomId: 1,
+        chatRoomId: chatRoomId,
         sender: currentUser,
         messageType: "TALK",
         message: msg
@@ -335,6 +174,7 @@
   // Enter 키로 메시지 전송
   msgInput.addEventListener("keypress", (e) => {
     if (e.key === "Enter") {
+      e.preventDefault();
       sendMessage();
     }
   });
@@ -352,6 +192,19 @@
 
   // 주기적으로 연결 상태 확인
   setInterval(checkConnection, 5000);
+
+  // 페이지 나가기 전에 퇴장 메시지 전송
+  window.addEventListener('beforeunload', () => {
+    if (socket.readyState === WebSocket.OPEN) {
+      const leaveMsg = {
+        chatRoomId: chatRoomId,
+        sender: currentUser,
+        messageType: "LEAVE",
+        message: "퇴장했습니다"
+      };
+      socket.send(JSON.stringify(leaveMsg));
+    }
+  });
 </script>
 </body>
 </html>

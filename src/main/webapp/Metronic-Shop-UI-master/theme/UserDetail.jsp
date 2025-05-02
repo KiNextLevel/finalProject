@@ -31,168 +31,6 @@
     <link rel="shortcut icon" href="favicon.ico">
     <!-- Font Awesome 5 추가 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
-    <style>
-        /* Information 탭 스타일 */
-        .user-info-container {
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            padding: 20px;
-            margin-top: 15px;
-        }
-
-        .user-info-row {
-            margin-bottom: 15px;
-        }
-
-        .info-item {
-            padding: 12px 15px;
-            margin-bottom: 10px;
-            background-color: white;
-            border-radius: 6px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .info-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .info-item i {
-            margin-right: 10px;
-            color: #e84d1c;
-            font-size: 18px;
-            width: 20px;
-            text-align: center;
-        }
-
-        .info-label {
-            font-weight: 600;
-            color: #555;
-            margin-right: 8px;
-        }
-
-        .info-value {
-            color: #333;
-        }
-
-        /* Favorite 탭 스타일 */
-        .user-preference-container {
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            padding: 20px;
-            margin-top: 15px;
-        }
-
-        .preference-header {
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .preference-header h3 {
-            color: #e84d1c;
-            font-size: 22px;
-            margin: 0;
-        }
-
-        .preference-row {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-        }
-
-        .preference-item {
-            background-color: white;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            height: 100%;
-        }
-
-        .preference-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .preference-icon {
-            background-color: #f5f5f5;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-        }
-
-        .preference-icon i {
-            font-size: 24px;
-            color: #e84d1c;
-        }
-
-        .preference-content h4 {
-            margin-top: 0;
-            margin-bottom: 5px;
-            color: #333;
-            font-size: 16px;
-        }
-
-        .preference-content p {
-            margin: 0;
-            font-size: 18px;
-            color: #e84d1c;
-            font-weight: 600;
-        }
-
-        /* 반응형 스타일 */
-        @media (max-width: 767px) {
-            .preference-row .col-md-4 {
-                width: 100%;
-            }
-
-            .preference-item {
-                margin-bottom: 15px;
-            }
-        }
-
-        /* 로딩 스타일 */
-        .loading-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 300px;
-        }
-
-        .spinner {
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #e84d1c;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* 에러 메시지 스타일 */
-        .error-message {
-            text-align: center;
-            padding: 20px;
-            background-color: #f8d7da;
-            color: #721c24;
-            border-radius: 5px;
-            margin-top: 20px;
-        }
-    </style>
-
     <!-- Fonts START -->
     <link
             href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|PT+Sans+Narrow|Source+Sans+Pro:200,300,400,600,700,900&amp;subset=all"
@@ -334,7 +172,8 @@
                             <div class="product-page-cart">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <button class="btn btn-primary btn-block" type="button">1:1 채팅하기</button>
+                                        <!-- 1:1 채팅하기 버튼  id추가 -->
+                                        <button  id="chatButton" class="btn btn-primary btn-block" type="button">1:1 채팅하기</button>
                                     </div>
                                     <div class="col-md-6">
                                         <a id="report-link" href="" class="btn btn-danger btn-block">
@@ -564,20 +403,35 @@
 <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/js/MapView.js"></script>
 
 <script type="text/javascript">
+    // 채팅 대상 이메일 전역 변수 선언
+    let targetEmail = "";
+
+    // URL에서 파라미터 값을 추출하는 함수 정의
+    function getParameterByName(name) {
+        const url = window.location.href;   // 현재 URL 가져오기
+        name = name.replace(/[\[\]]/g, "\\$&"); // 이름에 특수문자 있으면 escape 처리
+        const regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"); // 파라미터 찾는 정규식
+        const results = regex.exec(url);  // 정규식 실행
+        if (!results) return null;
+        if (!results[2]) return "";
+        return decodeURIComponent(results[2].replace(/\+/g, " "));  // 디코딩해서 반환
+    }
+
     jQuery(document).ready(function () {
         Layout.init();
         Layout.initOWL();
         Layout.initTwitter();
 
         // 로딩 타임아웃 설정
-        var loadingTimeout = setTimeout(function() {
+        const loadingTimeout = setTimeout(function () {
             $('#loading-container').hide();
             showError("데이터 로딩 시간이 초과되었습니다. 페이지를 새로고침 해주세요.");
-        }, 15000); // 15초 후 타임아웃
+        }, 15000);
 
         // URL에서 userEmail 파라미터 가져오기
-        var userEmail = getParameterByName('userEmail');
+        const userEmail = getParameterByName('userEmail');
 
+        // userEmail이 없으면 에러 처리
         if (!userEmail) {
             clearTimeout(loadingTimeout);
             $('#loading-container').hide();
@@ -591,47 +445,25 @@
             type: 'GET',
             data: { userEmail: userEmail },
             dataType: 'json',
-            timeout: 10000, // 10초 타임아웃 설정
-            success: function(data) {
+            timeout: 10000,
+            success: function (data) {
                 clearTimeout(loadingTimeout);
                 $('#loading-container').hide();
-
-                console.log("서버 응답 데이터:", data); // 디버깅용
 
                 if (!data || data.flag === false) {
                     showError(data && data.msg ? data.msg : "사용자 정보를 찾을 수 없습니다.");
                     return;
                 }
 
-                // 사용자 정보 표시
                 renderUserData(data);
                 $('#user-profile-container').show();
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 clearTimeout(loadingTimeout);
                 $('#loading-container').hide();
-                console.error('사용자 정보 로딩 실패:', status, error);
-
-                if (status === 'timeout') {
-                    showError("서버 응답 시간이 초과되었습니다. 네트워크 연결을 확인해주세요.");
-                } else if (status === 'parsererror') {
-                    showError("서버 응답을 처리할 수 없습니다. 관리자에게 문의해주세요.");
-                } else {
-                    showError("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
-                }
+                showError("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
             }
         });
-
-        // URL 파라미터 추출 함수
-        function getParameterByName(name) {
-            var url = window.location.href;
-            name = name.replace(/[\[\]]/g, '\\$&');
-            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-                results = regex.exec(url);
-            if (!results) return null;
-            if (!results[2]) return '';
-            return decodeURIComponent(results[2].replace(/\+/g, ' '));
-        }
 
         // 에러 메시지 표시 함수
         function showError(message) {
@@ -642,35 +474,29 @@
         // 사용자 데이터 렌더링 함수
         function renderUserData(data) {
             try {
-                var userVO = data.userVO;
-                var preferenceVO = data.preferenceVO;
+                const userVO = data.userVO;
+                const preferenceVO = data.preferenceVO;
 
                 if (!userVO) {
                     showError("사용자 정보를 찾을 수 없습니다.");
                     return;
                 }
 
-                // 사용자 프로필 정보 설정
+                // 채팅 대상 이메일 저장
+                targetEmail = userVO.userEmail;
+
                 $('#user-profile-image').attr('src', userVO.userProfile || '/default-profile.jpg');
                 $('#user-nickname-title').text((userVO.userNickname || '사용자') + '의 프로필');
                 $('#user-name').text(userVO.userName || '정보 없음');
                 $('#user-nickname').text(userVO.userNickname || '정보 없음');
 
-                // 지역 정보 설정
-                if (userVO.userRegion) {
-                    var regionParts = userVO.userRegion.split(' ');
-                    $('#user-region').text(regionParts[0] || '정보 없음');
-                } else {
-                    $('#user-region').text('정보 없음');
-                }
+                const regionParts = (userVO.userRegion || '').split(' ');
+                $('#user-region').text(regionParts[0] || '정보 없음');
 
                 $('#user-description').text(userVO.userDescription || '자기소개가 없습니다.');
-
-                // 신고 링크 설정
                 $('#report-link').attr('href', '/reportPage.do?userEmail=' + userVO.userEmail);
                 $('#report-nickname').text(userVO.userNickname || '사용자');
 
-                // 사용자 상세 정보 설정
                 $('#user-birth').text(userVO.userBirth || '정보 없음');
                 $('#user-height').text(userVO.userHeight || '정보 없음');
                 $('#user-body').text(userVO.userBody || '정보 없음');
@@ -679,18 +505,12 @@
                 $('#user-religion').text(userVO.userReligion || '정보 없음');
                 $('#user-job').text(userVO.userJob || '정보 없음');
 
-                // 음주 정보
-                var drinkText = '정보 없음';
-                if (userVO.userDrink === 0) drinkText = '전혀 안함';
-                else if (userVO.userDrink === 1) drinkText = '가끔';
-                else if (userVO.userDrink === 2) drinkText = '자주';
+                const drinkText = userVO.userDrink === 0 ? '전혀 안함' : userVO.userDrink === 1 ? '가끔' : userVO.userDrink === 2 ? '자주' : '정보 없음';
                 $('#user-drink').text(drinkText);
 
-                // 흡연 정보
-                var smokeText = userVO.userSmoke === 1 ? '흡연' : '비흡연';
+                const smokeText = userVO.userSmoke === 1 ? '흡연' : '비흡연';
                 $('#user-smoke').text(smokeText);
 
-                // 선호 정보 설정
                 if (preferenceVO) {
                     $('#preference-height').text(preferenceVO.preferenceHeight || '정보 없음');
                     $('#preference-body').text(preferenceVO.preferenceBody || '정보 없음');
@@ -702,19 +522,36 @@
                     $('#no-preference-message').show();
                 }
 
-                // 지도 초기화 (좌표가 있는 경우)
                 if (userVO.userLatitude && userVO.userLongitude) {
-                    try {
-                        initUserMap(userVO.userLatitude, userVO.userLongitude);
-                        console.log("지도 초기화 - 위도:", userVO.userLatitude, "경도:", userVO.userLongitude);
-                    } catch (e) {
-                        console.error("지도 초기화 오류:", e);
-                    }
+                    initUserMap(userVO.userLatitude, userVO.userLongitude);
                 }
             } catch (e) {
-                console.error("데이터 렌더링 오류:", e);
                 showError("데이터 표시 중 오류가 발생했습니다.");
             }
         }
+
+        // 채팅 버튼 클릭 이벤트
+        $('#chatButton').on('click', function () {
+            $.ajax({
+                url: '/checkToken.do',
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    if (response.status === 'success') {
+                        // 확인 창 띄우고, '확인' 누르면 채팅방으로 이동 (토큰 차감)
+                        if (confirm("대화를 시작하시겠습니까? ('확인'을 누르면 토큰이 1개 차감됩니다)")) {
+                            // 채팅방 이동 시 targetEmail을 파라미터로 포함
+                            window.location.href = '/deductToken.do?targetEmail=' + encodeURIComponent(targetEmail);
+                        }
+                    } else {
+                        alert(response.message);  // 실패 시 메시지 출력
+                    }
+                },
+                error: function () {
+                    alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
+                }
+            });
+        });
     });
+
 </script>
