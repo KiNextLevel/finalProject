@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.time.Instant;
 
 @Slf4j
 @Component
@@ -45,6 +46,9 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
         ChatMessageVO chatMessageVO = mapper.readValue(payload, ChatMessageVO.class);
         log.info("session {}", chatMessageVO.toString());
 
+        // timestamp 세팅 추가 (채팅 보낼때 보낸 시간도 표시)
+        chatMessageVO.setTimestamp(Instant.now().toString());
+
         // 채팅방이 없으면 생성
         if (!chatRoomSessionMap.containsKey(chatMessageVO.getChatRoomId())) {
             chatRoomSessionMap.put(chatMessageVO.getChatRoomId(), new HashSet<>());
@@ -54,12 +58,14 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
         if(chatMessageVO.getMessageType().equals(ChatMessageVO.MessageType.JOIN)){
             // 입장 메세지
             chatRoomSessionMap.get(chatMessageVO.getChatRoomId()).add(session);
-            chatMessageVO.setMessage(chatMessageVO.getSender() + "님이 입장하셨습니다.");
+            //chatMessageVO.setMessage(chatMessageVO.getSender() + "님이 입장하셨습니다.");
+            chatMessageVO.setMessage(chatMessageVO.getSenderNickname() + "님이 입장하셨습니다.");
         }
         else if(chatMessageVO.getMessageType().equals(ChatMessageVO.MessageType.LEAVE)){
             // 퇴장 메세지
             chatRoomSessionMap.get(chatMessageVO.getChatRoomId()).remove(session);
-            chatMessageVO.setMessage(chatMessageVO.getSender() + "님이 퇴장하셨습니다.");
+            //chatMessageVO.setMessage(chatMessageVO.getSender() + "님이 퇴장하셨습니다.");
+            chatMessageVO.setMessage(chatMessageVO.getSenderNickname() + "님이 퇴장하셨습니다.");
         }
 
         // NPE 방지를 위한 안전 장치
