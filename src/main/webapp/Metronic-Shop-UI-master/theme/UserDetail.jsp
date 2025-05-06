@@ -173,7 +173,9 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <!-- 1:1 채팅하기 버튼  id추가 -->
-                                        <button  id="chatButton" class="btn btn-primary btn-block" type="button">1:1 채팅하기</button>
+                                        <button id="chatButton" class="btn btn-primary btn-block" type="button">1:1
+                                            채팅하기
+                                        </button>
                                     </div>
                                     <div class="col-md-6">
                                         <a id="report-link" href="" class="btn btn-danger btn-block">
@@ -443,7 +445,7 @@
         $.ajax({
             url: '/userDetailData.do',
             type: 'GET',
-            data: { userEmail: userEmail },
+            data: {userEmail: userEmail},
             dataType: 'json',
             timeout: 10000,
             success: function (data) {
@@ -532,26 +534,35 @@
 
         // 채팅 버튼 클릭 이벤트
         $('#chatButton').on('click', function () {
-            $.ajax({
-                url: '/checkToken.do',
-                type: 'POST',
-                dataType: 'json',
-                success: function (response) {
-                    if (response.status === 'success') {
-                        // 확인 창 띄우고, '확인' 누르면 채팅방으로 이동 (토큰 차감)
-                        if (confirm("대화를 시작하시겠습니까? ('확인'을 누르면 토큰이 1개 차감됩니다)")) {
-                            // 채팅방 이동 시 targetEmail을 파라미터로 포함
-                            window.location.href = '/deductToken.do?targetEmail=' + encodeURIComponent(targetEmail);
-                        }
-                        // 토큰 보유 0개이면
-                    } else (response.status === 'fail')
-                        alert(response.message);  // 실패 시 메시지 출력
-                },
-                error: function () {
-                    alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
-                }
-            });
+            if (confirm("대화를 시작하시겠습니까? ('확인'을 누르면 토큰이 1개 차감됩니다)")) {
+                // 단순히 이동만 시키면 됨 (토큰 체크와 차감은 서버에서 함)
+                window.location.href = '/deductToken.do?targetEmail=' + encodeURIComponent(targetEmail);
+            }
         });
+
+        // $('#chatButton').on('click', function () {
+        //     $.ajax({
+        //         url: '/checkToken.do',
+        //         type: 'POST',
+        //         dataType: 'json',
+        //         success: function (response) {
+        //             if (response.status === 'success') {
+        //                 // 확인 창 띄우고, '확인' 누르면 채팅방으로 이동 (토큰 차감)
+        //                 if (confirm("대화를 시작하시겠습니까? ('확인'을 누르면 토큰이 1개 차감됩니다)")) {
+        //                     // 채팅방 이동 시 targetEmail을 파라미터로 포함
+        //                     window.location.href = '/deductToken.do?targetEmail=' + encodeURIComponent(targetEmail);
+        //                 }
+        //                 // 토큰 보유 0개이면
+        //             } else {
+        //                 alert(response.message);  // 실패 시 메시지 출력
+        //                 window.location.href = "/insufficientToken.do";  // 토큰 수 부족하면 이동하게 하기
+        //             }
+        //         },
+        //         error: function () {
+        //             alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
+        //         }
+        //     });
+        // });
     });
 
 </script>
