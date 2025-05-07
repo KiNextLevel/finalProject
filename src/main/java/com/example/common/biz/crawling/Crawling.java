@@ -1,5 +1,7 @@
 package com.example.common.biz.crawling;
 
+import com.example.common.biz.preference.PreferenceService;
+import com.example.common.biz.preference.PreferenceVO;
 import com.example.common.biz.user.UserService;
 import com.example.common.biz.user.UserVO;
 import com.example.common.view.asyn.RandomPassword;
@@ -28,6 +30,9 @@ public class Crawling {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private PreferenceService preferenceService;
 
     @Autowired
     private RandomPassword randomPassword;
@@ -84,7 +89,14 @@ public class Crawling {
         // ChromeDriver 경로 설정
         System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
 
+        // ChromeOptions 설정 (Headless 모드 활성화)
         ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless"); // Headless 모드 활성화
+        options.addArguments("--disable-gpu"); // GPU 비활성화 (Headless 모드에서 권장)
+        options.addArguments("--no-sandbox"); // 샌드박스 비활성화 (일부 환경에서 필요)
+        options.addArguments("--disable-dev-shm-usage"); // 공유 메모리 사용 비활성화 (리소스 절약)
+        options.addArguments("--window-size=1920,1080"); // 창 크기 설정 (일부 사이트에서 필요)
+
         WebDriver driver = new ChromeDriver(options);
 
         String mainUrl = "https://ko.wikipedia.org/wiki/%EB%8C%80%ED%95%9C%EB%AF%BC%EA%B5%AD%EC%9D%98_%EC%97%AC%EC%9E%90_%EB%B0%B0%EC%9A%B0_%EB%AA%A9%EB%A1%9D";
@@ -116,20 +128,20 @@ public class Crawling {
                     driver.get(actorUrl);
                     wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1[@id='firstHeading']")));
 
-                    String nickName = driver.findElement(By.xpath("//h1[@id='firstHeading']")).getText();
-                    String name = "N/A";
+                    String nickName = driver.findElement(By.xpath("//h1[@id='firstHeading']")).getText().split("\\(")[0];
+                    String name = nickName;
                     String birthDate = "N/A";
                     String gender = "N/A";
-                    String profilePhotoUrl = "N/A"; // 프로필 사진 URL 변수 추가
+                    String profilePhotoUrl;
 
                     try {
                         WebElement infoTable = driver.findElement(By.xpath("//table[contains(@class, 'infobox')]"));
                         List<WebElement> rows = infoTable.findElements(By.xpath(".//tr"));
 
                         // 프로필 사진 URL 추출
-                        List<WebElement> images = infoTable.findElements(By.xpath(".//img"));
+                        List<WebElement> images = infoTable.findElements(By.xpath(".//td[contains(@class, 'infobox-image')]//img"));
                         if (!images.isEmpty()) {
-                            profilePhotoUrl = images.get(1).getAttribute("src"); // 두 번째 이미지의 src 속성
+                            profilePhotoUrl = images.getFirst().getAttribute("src"); // infobox-image 내 첫 번째 이미지의 src 속성
                             System.out.println("프로필 사진 URL: " + profilePhotoUrl);
                         } else {
                             continue;
@@ -166,7 +178,7 @@ public class Crawling {
                     userVO.setUserName(name);
                     userVO.setUserNickname(nickName);
                     userVO.setUserProfile(profilePhotoUrl);
-                    userVO.setUserGender(gender.contains("남") ? 0 : 1);
+                    userVO.setUserGender(gender.contains("남") ? 1 : 0);
                     userVO.setUserBirth(convertToIsoDateString(birthDate));
 
                     // 랜덤 사용자 정보 생성 및 DB 저장
@@ -202,6 +214,7 @@ public class Crawling {
             return false;
         }
 
+        // 가입
         vo.setUserPassword(randomPassword.generateRandomPassword());
         vo.setUserPhone("01012345678");
         vo.setUserHeight(rand.nextInt(81) + 140);
@@ -209,18 +222,27 @@ public class Crawling {
         vo.setUserMbti(mbti[rand.nextInt(mbti.length)]);
         vo.setUserEducation(edu[rand.nextInt(edu.length)]);
         vo.setUserReligion(religion[rand.nextInt(religion.length)]);
-        vo.setUserDrink(rand.nextInt(2));
-        vo.setUserSmoke(rand.nextInt(1));
+        vo.setUserDrink(rand.nextInt(3));
+        vo.setUserSmoke(rand.nextInt(2));
         vo.setUserJob("배우");
 
         int index = rand.nextInt(addresses.length);
         vo.setUserRegion(addresses[index]);
         vo.setUserLatitude(latitudes[index]);
         vo.setUserLongitude(longitudes[index]);
-        vo.setUserDescription("");
+        vo.setUserDescription("안녕하세요 배우 " + vo.getUserNickname() + " 입니다.");
         vo.setSocialType("normal");
         vo.setCondition("INSERT");
         System.out.println(vo);
+
+        // 취향 입력
+        PreferenceVO prefVO = new PreferenceVO();
+        prefVO.setUserEmail(vo.getUserEmail());
+        prefVO.setPreferenceAge((rand.nextInt(60) + 19) + "");
+        prefVO.setPreferenceBody(body[rand.nextInt(body.length)]);
+        prefVO.setPreferenceHeight(rand.nextInt(81) + 140);
+        prefVO.setCondition("INSERT");
+        preferenceService.insert(prefVO);
         return true;
     }
 
