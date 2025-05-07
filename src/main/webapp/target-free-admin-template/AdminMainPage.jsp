@@ -93,8 +93,8 @@
 			<div id="sideNav" href=""><i class="material-icons dp48">toc</i></div>
 		</div>
 		<ul class="nav navbar-top-links navbar-right">
-			<li><a class="dropdown-button waves-effect waves-dark" href="/mainPage.do"> <b>메인 페이지</b></a></li>
-			<li><a class="dropdown-button waves-effect waves-dark" href="/logout.do"><i class="fa fa-user fa-fw"></i> <b>Log out</b></a></li>
+			<li><a class="waves-effect waves-dark" href="/mainPage.do"> <b>메인 페이지</b></a></li>
+			<li><a class="waves-effect waves-dark" href="/logout.do"><i class="fa fa-user fa-fw"></i> <b>Log out</b></a></li>
 		</ul>
 	</nav>
 	<nav class="navbar-default navbar-side" role="navigation">
