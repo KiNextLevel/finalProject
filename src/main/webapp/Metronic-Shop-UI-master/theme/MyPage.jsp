@@ -616,8 +616,8 @@
                     console.log("받은 데이터", response);
 
                     if (response.status === 'success') {
-                        const user = response.userDTO;
-                        const preference = response.preferenceDTO;
+                        const user = response.userVO;
+                        const preference = response.preferenceVO;
                         const paymentList = response.paymentList;
                         const participantList = response.participantList;
 

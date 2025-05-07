@@ -1,6 +1,7 @@
 package com.example.common.view.myPage;
 // 마이페이지 읽기 전용(조회 전용)
 // GET 방식으로 정보를 조회하는 API
+
 import com.example.common.biz.participant.ParticipantService;
 import com.example.common.biz.participant.ParticipantVO;
 import com.example.common.biz.payment.PaymentService;
@@ -17,7 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 //
-///**
+
+/// **
 // * MyPageRestController
 // * - 데이터를 제공하거나 수정하는 API 담당
 // * - @RestController는 반환하는 데이터가 JSON 형태로 자동 변환된다
@@ -58,7 +60,7 @@ import java.util.Map;
 //        return preferenceService.getPreference(preferenceVO); // 선호 정보 반환
 //    }
 //
-     // 현재 로그인한 사용자의 결제 내역 가져오기
+// 현재 로그인한 사용자의 결제 내역 가져오기
 //    @GetMapping("/getPaymentList.do")
 //    public List<PaymentVO> getPaymentList(HttpSession session) {
 //        String userEmail = (String) session.getAttribute("userEmail");
@@ -225,7 +227,7 @@ public class MyPageDataRestController {
     private ParticipantService participantService;
 
     @GetMapping("/api/getUserInfo")
-    public Map<String, Object> getUserInfo(HttpSession session) {
+    public Map<String, Object> getUserInfo(HttpSession session, UserVO userVO, PreferenceVO preferenceVO) {
         Map<String, Object> result = new HashMap<>();
         String userEmail = (String) session.getAttribute("userEmail");
 
@@ -235,11 +237,9 @@ public class MyPageDataRestController {
             return result;
         }
 
-        UserVO userVO = new UserVO();
         userVO.setUserEmail(userEmail);
         userVO.setCondition("SELECTONE_USERINFO");
 
-        PreferenceVO preferenceVO = new PreferenceVO();
         preferenceVO.setUserEmail(userEmail);
         preferenceVO.setCondition("SELECTONE");
 
@@ -251,14 +251,14 @@ public class MyPageDataRestController {
         participantVO.setParticipantUserEmail(userEmail);
         participantVO.setCondition("SELECTALL_EVENTPRINT");
 
-        UserVO userDTO = userService.getUser(userVO);
-        PreferenceVO preferenceDTO = preferenceService.getPreference(preferenceVO);
+        userVO = userService.getUser(userVO);
+        preferenceVO = preferenceService.getPreference(preferenceVO);
         List<PaymentVO> paymentList = paymentService.getPaymentList(paymentVO);
         List<ParticipantVO> participantList = participantService.getParticipantList(participantVO);
 
         result.put("status", "success");
-        result.put("userDTO", userDTO);
-        result.put("preferenceDTO", preferenceDTO);
+        result.put("userVO", userVO);
+        result.put("preferenceVO", preferenceVO);
         result.put("paymentList", paymentList);
         result.put("participantList", participantList);
 
