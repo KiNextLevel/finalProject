@@ -19,6 +19,8 @@ public class ChatRoomDAO {
     private final String INSERT_CHAT_ROOM = "INSERT INTO CHAT_ROOM (CHAT_ROOM_ID, USER1_EMAIL, USER2_EMAIL, CREATEDTIME_CHATTINGROOM) VALUES ((SELECT NVL(MAX(CHAT_ROOM_ID), 0) + 1 FROM CHAT_ROOM), ?, ?, CURRENT_TIMESTAMP)";
     // 채팅방의 마지막 메시지와 해당 시간 정보를 업데이트하는 쿼리문
     private final String UPDATE_LAST_MESSAGE = "UPDATE CHAT_ROOM SET LAST_MESSAGE = ?, LAST_TIME = CURRENT_TIMESTAMP WHERE CHAT_ROOM_ID = ?";
+    // 채팅방 나가기
+    private final String DELETE_ROOM = "DELETE FROM CHAT_ROOM WHERE CHAT_ROOM_ID = ?";
 
     Connection conn = null;
     PreparedStatement pstmt = null;
@@ -84,6 +86,22 @@ public class ChatRoomDAO {
             int result = pstmt.executeUpdate();
             return result > 0; // 성공 여부 반환
         } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            JDBCUtil.disconnect(conn, pstmt);
+        }
+    }
+
+    // 4. 채팅방 나가기(삭제)
+    public boolean delete(ChatRoomVO chatRoomVO) {
+        try{
+            conn = JDBCUtil.connect();
+            pstmt = conn.prepareStatement(DELETE_ROOM);
+            pstmt.setLong(1, chatRoomVO.getChatRoomId());
+            int result = pstmt.executeUpdate();
+            return result > 0;
+        } catch (Exception e){
             e.printStackTrace();
             return false;
         } finally {
