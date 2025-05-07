@@ -128,8 +128,8 @@ public class Crawling {
                     driver.get(actorUrl);
                     wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1[@id='firstHeading']")));
 
-                    String nickName = driver.findElement(By.xpath("//h1[@id='firstHeading']")).getText();
-                    String name = nickName.split("\\(")[0];
+                    String nickName = driver.findElement(By.xpath("//h1[@id='firstHeading']")).getText().split("\\(")[0];
+                    String name = nickName;
                     String birthDate = "N/A";
                     String gender = "N/A";
                     String profilePhotoUrl;
@@ -178,7 +178,7 @@ public class Crawling {
                     userVO.setUserName(name);
                     userVO.setUserNickname(nickName);
                     userVO.setUserProfile(profilePhotoUrl);
-                    userVO.setUserGender(gender.contains("남") ? 0 : 1);
+                    userVO.setUserGender(gender.contains("남") ? 1 : 0);
                     userVO.setUserBirth(convertToIsoDateString(birthDate));
 
                     // 랜덤 사용자 정보 생성 및 DB 저장
@@ -222,8 +222,8 @@ public class Crawling {
         vo.setUserMbti(mbti[rand.nextInt(mbti.length)]);
         vo.setUserEducation(edu[rand.nextInt(edu.length)]);
         vo.setUserReligion(religion[rand.nextInt(religion.length)]);
-        vo.setUserDrink(rand.nextInt(2));
-        vo.setUserSmoke(rand.nextInt(1));
+        vo.setUserDrink(rand.nextInt(3));
+        vo.setUserSmoke(rand.nextInt(2));
         vo.setUserJob("배우");
 
         int index = rand.nextInt(addresses.length);
