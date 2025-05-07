@@ -39,7 +39,7 @@ public class NaverCallBackController {
 
     @GetMapping("/Metronic-Shop-UI-master/theme/naverCallback.do")
     public String naverCallback(@RequestParam("code") String code, @RequestParam("state") String state, HttpServletRequest request,
-            HttpSession session, Model model, UserVO userVO) {
+            HttpSession session, Model model, UserVO userVO, RandomPassword rp) {
 
         try {
             // 접근 토큰 발급 요청 URL 구성
@@ -108,7 +108,7 @@ public class NaverCallBackController {
                 // 회원 정보가 없으면 회원가입 진행
                 session.setAttribute("userEmail", email);
                 session.setAttribute("userName", name);
-                String randomPassword = RandomPassword.generateRandomPassword();
+                String randomPassword = rp.generateRandomPassword();
                 session.setAttribute("userPassword", randomPassword);
                 session.setAttribute("socialType", "naver");
 

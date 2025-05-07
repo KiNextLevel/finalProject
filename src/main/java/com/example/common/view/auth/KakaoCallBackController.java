@@ -36,7 +36,7 @@ public class KakaoCallBackController {
     private static final String REDIRECT_URI = "http://localhost:8088/Metronic-Shop-UI-master/theme/kakaoCallBack.do";
 
     @GetMapping("/Metronic-Shop-UI-master/theme/kakaoCallBack.do")
-    public String kakaoCallback(@RequestParam("code") String code, HttpServletRequest request, Model model, UserVO userVO) {
+    public String kakaoCallback(@RequestParam("code") String code, HttpServletRequest request, Model model, UserVO userVO, RandomPassword rp) {
         System.out.println("kakaoCallBack log - code = [" + code + "]");
 
         try {
@@ -73,7 +73,7 @@ public class KakaoCallBackController {
                 System.out.println("KakaoLogin Log: userEmail: [" + email + "]");
                 session.setAttribute("userName", name);
                 // 비밀번호는 랜덤하게 생성
-                String randomPassword = RandomPassword.generateRandomPassword();
+                String randomPassword = rp.generateRandomPassword();
                 session.setAttribute("userPassword", randomPassword);
                 // 소셜 로그인 타입 저장
                 session.setAttribute("socialType", "kakao");
