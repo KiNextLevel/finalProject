@@ -131,6 +131,15 @@ dependencies {
 	// excel
 	implementation 'org.apache.poi:poi:5.2.3'
 	implementation 'org.apache.poi:poi-ooxml:5.2.3'
+
+
+	// === Selenium (충돌 방지 수정) ===
+	implementation('org.seleniumhq.selenium:selenium-java:4.11.0') {
+		exclude group: 'com.google.guava', module: 'guava'
+		exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+	}
+	implementation 'org.apache.commons:commons-csv:1.10.0'        // CSV 처리를 위해
+	implementation 'io.github.bonigarcia:webdrivermanager:5.8.0'
 }
 
 configurations {
