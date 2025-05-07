@@ -17,11 +17,12 @@ public class PaymentAddTokenImpl implements PaymentAddTokenService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public boolean paymentAddToken(PaymentVO VO, UserVO userVO) {
-        paymentDAO.insert(VO);
+    public boolean paymentAddToken(PaymentVO paymentVO, UserVO userVO) {
+        paymentDAO.insert(paymentVO);
         System.out.println("트랜잭션 로그: insert 성공");
-        UserVO uservo = new UserVO();
-            if (!userDAO.update(uservo)) throw new RuntimeException("강제 예외"); // 테스트용
+        //UserVO uservo = new UserVO();    // 테스트용
+        //if (!userDAO.update(uservo)) throw new RuntimeException("강제 예외"); // 테스트용
+        userDAO.update(userVO);
         return true;
     }
 }
