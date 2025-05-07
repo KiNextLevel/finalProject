@@ -20,7 +20,7 @@ public class PreferenceDAO {
                     " P.PREFERENCE_BODY, " +
                     " P.PREFERENCE_AGE " +
                     " FROM PREFERENCE P " +
-                    " JOIN MEMBER M ON P.PREFERENCE_MEMBER_EMAIL = M.MEMBER_EMAI";
+                    " JOIN MEMBER M ON P.PREFERENCE_MEMBER_EMAIL = M.MEMBER_EMAIL";
 
     // 유저 마이페이지 - 00 유저의 선호 키, 체형, 나이 출력
     private final String SELECTONE = "SELECT " +
