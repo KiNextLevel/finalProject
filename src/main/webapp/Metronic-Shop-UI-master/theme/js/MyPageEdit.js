@@ -22,7 +22,7 @@ $(document).ready(function() {
         type: 'GET',
         success: function(response) {
             if (response.status === 'success') {
-                const userDTO = response.userDTO;
+                const userDTO = response.userVO;
                 const preferenceDTO = response.preferenceDTO;
 
                 // 가져온 데이터로 form 채우기
