@@ -2,6 +2,7 @@ package com.example.common.biz.crawling;
 
 import com.example.common.biz.user.UserService;
 import com.example.common.biz.user.UserVO;
+import com.example.common.view.asyn.RandomPassword;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -27,6 +28,9 @@ public class Crawling {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RandomPassword randomPassword;
 
     // 샘플 데이터 배열
     private static final String[] body = {"마른", "보통", "근육질", "통통", "건장"};
@@ -72,17 +76,13 @@ public class Crawling {
             126.2674
     };
 
-//    public static void main(String[] args) {
-//        SpringApplication.run(Crawling.class, args);
-//    }
-
     @EventListener(ApplicationReadyEvent.class)
     public void crawlAndSaveActors() {
         // JVM 인코딩을 UTF-8로 설정 (문자 깨짐 방지)
         System.setProperty("file.encoding", "UTF-8");
 
         // ChromeDriver 경로 설정
-        System.setProperty("webdriver.chrome.driver", "D:/Ben/resource/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
 
         ChromeOptions options = new ChromeOptions();
         WebDriver driver = new ChromeDriver(options);
@@ -105,7 +105,7 @@ public class Crawling {
             }
 
             // 첫 2명만 테스트
-            int limit = Math.min(10, actorUrls.size());
+            int limit = Math.min(100, actorUrls.size());
             for (int i = 0; i < limit; i++) {
                 try {
                     String actorName = actorNames.get(i);
@@ -202,7 +202,7 @@ public class Crawling {
             return false;
         }
 
-        vo.setUserPassword((rand.nextInt(1000) + 1000) + "");
+        vo.setUserPassword(randomPassword.generateRandomPassword());
         vo.setUserPhone("01012345678");
         vo.setUserHeight(rand.nextInt(81) + 140);
         vo.setUserBody(body[rand.nextInt(body.length)]);
