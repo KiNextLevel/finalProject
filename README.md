@@ -3,10 +3,10 @@
 ## 프로젝트 디렉토리 구조
 ```
 NextLevel/
-├── .gradle/                  # Gradle 관련 파일
-├── .idea/                    # IntelliJ IDEA 설정 파일
-├── build/                    # 빌드 결과물
-├── gradle/                   # Gradle 래퍼 파일
+├── .gradle/                 
+├── .idea/                    
+├── build/                   
+├── gradle/                  
 ├── src/
 │   └── main/
 │       ├── java/
