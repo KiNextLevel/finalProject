@@ -18,6 +18,6 @@ public class AlertJPAService{
 
     // 알림 읽음 여부 업데이트
     public int update(AlertVO alertVO) {
-        return alertRepository.updateIsWatch(alertVO.getAlertNumber());
+        return alertRepository.update(alertVO.getAlertNumber());
     }
 }

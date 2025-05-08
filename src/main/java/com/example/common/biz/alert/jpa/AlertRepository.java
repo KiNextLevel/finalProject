@@ -22,5 +22,5 @@ public interface AlertRepository extends JpaRepository<AlertEntity, Integer> {
     @Transactional  //@Modifying과 함께 사용
     @Modifying    //DB 변경 일어나는 쿼리 실행
     @Query("UPDATE AlertEntity a SET a.alertIsWatch = true WHERE a.alertNumber = :alertNum")
-    int updateIsWatch(@Param("alertNum") int alertNum);
+    int update(@Param("alertNum") int alertNum);
 }
