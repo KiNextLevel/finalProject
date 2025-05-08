@@ -14,7 +14,7 @@
   <!-- 두 번째 줄: 프레임워크 및 라이브러리 -->
   <img src="https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white" alt="Spring Boot" />&nbsp;
   <img src="https://img.shields.io/badge/JPA-6DB33F?style=for-the-badge&logo=spring&logoColor=white" alt="JPA" />&nbsp;
-  <img src="https://img.shields.io/badge/MyBatis-000000?style=for-the-badge&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4QMaAyUBq8YVTwAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAEKSURBVDjLnZIxTsNAEEXfOE7sxEQRQkIUdBR0SBQ0VEg0SHSkSJEWCQk6JI7AEWiQOAIlJY1paBB/i3jXWkfGMaOxVvvn/dl/ZlbM5/OGiPQAAVpVHc3n8wbwCPSAQVVHzjk3Ho9fAIZAC3hX1RfnXAMwAFpAH3hT1WdV/XTOueVyuQMYqOoYeAJawANwAK6Bc+AH+AYugAvgDrgGdsBQVcfGGCMiO2AEXAL3wAl4BT6AE1DHWgNnwBdwCYystRvnnKvr+gj8xmQdoCgiLSCEEIiIAXDOYa0FwBgDQAjBiEgbwFpbVFVFjJmIEGMmxkwIgRgjdV2TUiLnTEqJnDMxRkII5JyLsiy3VVX9AZFdNr6J4wZbAAAAAElFTkSuQmCC" alt="MyBatis" />&nbsp;
+  <img src="https://img.shields.io/badge/MyBatis-000000?style=for-the-badge&logo=mybatis&logoColor=white" alt="MyBatis" />&nbsp;
   <img src="https://img.shields.io/badge/JDBC-007396?style=for-the-badge&logo=java&logoColor=white" alt="JDBC" />
 </p>
 
