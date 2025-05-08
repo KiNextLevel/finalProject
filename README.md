@@ -16,8 +16,6 @@
   <img src="https://img.shields.io/badge/JPA-6DB33F?style=for-the-badge&logo=spring&logoColor=white" alt="JPA" />&nbsp;
   <img src="https://img.shields.io/badge/MyBatis-000000?style=for-the-badge&logo=mybatis&logoColor=white" alt="MyBatis" />&nbsp;
   <img src="https://img.shields.io/badge/JDBC-007396?style=for-the-badge&logo=java&logoColor=white" alt="JDBC" />&nbsp;
-  <img src="https://img.shields.io/badge/JSP-007396?style=for-the-badge&logo=java&logoColor=white" alt="JSP" />&nbsp;
-  <img src="https://img.shields.io/badge/JSTL-007396?style=for-the-badge&logo=java&logoColor=white" alt="JSTL" />
 </p>
 
 <p align="center">
