@@ -1,3 +1,7 @@
+# NextLevel 프로젝트 구조
+
+## 프로젝트 디렉토리 구조
+
 NextLevel/
 ├── .gradle/                  # Gradle 관련 파일
 ├── .idea/                    # IntelliJ IDEA 설정 파일
@@ -51,3 +55,29 @@ NextLevel/
 ├── .gitignore                # Git 무시 파일 설정
 ├── build.gradle              # Gradle 빌드 스크립트
 └── README.md                 # 프로젝트 설명서
+
+
+## 주요 패키지 설명
+
+### 비즈니스 로직 (biz)
+- **alert**: 알림 시스템 관련 클래스
+- **board**: 게시판 기능 관련 클래스
+- **chatMessage/chatRoom**: 실시간 채팅 기능 관련 클래스
+- **crawling**: 웹 크롤링 기능 관련 클래스
+- **payment**: 결제 시스템 관련 클래스
+- **user**: 사용자 관리 관련 클래스
+
+### 설정 (config)
+- **security**: Spring Security 관련 설정
+- **swagger**: API 문서화 관련 설정
+- **websocket**: 웹소켓 통신 관련 설정
+
+### 뷰 (view)
+- **adminPaymentList/adminUserModeration**: 관리자 기능 관련 클래스
+- **auth**: 인증 및 권한 관련 클래스
+- **board/chatting**: 사용자 인터페이스 관련 클래스
+- **payment**: 결제 화면 관련 클래스
+
+### 유틸리티
+- **GeoCodingUtil**: 위치 정보 변환 유틸리티
+- **JDBCUtil**: 데이터베이스 연결 유틸리티
