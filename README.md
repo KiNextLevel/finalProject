@@ -1,6 +1,17 @@
-# NextLevel 프로젝트 구조
+# NextLevel 프로젝트 구조 📂
 
-## 프로젝트 디렉토리 구조
+## 기술 스택 🛠️
+![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+![Oracle](https://img.shields.io/badge/Oracle-F80000?style=for-the-badge&logo=oracle&logoColor=white)
+![JPA](https://img.shields.io/badge/JPA-6DB33F?style=for-the-badge&logo=spring&logoColor=white)
+![JDBC](https://img.shields.io/badge/JDBC-007396?style=for-the-badge&logo=java&logoColor=white)
+
+## 프로젝트 디렉토리 구조 🗂️
 ```
 NextLevel/
 ├── .gradle/                 
@@ -57,27 +68,36 @@ NextLevel/
 └── README.md                 
 ```
 
-## 주요 패키지 설명
+## 주요 패키지 설명 📚
 
-### 비즈니스 로직 (biz)
-- **alert**: 알림 시스템 관련 클래스
-- **board**: 게시판 기능 관련 클래스
-- **chatMessage/chatRoom**: 실시간 채팅 기능 관련 클래스
-- **crawling**: 웹 크롤링 기능 관련 클래스
-- **payment**: 결제 시스템 관련 클래스
-- **user**: 사용자 관리 관련 클래스
+### 비즈니스 로직 (biz) 💼
+- **alert**: 알림 시스템 관련 클래스 🔔
+- **board**: 게시판 기능 관련 클래스 📋
+- **chatMessage/chatRoom**: 실시간 채팅 기능 관련 클래스 💬
+- **crawling**: 웹 크롤링 기능 관련 클래스 🕸️
+- **payment**: 결제 시스템 관련 클래스 💰
+- **user**: 사용자 관리 관련 클래스 👤
 
-### 설정 (config)
-- **security**: Spring Security 관련 설정
-- **swagger**: API 문서화 관련 설정
-- **websocket**: 웹소켓 통신 관련 설정
+### 설정 (config) ⚙️
+- **security**: Spring Security 관련 설정 🔒
+- **swagger**: API 문서화 관련 설정 📝
+- **websocket**: 웹소켓 통신 관련 설정 🔌
 
-### 뷰 (view)
-- **adminPaymentList/adminUserModeration**: 관리자 기능 관련 클래스
-- **auth**: 인증 및 권한 관련 클래스
-- **board/chatting**: 사용자 인터페이스 관련 클래스
-- **payment**: 결제 화면 관련 클래스
+### 뷰 (view) 👁️
+- **adminPaymentList/adminUserModeration**: 관리자 기능 관련 클래스 👮
+- **auth**: 인증 및 권한 관련 클래스 🔑
+- **board/chatting**: 사용자 인터페이스 관련 클래스 📝
+- **payment**: 결제 화면 관련 클래스 💳
 
-### 유틸리티
-- **GeoCodingUtil**: 위치 정보 변환 유틸리티
-- **JDBCUtil**: 데이터베이스 연결 유틸리티
+### 유틸리티 🔧
+- **GeoCodingUtil**: 위치 정보 변환 유틸리티 🗺️
+- **JDBCUtil**: 데이터베이스 연결 유틸리티 🗃️
+
+## 프로젝트 주요 기능 ✨
+
+- 사용자 인증 및 권한 관리 🔐
+- 실시간 채팅 시스템 💬
+- 게시판 기능 📋
+- 결제 시스템 연동 💳
+- 데이터 크롤링 및 분석 📊
+- 관리자 대시보드 📈
