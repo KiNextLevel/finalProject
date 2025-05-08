@@ -48,13 +48,13 @@ NextLevel/
 │       │       ├── NextLevelApplication.java # 애플리케이션 시작점
 │       │       └── ServletInitializer.java   # 서블릿 초기화
 │       └── resources/
-│           ├── static/                       # 정적 리소스
-│           ├── templates/                    # 템플릿 파일
+│           ├── static/                      
+│           ├── templates/                   
 │           ├── application.properties        # 애플리케이션 설정
 │           └── application.yml               # YAML 형식 설정
-├── .gitignore                # Git 무시 파일 설정
-├── build.gradle              # Gradle 빌드 스크립트
-└── README.md                 # 프로젝트 설명서
+├── .gitignore                
+├── build.gradle              
+└── README.md                 
 ```
 
 ## 주요 패키지 설명
