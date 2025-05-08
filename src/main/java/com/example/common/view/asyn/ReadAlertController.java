@@ -2,6 +2,7 @@ package com.example.common.view.asyn;
 
 import com.example.common.biz.alert.AlertService;
 import com.example.common.biz.alert.AlertVO;
+import com.example.common.biz.alert.jpa.AlertJPAService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,8 +13,10 @@ import java.util.Map;
 
 @RestController//반환값을 JSON 타입으로 변경
 public class ReadAlertController {
+//    @Autowired
+//    private AlertService alertService;
     @Autowired
-    private AlertService alertService;
+    private AlertJPAService alertJPAService;
 
     @PostMapping("/updateAlertStatus")
     public Map<String, Object> updateAlertStatus(@RequestParam("alertNumber") String alertNumber) {
@@ -30,7 +33,7 @@ public class ReadAlertController {
         System.out.println(" -- updateAlertStatusInDatabase -- alertDTO: " + alertNumber);
         alertVO.setAlertNumber(Integer.parseInt(alertNumber));
         System.out.println(" -- updateAlertStatusInDatabase -- alertDTO: " + alertVO);
-        if(alertService.update(alertVO)) {
+        if(alertJPAService.update(alertVO) > 0) {
             System.out.println(" -- updateAlertStatusInDatabase -- alertDTO: " + true);
             return true;
         }

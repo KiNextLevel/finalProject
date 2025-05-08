@@ -2,6 +2,8 @@ package com.example.common.view.mainPage;
 
 import com.example.common.biz.alert.AlertService;
 import com.example.common.biz.alert.AlertVO;
+import com.example.common.biz.alert.jpa.AlertEntity;
+import com.example.common.biz.alert.jpa.AlertJPAService;
 import com.example.common.biz.user.UserService;
 import com.example.common.biz.user.UserVO;
 import jakarta.servlet.http.HttpSession;
@@ -21,6 +23,8 @@ public class MainPageRestController {
     private UserService userService;
     @Autowired
     private AlertService alertService;
+    @Autowired
+    private AlertJPAService alertJPAService;
 
     @GetMapping("/api/mainPageData")
     public Map<String, Object> mainPage(HttpSession session, AlertVO alertVO, UserVO userVO , Model model) {
@@ -32,15 +36,15 @@ public class MainPageRestController {
 
         // 알림 목록 mainpage로
         alertVO.setUserEmail(userEmail);
-        List<AlertVO> alertDatas = alertService.getAlertList(alertVO);
+        List<AlertEntity> alertDatas = alertJPAService.getAlertList(alertVO);
 
         if (alertDatas == null) {
             alertDatas = new ArrayList<>(); // 빈 리스트로 초기화
         }
         // 디버깅용 출력
-        for (AlertVO alertVO1 : alertDatas) {
-            System.out.println(alertVO1);
-        }
+//        for (AlertVO alertVO1 : alertDatas) {
+//            System.out.println(alertVO1);
+//        }
 
         userVO.setUserEmail(userEmail);
         userVO.setCondition("SELECTALL");
