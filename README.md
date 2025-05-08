@@ -1,7 +1,7 @@
 # NextLevel 프로젝트 구조
 
 ## 프로젝트 디렉토리 구조
-
+```
 NextLevel/
 ├── .gradle/                  # Gradle 관련 파일
 ├── .idea/                    # IntelliJ IDEA 설정 파일
@@ -55,7 +55,7 @@ NextLevel/
 ├── .gitignore                # Git 무시 파일 설정
 ├── build.gradle              # Gradle 빌드 스크립트
 └── README.md                 # 프로젝트 설명서
-
+```
 
 ## 주요 패키지 설명
 
