@@ -370,12 +370,14 @@
             <form class="auth-form" id="login-form" action="/login.do" method="POST">
                 <div class="form-group">
                     <label for="login-email"><i class="fa fa-envelope"></i> 이메일</label>
-                    <input type="email" id="login-email" name="userEmail" class="form-control" placeholder="이메일 주소" required>
+<%--                    <input type="email" id="login-email" name="userEmail" class="form-control" placeholder="이메일 주소" required>--%>
+                    <input type="email" id="login-email" name="username" class="form-control" placeholder="이메일 주소" required>
                 </div>
 
                 <div class="form-group">
                     <label for="login-password"><i class="fa fa-lock"></i> 비밀번호</label>
-                    <input type="password" id="login-password" name="userPassword" class="form-control" placeholder="비밀번호" required>
+<%--                    <input type="password" id="login-password" name="userPassword" class="form-control" placeholder="비밀번호" required>--%>
+                    <input type="password" id="login-password" name="password" class="form-control" placeholder="비밀번호" required>
                 </div>
 
                 <button type="submit" class="submit-btn">로그인</button>
@@ -455,7 +457,7 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/js/SignInUp.js"></script>
+<script src="${pageContext.request.contextPath}Metronic-Shop-UI-master/theme/js/SignInUp.js"></script>
 <script>
     // 페이지 로드 시 실행
     $(document).ready(function() {

@@ -43,3 +43,6 @@ application.yml
 
 # uploads 파일 무시
 src/main/webapp/uploads
+
+# 개인 테스트용 파일 무시
+src/main/java/com/example/common/Client.java

@@ -25,12 +25,13 @@ public class ReportDAO {
     private final String INSERT = "INSERT INTO REPORT (REPORT_NUM, REPORT_REPORTER, REPORT_REASON, REPORT_DATE, REPORT_REPORTED, REPORT_DESCRIPTION) " +
         "VALUES (NVL((SELECT MAX(REPORT_NUM)+1 FROM REPORT), 1), ?, ?, CURRENT_TIMESTAMP, ?, ?)";
 
-    private final String UPDATE = "";
-
     // (관리자용) 블랙리스트된 00 유저 삭제하기
     private final String DELETE = "DELETE FROM REPORT WHERE REPORT_REPORTED = ?";
     //(관리자용) 경고 보내면 그 신고건 하나만 삭제하기
     private final String DELETE_ONE = "DELETE FROM REPORT WHERE REPORT_NUM = ?";
+
+
+    private final String UPDATE = "";
 
     public ArrayList<ReportVO> getReportList(ReportVO reportVO) {
         ArrayList<ReportVO> datas = new ArrayList<>();

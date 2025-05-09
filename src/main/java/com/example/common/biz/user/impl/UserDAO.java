@@ -20,6 +20,9 @@ public class UserDAO {
     // 일반 로그인
     private final String SELECTONE_NONSOCIAL = "SELECT MEMBER_EMAIL, MEMBER_PASSWORD, MEMBER_ROLE, MEMBER_PREMIUM FROM MEMBER WHERE MEMBER_EMAIL = ? AND MEMBER_PASSWORD = ?";
 
+    // 시큐리티 로그인
+    private final String SELECTONE_SECURITY = "SELECT MEMBER_EMAIL, MEMBER_PASSWORD, MEMBER_ROLE, MEMBER_PREMIUM FROM MEMBER WHERE MEMBER_EMAIL = ?";
+
     // 해당 유저 전체 정보 불러오기
     private final String SELECTONE_USERINFO = "SELECT * FROM MEMBER WHERE MEMBER_EMAIL = ?";
 
@@ -224,6 +227,20 @@ public class UserDAO {
                     pstmt = conn.prepareStatement(SELECTONE_NONSOCIAL);
                     pstmt.setString(1, userVO.getUserEmail());
                     pstmt.setString(2, userVO.getUserPassword());
+
+                    rs = pstmt.executeQuery();
+                    if (rs.next()) {
+                        data = new UserVO();
+                        data.setUserEmail(rs.getString("MEMBER_EMAIL"));
+                        data.setUserPassword(rs.getString("MEMBER_PASSWORD"));
+                        data.setUserRole(rs.getInt("MEMBER_ROLE"));
+                        data.setUserPremium(rs.getInt("MEMBER_PREMIUM"));
+                    }
+                }
+                // 시큐 로그인
+                else if (userVO.getCondition().equals("SELECTONE_SECURITY")) {
+                    pstmt = conn.prepareStatement(SELECTONE_SECURITY);
+                    pstmt.setString(1, userVO.getUserEmail());
 
                     rs = pstmt.executeQuery();
                     if (rs.next()) {
