@@ -41,9 +41,13 @@
 
 <!-- JavaScript 부분 -->
 <script>
+
   // 현재 로그인한 사용자의 이메일 (서버 세션에서 가져옴)
+  // 서버에서 전달받은 실제 채팅방 ID
+  const chatRoomId = ${chatRoomId};
   const currentUser = "${sessionScope.userEmail}" || "이메일이 안나옴";
   const currentUserNickname = "${currentUserNickname}" || "닉네임이 안나옴";
+  // console.log("채팅방 아이디 잘 나오나 확인하기 로그 : " +chatRoomId)
   console.log("이메일 잘 나오나 확인하기 로그 : " +currentUser)
   console.log("닉네임 잘 나오나 확인하기 로그 : " +currentUserNickname)
 
@@ -53,16 +57,17 @@
 
   // 두 사람의 이메일을 정렬해서 고유한 채팅방 ID 생성
   // 채팅방 ID를 고유하게 만들기 위한 해시 함수
-  String.prototype.hashCode = function() {
-    let hash = 0;
-    for (let i = 0; i < this.length; i++) {
-      hash = ((hash << 5) - hash) + this.charCodeAt(i);
-      hash = hash & hash; // 32비트 정수로 유지
-    }
-    return Math.abs(hash); // 음수 방지
-  };
-
-  const chatRoomId = [currentUser, targetEmail].sort().join('_').hashCode();
+  // 해시 함수 없애기, 채팅방 ID 조회 후 JSP에 전달하는 방식으로 바꿈
+  // String.prototype.hashCode = function() {
+  //   let hash = 0;
+  //   for (let i = 0; i < this.length; i++) {
+  //     hash = ((hash << 5) - hash) + this.charCodeAt(i);
+  //     hash = hash & hash; // 32비트 정수로 유지
+  //   }
+  //   return Math.abs(hash); // 음수 방지
+  // };
+  //
+  // const chatRoomId = [currentUser, targetEmail].sort().join('_').hashCode();
 
   // WebSocket으로 서버 연결 (채팅 실시간 처리용)
   const socket = new WebSocket("ws://localhost:8088/ws/chat");
@@ -85,7 +90,7 @@
   socket.onopen = () => {
     // 서버에 입장 메시지를 보냄
     const joinMsg = {
-      chatRoomId: chatRoomId,
+       // chatRoomId: chatRoomId,
       sender: currentUser,
       senderNickname: currentUserNickname,  // 표시용으로 추가하기
       messageType: "JOIN",
@@ -107,6 +112,7 @@
 
   // 메시지를 받았을 때 실행
   socket.onmessage = (event) => {
+    console.log("수신된 메시지:", event.data);
     const data = JSON.parse(event.data); // JSON 문자열 → 객체로 변환
     // const sendTime = data.timestamp
     //         ? new Date(data.timestamp).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })
@@ -253,6 +259,47 @@
       socket.send(JSON.stringify(leaveMsg));
     }
   });
+// 과거 메시지 불러오는 스크립트
+<%--  $.ajax({--%>
+<%--    url: "/chatHistory.do",--%>
+<%--    method: "GET",--%>
+<%--    //data: { chatRoomId: chatRoomId },--%>
+<%--    success: function(messages) {--%>
+<%--      console.log("불러온 메시지들:", messages);--%>
+<%--      messages.forEach(function(msg) {--%>
+<%--        const isMine = msg.sender === currentUser;--%>
+
+<%--        const messageWrapper = document.createElement("div");--%>
+<%--        messageWrapper.className = isMine ? "message-wrapper my-message-wrapper" : "message-wrapper other-message-wrapper";--%>
+
+<%--        const messageElement = document.createElement("div");--%>
+<%--        messageElement.className = `message ${isMine ? 'sender-message' : 'receiver-message'}`;--%>
+<%--        messageElement.textContent = msg.messageContent;--%>
+
+<%--        const timeElement = document.createElement("div");--%>
+<%--        timeElement.className = "message-time";--%>
+<%--        timeElement.textContent = new Date(msg.sentTime).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });--%>
+
+<%--        if (!isMine) {--%>
+<%--          const infoElement = document.createElement("div");--%>
+<%--          infoElement.className = "message-info";--%>
+<%--          infoElement.textContent = msg.senderNickname || msg.sender;--%>
+<%--          messageWrapper.appendChild(infoElement);--%>
+<%--        }--%>
+
+<%--        messageWrapper.appendChild(messageElement);--%>
+<%--        messageWrapper.appendChild(timeElement);--%>
+<%--        chatBox.appendChild(messageWrapper);--%>
+<%--      });--%>
+
+<%--      // 스크롤 가장 아래로 이동--%>
+<%--      chatBox.scrollTop = chatBox.scrollHeight;--%>
+<%--    },--%>
+<%--    error: function() {--%>
+<%--      console.error("이전 메시지 불러오기 실패");--%>
+<%--    }--%>
+<%--  });--%>
+
 </script>
 </body>
 </html>
