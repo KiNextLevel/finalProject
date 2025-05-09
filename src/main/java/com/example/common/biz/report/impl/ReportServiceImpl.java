@@ -10,7 +10,7 @@ import java.util.List;
 @Service("reportService")
 public class ReportServiceImpl implements ReportService {
     @Autowired
-    private ReportDAO reportDAO;
+    private ReportDAO3 reportDAO;
 
     @Override
     public boolean insert(ReportVO vo) {
