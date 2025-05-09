@@ -14,13 +14,11 @@ import java.util.ArrayList;
 @Repository
 public class ChatRoomDAO {
     // 로그인한 사용자가 참여 중인 모든 채팅방을 조회하는 쿼리문
-    private final String SELECTALL_CHAT_ROOMS = "SELECT * FROM CHAT_ROOM WHERE USER1_EMAIL = ? OR USER2_EMAIL = ? ORDER BY LAST_TIME DESC";
+    private final String SELECTALL_CHAT_ROOMS = "SELECT * FROM CHAT_ROOM WHERE CHATROOM_MEMBER_EMAIL1 = ? || CHATROOM_MEMBER_EMAIL2 = ? ORDER BY CHATROOM_ID DESC";
     // 새로운 채팅방을 생성하는 쿼리문
-    private final String INSERT_CHAT_ROOM = "INSERT INTO CHAT_ROOM (CHAT_ROOM_ID, USER1_EMAIL, USER2_EMAIL, CREATEDTIME_CHATTINGROOM) VALUES ((SELECT NVL(MAX(CHAT_ROOM_ID), 0) + 1 FROM CHAT_ROOM), ?, ?, CURRENT_TIMESTAMP)";
-    // 채팅방의 마지막 메시지와 해당 시간 정보를 업데이트하는 쿼리문
-    private final String UPDATE_LAST_MESSAGE = "UPDATE CHAT_ROOM SET LAST_MESSAGE = ?, LAST_TIME = CURRENT_TIMESTAMP WHERE CHAT_ROOM_ID = ?";
-    // 채팅방 나가기
-    private final String DELETE_ROOM = "DELETE FROM CHAT_ROOM WHERE CHAT_ROOM_ID = ?";
+    private final String INSERT_CHAT_ROOM = "INSERT INTO CHAT_ROOM (CHATROOM_ID, USER1_EMAIL, USER2_EMAIL) VALUES ((SELECT NVL(MAX(CHAT_ROOM_ID), 0) + 1 FROM CHAT_ROOM), ?, ?)";
+//    // 채팅방 나가기
+//    private final String DELETE_ROOM = "DELETE FROM CHAT_ROOM WHERE CHAT_ROOM_ID = ?";
 
     Connection conn = null;
     PreparedStatement pstmt = null;
@@ -33,17 +31,13 @@ public class ChatRoomDAO {
             conn = JDBCUtil.connect();
             pstmt = conn.prepareStatement(SELECTALL_CHAT_ROOMS);
             pstmt.setString(1, chatRoomVO.getUser1Email());
-            pstmt.setString(2, chatRoomVO.getUser2Email());
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 ChatRoomVO data = new ChatRoomVO();
-                data.setChatRoomId(rs.getLong("CHAT_ROOM_ID"));
-                data.setUser1Email(rs.getString("USER1_EMAIL"));
-                data.setUser2Email(rs.getString("USER2_EMAIL"));
-                data.setLastMessage(rs.getString("LAST_MESSAGE"));
-                data.setLastTime(rs.getTimestamp("LAST_TIME"));
-                data.setCreatedTimeChattingRoom(rs.getTimestamp("CREATEDTIME_CHATTINGROOM"));
+                data.setChatRoomId(rs.getLong("CHATROOM_ID"));
+                data.setUser1Email(rs.getString("CHATROOM_MEMBER_EMAIL1"));
+                data.setUser2Email(rs.getString("CHATROOM_MEMBER_EMAIL2"));
                 datas.add(data);
             }
             return datas;
@@ -77,36 +71,39 @@ public class ChatRoomDAO {
 
     // 3. 마지막 메시지 갱신
     public boolean update(ChatRoomVO chatRoomVO) {
-        try {
-            conn = JDBCUtil.connect();
-            pstmt = conn.prepareStatement(UPDATE_LAST_MESSAGE);
-            pstmt.setString(1, chatRoomVO.getLastMessage());
-            pstmt.setLong(2, chatRoomVO.getChatRoomId());
-            pstmt.executeUpdate();
-            int result = pstmt.executeUpdate();
-            return result > 0; // 성공 여부 반환
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        } finally {
-            JDBCUtil.disconnect(conn, pstmt);
-        }
+//        try {
+//            conn = JDBCUtil.connect();
+//            pstmt = conn.prepareStatement(UPDATE_LAST_MESSAGE);
+//            pstmt.setString(1, chatRoomVO.getLastMessage());
+//            pstmt.setLong(2, chatRoomVO.getChatRoomId());
+//            pstmt.executeUpdate();
+//            int result = pstmt.executeUpdate();
+//            return result > 0; // 성공 여부 반환
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return false;
+//        } finally {
+//            JDBCUtil.disconnect(conn, pstmt);
+//        }
+        return false;
     }
 
     // 4. 채팅방 나가기(삭제)
     public boolean delete(ChatRoomVO chatRoomVO) {
-        try{
-            conn = JDBCUtil.connect();
-            pstmt = conn.prepareStatement(DELETE_ROOM);
-            pstmt.setLong(1, chatRoomVO.getChatRoomId());
-            int result = pstmt.executeUpdate();
-            return result > 0;
-        } catch (Exception e){
-            e.printStackTrace();
-            return false;
-        } finally {
-            JDBCUtil.disconnect(conn, pstmt);
-        }
+//        try{
+//            conn = JDBCUtil.connect();
+//            pstmt = conn.prepareStatement(DELETE_ROOM);
+//            pstmt.setLong(1, chatRoomVO.getChatRoomId());
+//            int result = pstmt.executeUpdate();
+//            return result > 0;
+//        } catch (Exception e){
+//            e.printStackTrace();
+//            return false;
+//        } finally {
+//            JDBCUtil.disconnect(conn, pstmt);
+//        }
+//    }
+        return false;
     }
 }
 

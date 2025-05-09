@@ -14,9 +14,9 @@ import java.util.ArrayList;
 public class ChatMessageDAO {
     // 특정 채팅방(CHAT_ROOM_ID)에 속한 모든 메시지를 보낸 시간(SENT_TIME) 기준으로 오름차순 정렬하여 조회하는 쿼리문
     // 채팅방에 입장했을 때 과거부터 현재까지의 메시지를 시간 순서대로 출력하기 위해 사용됨
-    private final String SELECTALL_CHAT_MESSAGES = "SELECT * FROM CHAT_MESSAGE WHERE CHAT_ROOM_ID = ? ORDER BY SENT_TIME ASC";
+    private final String SELECTALL_CHAT_MESSAGES = "SELECT * FROM CHAT_MESSAGE WHERE CHATMESSAGE_CHATROOM_ID = ? ORDER BY CHATMESSAGE_DATE DESC";
     // 새로운 채팅 메시지를 CHAT_MESSAGE 테이블에 삽입하는 쿼리문
-    private final String INSERT_CHAT_MESSAGE = "INSERT INTO CHAT_MESSAGE (MESSAGE_ID, CHAT_ROOM_ID, SENDER_EMAIL, MESSAGE_CONTENT) VALUES ((SELECT NVL(MAX(MESSAGE_ID), 0) + 1 FROM CHAT_MESSAGE), ?, ?, ?)";
+    private final String INSERT_CHAT_MESSAGE = "INSERT INTO CHAT_MESSAGE (CHATMESSAGE_ID, CHATMESSAGE_CHATROOM_ID, CHATMESSAGE_MEMBER_EMAIL1, CHATMESSAGE_CONTENT) VALUES ((SELECT NVL(MAX(MESSAGE_ID), 0) + 1 FROM CHAT_MESSAGE), ?, ?, ?)";
 
     Connection conn = null;
     PreparedStatement pstmt = null;
@@ -33,11 +33,11 @@ public class ChatMessageDAO {
 
             while (rs.next()) {
                 ChatMessageVO data = new ChatMessageVO();
-                data.setMessageId(rs.getLong("MESSAGE_ID"));
-                data.setChatRoomId(rs.getLong("CHAT_ROOM_ID"));
-                data.setSenderEmail(rs.getString("SENDER_EMAIL"));
-                data.setMessageContent(rs.getString("MESSAGE_CONTENT"));
-                data.setSentTime(rs.getTimestamp("SENT_TIME"));
+                data.setMessageId(rs.getLong("CHATMESSAGE_ID"));
+                data.setChatRoomId(rs.getLong("CHATMESSAGE_CHATROOM_ID"));
+                data.setSenderEmail(rs.getString("CHATMESSAGE_MEMBER_EMAIL1"));
+                data.setMessageContent(rs.getString("CHATMESSAGE_CONTENT"));
+                data.setSentTime(rs.getTimestamp("CHATMESSAGE_DATE"));
                 datas.add(data);
             }
             return datas;
