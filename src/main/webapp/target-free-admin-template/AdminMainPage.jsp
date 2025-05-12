@@ -243,15 +243,15 @@
 				</div>
 			</div>
 
-			<div class="fixed-action-btn horizontal click-to-toggle">
-				<a class="btn-floating btn-large red"><i class="material-icons">menu</i></a>
-				<ul>
-					<li><a class="btn-floating red"><i class="material-icons">track_changes</i></a></li>
-					<li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
-					<li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
-					<li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
-				</ul>
-			</div>
+<%--			<div class="fixed-action-btn horizontal click-to-toggle">--%>
+<%--				<a class="btn-floating btn-large red"><i class="material-icons">menu</i></a>--%>
+<%--				<ul>--%>
+<%--					<li><a class="btn-floating red"><i class="material-icons">track_changes</i></a></li>--%>
+<%--					<li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>--%>
+<%--					<li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>--%>
+<%--					<li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>--%>
+<%--				</ul>--%>
+<%--			</div>--%>
 
 			<footer><p></p></footer>
 		</div>
@@ -420,6 +420,123 @@
 		});
 	});
 
+	// 오늘 방문 회원수
+	$(document).ready(function() {
+		$.ajax({
+			url: '/getTodayVisit.do',
+			type: 'GET',
+			dataType: 'json',
+			success: function(data) {
+				console.log("ㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓ"+data);
+				$(".todayVisit h3").text(data.visitor.visitorToday + "명");
+			},
+			error: function(xhr, status, error) {
+				console.error("방문 회원수 조회 실패:", error);
+			}
+		});
+	});
+
+	// 오늘 기준 최근 10일 날짜 리스트 생성(일간 매출)
+	function getLastNDays(n) {
+		let dates = [];
+		let today = new Date();
+		for (let i = n - 1; i >= 0; i--) {
+			let d = new Date(today);
+			d.setDate(today.getDate() - i);
+			let formatted = d.toISOString().slice(0, 10); // YYYY-MM-DD 형식
+			dates.push(formatted);
+		}
+		return dates;
+	}
+
+	// 일간 매출
+	$(document).ready(function() {
+		$.ajax({
+			url: '/getDayPrice.do',
+			type: 'GET',
+			dataType: 'json',
+			success: function(data) {
+				console.log(data.dayResult);
+
+				const labels = getLastNDays(10); // 오늘 기준 최근 10일
+				const salesData = labels.map(date => {	//map()으로 결제 데이터가 없는 날짜는 0원으로 설정
+					const match = data.dayResult.find(item => item.paymentDate === date);
+					return match ? match.productPrice : 0;
+				});
+
+				const ctx = document.getElementById('day-line-chart').getContext('2d');
+				const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+				gradient.addColorStop(0, 'rgba(255, 99, 132, 0.8)');
+				gradient.addColorStop(1, 'rgba(255, 99, 132, 0.2)');
+
+				new Chart(ctx, {
+					type: 'line',
+					data: {
+						labels: labels,
+						datasets: [{
+							label: '일별 매출',
+							data: salesData,
+							backgroundColor: gradient,
+							borderColor: 'rgba(255, 99, 132, 1)',
+							borderWidth: 3,
+							fill: true,
+							tension: 0.4,
+							pointBackgroundColor: 'rgba(255, 99, 132, 1)',
+							pointBorderColor: '#fff',
+							pointHoverBackgroundColor: '#fff',
+							pointHoverBorderColor: 'rgba(255, 99, 132, 1)',
+							pointRadius: 5,
+							pointHoverRadius: 7
+						}]
+					},
+					options: {
+						responsive: true,
+						maintainAspectRatio: true,
+						aspectRatio: 2,
+						plugins: {
+							legend: {
+								labels: {
+									font: {
+										size: 12,
+										family: 'Open Sans'
+									}
+								}
+							}
+						},
+						scales: {
+							y: {
+								beginAtZero: true,
+								grid: {
+									color: 'rgba(200, 200, 200, 0.2)'
+								},
+								ticks: {
+									font: {
+										family: 'Open Sans',
+										size: 12
+									}
+								}
+							},
+							x: {
+								grid: {
+									display: false
+								},
+								ticks: {
+									font: {
+										family: 'Open Sans',
+										size: 12
+									}
+								}
+							}
+						}
+					}
+				});
+			},
+			error: function(xhr, status, error) {
+				console.error("일별 매출 조회 실패:", error);
+			}
+		});
+	});
+
 	//남여 일별 방문자
 	$(document).ready(function() {
 		$.ajax({
@@ -431,6 +548,8 @@
 
 				// 날짜 레이블 배열 생성 (중복 제거)
 				var labels = [...new Set(data.visitors.map(item => item.visitorDate))].sort();
+				// 최근 10개만 사용하도록 잘라내기
+				labels = labels.slice(-10);
 
 				// 남자(0)와 여자(1) 데이터 분리
 				var maleData = new Array(labels.length).fill(0); // 남자 방문자 수
@@ -536,113 +655,6 @@
 			},
 			error: function(xhr, status, error) {
 				console.error("일별 방문자 조회 실패:", error);
-			}
-		});
-	});
-
-	// 오늘 방문 회원수
-	$(document).ready(function() {
-		$.ajax({
-			url: '/getTodayVisit.do',
-			type: 'GET',
-			dataType: 'json',
-			success: function(data) {
-				console.log("ㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓㅓ"+data);
-				$(".todayVisit h3").text(data.visitor.visitorToday + "명");
-			},
-			error: function(xhr, status, error) {
-				console.error("일별 매출 조회 실패:", error);
-			}
-		});
-	});
-
-	// 일간 매출
-	$(document).ready(function() {
-		$.ajax({
-			url: '/getDayPrice.do',
-			type: 'GET',
-			dataType: 'json',
-			success: function(data) {
-				console.log(data.dayResult);
-				var labels = [];
-				var salesData = [];
-				data.dayResult.forEach(function(item) {
-					labels.push(item.paymentDate);
-					salesData.push(item.productPrice);
-				});
-				var ctx = document.getElementById('day-line-chart').getContext('2d');
-				var gradient = ctx.createLinearGradient(0, 0, 0, 400);
-				gradient.addColorStop(0, 'rgba(255, 99, 132, 0.8)');
-				gradient.addColorStop(1, 'rgba(255, 99, 132, 0.2)');
-
-				var myLineChart = new Chart(ctx, {
-					type: 'line',
-					data: {
-						labels: labels,
-						datasets: [{
-							label: '일별 매출',
-							data: salesData,
-							backgroundColor: gradient,
-							borderColor: 'rgba(255, 99, 132, 1)',
-							borderWidth: 3,
-							fill: true,
-							tension: 0.4,
-							pointBackgroundColor: 'rgba(255, 99, 132, 1)',
-							pointBorderColor: '#fff',
-							pointHoverBackgroundColor: '#fff',
-							pointHoverBorderColor: 'rgba(255, 99, 132, 1)',
-							pointRadius: 5,
-							pointHoverRadius: 7
-						}]
-					},
-					options: {
-						responsive: true,
-						maintainAspectRatio: true,
-						aspectRatio: 2,
-						plugins: {
-							legend: {
-								labels: {
-									font: {
-										size: 12,
-										family: 'Open Sans'
-									}
-								}
-							}
-						},
-						scales: {
-							y: {
-								beginAtZero: true,
-								grid: {
-									color: 'rgba(200, 200, 200, 0.2)'
-								},
-								ticks: {
-									font: {
-										family: 'Open Sans',
-										size: 12
-									}
-								}
-							},
-							x: {
-								grid: {
-									display: false
-								},
-								ticks: {
-									font: {
-										family: 'Open Sans',
-										size: 12
-									}
-								}
-							}
-						},
-						ticks: {
-							autoSkip: true,
-							maxTicksLimit: 10
-						}
-					}
-				});
-			},
-			error: function(xhr, status, error) {
-				console.error("일별 매출 조회 실패:", error);
 			}
 		});
 	});
