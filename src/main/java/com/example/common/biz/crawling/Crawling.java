@@ -13,10 +13,9 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -25,15 +24,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-@SpringBootApplication
+@Service
 public class Crawling {
-
     @Autowired
     private UserService userService;
-
     @Autowired
     private PreferenceService preferenceService;
-
     @Autowired
     private RandomPassword randomPassword;
 
@@ -82,8 +78,8 @@ public class Crawling {
     };
 
     @EventListener(ApplicationReadyEvent.class)
-    public void crawlAndSaveActors() {
-        // JVM 인코딩을 UTF-8로 설정 (문자 깨짐 방지)
+    public void crawl() {
+        // JVM 인코딩을 UTF-8로 설정 (문자 깨짐 방지)ㅁ
         System.setProperty("file.encoding", "UTF-8");
 
         // ChromeDriver 경로 설정
@@ -92,10 +88,10 @@ public class Crawling {
         // ChromeOptions 설정 (Headless 모드 활성화)
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless"); // Headless 모드 활성화
-        options.addArguments("--disable-gpu"); // GPU 비활성화 (Headless 모드에서 권장)
-        options.addArguments("--no-sandbox"); // 샌드박스 비활성화 (일부 환경에서 필요)
+        options.addArguments("--disable-gpu"); // GPU 비활성화
+        options.addArguments("--no-sandbox"); // 샌드박스 비활성화
         options.addArguments("--disable-dev-shm-usage"); // 공유 메모리 사용 비활성화 (리소스 절약)
-        options.addArguments("--window-size=1920,1080"); // 창 크기 설정 (일부 사이트에서 필요)
+        options.addArguments("--window-size=1920,1080");
 
         WebDriver driver = new ChromeDriver(options);
 
@@ -112,18 +108,18 @@ public class Crawling {
             List<String> actorNames = new ArrayList<>();
             List<WebElement> actorLinks = driver.findElements(By.xpath("//div[@id='mw-content-text']//ul/li/a"));
             for (WebElement link : actorLinks) {
+                System.out.println("배우 목록 링크" + link);
                 actorUrls.add(link.getAttribute("href"));
                 actorNames.add(link.getText());
             }
 
-            // 첫 2명만 테스트
+            // 첫 100명만 저장
             int limit = Math.min(100, actorUrls.size());
             for (int i = 0; i < limit; i++) {
                 try {
                     String actorName = actorNames.get(i);
                     String actorUrl = actorUrls.get(i);
                     System.out.println("크롤링 중: " + actorName + " (" + actorUrl + ")");
-
                     // 배우 페이지로 이동
                     driver.get(actorUrl);
                     wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1[@id='firstHeading']")));
@@ -188,10 +184,6 @@ public class Crawling {
                     } else {
                         System.out.println("사용자 정보 저장 실패 (중복 이메일): " + userVO.getUserNickname());
                     }
-
-                    driver.get(mainUrl); // 메인 페이지로 돌아가기
-                    wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='mw-content-text']//ul/li/a")));
-
                 } catch (Exception e) {
                     System.out.println("에러 발생: " + e.getMessage());
                 }
