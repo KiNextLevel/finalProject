@@ -31,7 +31,7 @@ public class BoardDAO {
     private String SELECTONE = "SELECT * FROM BOARD WHERE BOARD_NUM = ?";
 
     // 이벤트 추가하기
-    private String INSERT = "INSERT INTO BOARD (BOARD_NUM, BOARD_TITLE, BOARD_CONTENT, BOARD_LIMIT) VALUES ((SELECT NVL(MAX(BOARD_NUM), 0) + 1 FROM BOARD), ?, ?, ?)";
+    private String INSERT = "INSERT INTO BOARD (BOARD_NUM, BOARD_TITLE, BOARD_CONTENT, BOARD_LIMIT) VALUES (board_seq.NEXTVAL, ?, ?, ?)";
 
     // 이벤트 수정
     private String UPDATE_BOARD = "UPDATE BOARD SET BOARD_TITLE = ?, BOARD_CONTENT = ?, BOARD_LIMIT = ? WHERE BOARD_NUM = ?";
