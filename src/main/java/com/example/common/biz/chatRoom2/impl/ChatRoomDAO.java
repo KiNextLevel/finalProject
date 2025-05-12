@@ -14,7 +14,13 @@ import java.util.ArrayList;
 @Repository
 public class ChatRoomDAO {
     // 로그인한 사용자가 참여 중인 모든 채팅방을 조회하는 쿼리문
-    private final String SELECTALL_CHAT_ROOMS = "SELECT * FROM CHATROOM WHERE CHATROOM_MEMBER_EMAIL1 = ? || CHATROOM_MEMBER_EMAIL2 = ? ORDER BY CHATROOM_ID DESC";
+    private final String SELECTALL_CHAT_ROOMS = "SELECT * FROM CHATROOM WHERE CHATROOM_MEMBER_EMAIL1 = ? or CHATROOM_MEMBER_EMAIL2 = ? ORDER BY CHATROOM_ID DESC";
+    // 또는 이렇게 바꿔줘도 됨 (자신이 먼저 채팅하기를 시작하면 자신의 메시지 리스트에는 나오지만 상대방에서는 안나왔음)
+    // SELECT * FROM CHATROOM
+    // WHERE ? IN (CHATROOM_MEMBER_EMAIL1, CHATROOM_MEMBER_EMAIL2)
+    // ORDER BY CHATROOM_ID DESC
+
+
     //서로의 채팅방이 존재하는지
     private final String SELECTONE_CHATROOM_BETWEEN_TWO_MEMBERS =
             "SELECT * FROM CHATROOM " +
@@ -36,7 +42,8 @@ public class ChatRoomDAO {
         try {
             conn = JDBCUtil.connect();
             pstmt = conn.prepareStatement(SELECTALL_CHAT_ROOMS);
-            pstmt.setString(1, chatRoomVO.getUser1Email());
+            pstmt.setString(1, chatRoomVO.getUser1Email());  // User1Email로 통일
+            pstmt.setString(2, chatRoomVO.getUser1Email());  // 여기 똑같게 만들어줌
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
