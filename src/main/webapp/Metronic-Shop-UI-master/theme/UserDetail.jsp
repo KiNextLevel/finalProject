@@ -100,7 +100,7 @@
                         <li><a href="/adminPage.do">관리자페이지</a></li>
                     </c:if>
                     <li><a href="/myPage.do">마이페이지</a></li>
-                    <li>메시지</li>
+                    <li><a href="/myChatRoomList.do">메시지</li>
                     <li><a href="/logout.do">로그아웃</a></li>
                 </ul>
             </div>
