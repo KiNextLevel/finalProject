@@ -17,5 +17,8 @@ public class ChatRoomVO {
     private Timestamp createdTimeChattingRoom; // 채팅방 생성 시간
     private String condition;            // 다양한 메서드를 위한 컨디션
     private String searchKeyword;
+    private String opponentEmail;     // 상대방 이메일 추가(유저의 채팅 리스트에 닉네임 나오게 하기 위해)
+    private String opponentNickname;  // 상대방 닉네임 추가
+
 
 }
