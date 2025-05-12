@@ -7,6 +7,7 @@ package com.example.common.config.websocket;
 import com.example.common.biz.chatMessage2.ChatMessageService;
 import com.example.common.biz.chatMessage2.ChatMessageVO;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -34,6 +36,7 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
 
     // 채팅방 id와 소켓 세션을 저장할 Map
     private final Map<Integer, Set<WebSocketSession>> chatRoomSessionMap = new HashMap<>();
+    private final HttpSession httpSession;
 
     // 소켓 연결 확인
     @Override
@@ -50,27 +53,35 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
 
         String payload = message.getPayload();
         log.info("payload {}", payload);
+        log.info("chatRoomSessionMap keySet: {}", chatRoomSessionMap.keySet());
 
-        // 클라이언트로부터 받은 메세지를 ChatMessageDto로 변환
+
+        // 클라이언트로부터 받은 메세지를 chatMessageWebsocketVO 변환
+        // 즉, JSON을 자바 객체로 변환하기
+        // 왜냐하면, 웹소켓은 WebSocket은 "문자열이나 바이트"만 주고받을 수 있기 때문
         ChatMessageWebsocketVO chatMessageWebsocketVO = mapper.readValue(payload, ChatMessageWebsocketVO.class);
         log.info("session {}", chatMessageWebsocketVO.toString());
         System.out.println("====" + chatMessageWebsocketVO);
         // timestamp 세팅 추가 (채팅 보낼때 보낸 시간도 표시)
         chatMessageWebsocketVO.setTimestamp(Instant.now().toString());
 
-         //디비에 저장될 수 있도록 추가 - 1번
-        // WebSocket VO → DB 저장용 VO로 변환
+        log.info("chatRoomSessionMap keySet: {}", chatRoomSessionMap.keySet());
+        log.info("현재 요청 chatRoomId: {}", chatMessageWebsocketVO.getChatRoomId());
+        log.info("chatRoomSessions: {}", chatRoomSessionMap.get(chatMessageWebsocketVO.getChatRoomId()));
+
+        //디비에 저장될 수 있도록 추가 - 1번
+        // WebSocket VO → DB 저장용 VO로 변환BOARD
         // CHAT_MESSAGE 테이블에 채팅 메시지 저장
        ChatMessageVO dbVO = new ChatMessageVO();
         dbVO.setChatRoomId(chatMessageWebsocketVO.getChatRoomId());
-        dbVO.setSenderEmail(chatMessageWebsocketVO.getSender());
+        dbVO.setMemberEmail1(chatMessageWebsocketVO.getSender());
+        dbVO.setMemberEmail2(chatMessageWebsocketVO.getReceiver());
         dbVO.setMessageContent(chatMessageWebsocketVO.getMessage());
+        dbVO.setSentTime(new Timestamp(System.currentTimeMillis())); // 서버 시간 기준으로 디비에 저장
+        //시간 보내는 것도 저장
 
         // DB에 채팅 내용을 저장
         chatMessageService.insert(dbVO);
-
-
-
 
 //
 //        // 디비에 저장될 수 있도록 추가 - 2번
@@ -110,13 +121,12 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
         }
     }
 
-
     // 소켓 연결 종료
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         // TODO Auto-generated method stub
         log.info("{} 연결 끊김", session.getId());
         sessions.remove(session);
-//        session.sendMessage(new TextMessage("WebSocket 연결 종료"));
+       session.sendMessage(new TextMessage("WebSocket 연결 종료"));
     }
 }
