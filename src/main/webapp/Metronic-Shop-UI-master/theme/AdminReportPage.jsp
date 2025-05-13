@@ -96,7 +96,7 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
                     <li><i class="fa fa-phone"></i><span>010 - 1234 - 1234</span></li>
                     <!-- BEGIN LANGS -->
                     <li class="langs-block">
-                        <a href="/productPage.do" class="current"> 플러스샵 </a>
+                        <a href="productPage.do" class="current"> 플러스샵 </a>
                     </li>
                     <!-- END LANGS -->
                 </ul>
@@ -106,11 +106,11 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
             <div class="col-md-6 col-sm-6 additional-nav">
                 <ul class="list-unstyled list-inline pull-right">
                     <c:if test="${userRole==1}">
-                        <li><a href="/adminPage.do">관리자페이지</a></li>
+                        <li><a href="adminPage.do">관리자페이지</a></li>
                     </c:if>
-                    <li><a href="/myPage.do">마이페이지</a></li>
+                    <li><a href="myPage.do">마이페이지</a></li>
                     <li>메시지</li>
-                    <li><a href="/logout.do">로그아웃</a></li>
+                    <li><a href="logout.do">로그아웃</a></li>
                 </ul>
             </div>
             <!-- END TOP BAR MENU -->
@@ -122,7 +122,7 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
 <!-- BEGIN HEADER -->
 <div class="header">
     <div class="container">
-        <a class="site-logo" href="/mainPage.do"><img
+        <a class="site-logo" href="mainPage.do"><img
                 src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/corporate/img/logos/3.png"
                 alt="mainPage"></a>
 
@@ -145,13 +145,13 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
             <div class="col-md-3 col-sm-5">
                 <div class="sidebar">
                     <ul class="list-group margin-bottom-25 sidebar-menu">
-                        <li class="list-group-item clearfix"><a href="/adminPage.do"><i class="fa fa-home"></i> 관리자 대시보드</a>
+                        <li class="list-group-item clearfix"><a href="adminPage.do"><i class="fa fa-home"></i> 관리자 대시보드</a>
                         </li>
-                        <li class="list-group-item clearfix"><a href="/boardPage.do"><i class="fa fa-file-text"></i> 게시글
+                        <li class="list-group-item clearfix"><a href="boardPage.do"><i class="fa fa-file-text"></i> 게시글
                             관리</a></li>
-                        <li class="list-group-item clearfix"><a href="/adminPaymentListPage.do"><i
+                        <li class="list-group-item clearfix"><a href="adminPaymentListPage.do"><i
                                 class="fa fa-credit-card"></i> 결제 내역 관리</a></li>
-                        <li class="list-group-item clearfix active"><a href="/adminReportPage.do"><i
+                        <li class="list-group-item clearfix active"><a href="adminReportPage.do"><i
                                 class="fa fa-warning"></i> 신고 회원 관리</a></li>
                     </ul>
                 </div>
@@ -194,14 +194,14 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
 
                                 <div class="report-actions">
                                     <form id="sendAlert-${data.reportReported}" method="POST" class="form-inline">
-                                        <input type="hidden" name="reportReported" value="${data.reportReported}">
-                                        <input type="hidden" name="reportReason" value="${data.reportReason}">
-                                        <input type="hidden" name="reportNumber" value="${data.reportNumber}">
+                                        <input type="hidden" name="reportedUser" value="${data.reportReported}">
+                                        <input type="hidden" name="reason" value="${data.reportReason}">
+                                        <input type="hidden" name="reportNum" value="${data.reportNumber}">
                                         <div class="form-group">
                                             <select id="action-${data.reportReported}" name="action"
                                                     class="form-control">
-                                                <option value="/adminSendWarning.do">경고 메시지 발송</option>
-                                                <option value="/adminAddBlack.do">블랙리스트에 추가</option>
+                                                <option value="adminSendWarning.do">경고 메시지 발송</option>
+                                                <option value="adminAddBlack.do">블랙리스트에 추가</option>
                                             </select>
                                         </div>
 
@@ -244,7 +244,7 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
                                     <td>${blacksItem.userName}</td>
                                     <td>${blacksItem.userEmail}</td>
                                     <td>
-                                        <form id="DELETEBLACK-${blacksItem.userEmail}" action="/adminDeleteBlack.do"
+                                        <form id="DELETEBLACK-${blacksItem.userEmail}" action="adminDeleteBlack.do"
                                               method="POST">
                                             <input type="hidden" name="blackEmail" value="${blacksItem.userEmail}">
                                             <button type="submit" class="btn btn-remove btn-sm">
