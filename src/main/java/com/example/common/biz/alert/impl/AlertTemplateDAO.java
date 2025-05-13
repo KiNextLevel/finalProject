@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 @Repository("alertDAO")
-public class AlertDAO2 {
+public class AlertTemplateDAO {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 

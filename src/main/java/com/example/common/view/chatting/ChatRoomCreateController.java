@@ -1,5 +1,7 @@
 package com.example.common.view.chatting;
 
+import com.example.common.biz.alert.AlertService;
+import com.example.common.biz.alert.AlertVO;
 import com.example.common.biz.chatRoom2.ChatRoomService;
 import com.example.common.biz.chatRoom2.ChatRoomVO;
 import com.example.common.biz.user.UserVO;
@@ -15,11 +17,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 // 만약 있다면 바로 채팅방으로 입장
 @Controller
 public class ChatRoomCreateController {
+
+    private final String newChatMessage = "누군가 채팅을 보냈습니다";
     @Autowired
     private ChatRoomService chatRoomService;
+    @Autowired
+    private AlertService alertService;
 
     @GetMapping("/prepareChatRoom.do")
-    public String ChatRoom(@RequestParam String targetEmail, HttpSession session, ChatRoomVO chatRoomVO) {
+    public String ChatRoom(@RequestParam String targetEmail, HttpSession session, ChatRoomVO chatRoomVO, AlertVO alertVO) {
         System.out.println( "채팅방 컨트롤러 진입 성공 : ChatRoomController" );
         //System.out.println("채팅방 번호 : " + chatRoomId);  // 채팅방 번호 받아오기 ( 채팅방 리스트에서)
         // 먼저 세션에서 내 이메일 꺼내오고
@@ -39,6 +45,7 @@ public class ChatRoomCreateController {
         if (existingRoom == null) {
             chatRoomVO.setCondition("INSERT_CHAT_ROOM");  // 컨디션 설정
             chatRoomService.insert(chatRoomVO);  // 이때 ID 생성됨
+
             //chatRoomId = chatRoomVO.getChatRoomId(); // DB에서 생성된 ID 가져오기
             // -> 여기서 문제점 발생
             // 이렇게 바로 DB에서 ID를 가져오면, 방은 생겼는데 방 번호가 안담겨져 있음

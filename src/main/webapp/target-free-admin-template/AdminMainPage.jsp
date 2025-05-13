@@ -436,7 +436,7 @@
 		});
 	});
 
-	// 오늘 기준 최근 10일 날짜 리스트 생성(일간 매출)
+	// 오늘 기준 최근 10일 날짜 리스트 생성(일간 매출, 일별 방문자)
 	function getLastNDays(n) {
 		let dates = [];
 		let today = new Date();
@@ -537,7 +537,7 @@
 		});
 	});
 
-	//남여 일별 방문자
+	// 남녀 일별 방문자
 	$(document).ready(function() {
 		$.ajax({
 			url: '/getDailyVisit.do',
@@ -546,35 +546,27 @@
 			success: function(data) {
 				console.log(data);
 
-				// 날짜 레이블 배열 생성 (중복 제거)
-				var labels = [...new Set(data.visitors.map(item => item.visitorDate))].sort();
-				// 최근 10개만 사용하도록 잘라내기
-				labels = labels.slice(-10);
+				const labels = getLastNDays(10); // 오늘 기준 최근 10일
 
-				// 남자(0)와 여자(1) 데이터 분리
-				var maleData = new Array(labels.length).fill(0); // 남자 방문자 수
-				var femaleData = new Array(labels.length).fill(0); // 여자 방문자 수
+				// 초기값: 모두 0명으로 세팅
+				const maleData = new Array(labels.length).fill(0);
+				const femaleData = new Array(labels.length).fill(0);
 
-				// 날짜별로 남녀 방문자 수 매핑
+				// 날짜별 성별 방문자 수 매핑
 				data.visitors.forEach(function(item) {
-					var dateIndex = labels.indexOf(item.visitorDate);
-					if (item.visitorGender === 1) { // 남자 (0)
-						maleData[dateIndex] = item.visitorDaily;
-					} else if (item.visitorGender === 0) { // 여자 (1)
-						femaleData[dateIndex] = item.visitorDaily;
+					const dateIndex = labels.indexOf(item.visitorDate);
+					if (dateIndex !== -1) {
+						if (item.visitorGender === 1) {
+							maleData[dateIndex] = item.visitorDaily;
+						} else if (item.visitorGender === 0) {
+							femaleData[dateIndex] = item.visitorDaily;
+						}
 					}
 				});
 
-				// 차트 생성
-				var ctx = document.getElementById('day-line-chart2').getContext('2d');
+				const ctx = document.getElementById('day-line-chart2').getContext('2d');
 
-				// 남자 데이터 색상
-				var maleColor = 'rgba(54, 162, 235, 0.8)'; // 파랑
-
-				// 여자 데이터 색상
-				var femaleColor = 'rgba(255, 99, 132, 0.8)'; // 분홍
-
-				var myBarChart = new Chart(ctx, {
+				const myBarChart = new Chart(ctx, {
 					type: 'bar',
 					data: {
 						labels: labels,
@@ -582,17 +574,17 @@
 							{
 								label: '남자 방문자 수',
 								data: maleData,
-								backgroundColor: maleColor,
+								backgroundColor: 'rgba(54, 162, 235, 0.8)',
 								borderColor: 'rgba(54, 162, 235, 1)',
 								borderWidth: 1,
-								barThickness: 20, // 막대 두께 조정
-								categoryPercentage: 0.5, // 카테고리 내 막대 간격 조정
-								barPercentage: 0.8 // 막대 자체의 너비 비율
+								barThickness: 20,
+								categoryPercentage: 0.5,
+								barPercentage: 0.8
 							},
 							{
 								label: '여자 방문자 수',
 								data: femaleData,
-								backgroundColor: femaleColor,
+								backgroundColor: 'rgba(255, 99, 132, 0.8)',
 								borderColor: 'rgba(255, 99, 132, 1)',
 								borderWidth: 1,
 								barThickness: 20,
@@ -604,7 +596,7 @@
 					options: {
 						responsive: true,
 						maintainAspectRatio: true,
-						aspectRatio: 2.5, // 가로 폭을 늘려 간격 확보
+						aspectRatio: 2.5,
 						plugins: {
 							legend: {
 								labels: {
@@ -624,29 +616,19 @@
 						},
 						scales: {
 							x: {
-								stacked: true, // X축에서 막대 쌓기
-								grid: {
-									display: false
-								},
+								stacked: true,
+								grid: { display: false },
 								ticks: {
-									font: {
-										family: 'Open Sans',
-										size: 12
-									},
+									font: { family: 'Open Sans', size: 12 }
 								}
 							},
 							y: {
-								stacked: true, // Y축에서 막대 쌓기
+								stacked: true,
 								beginAtZero: true,
-								grid: {
-									color: 'rgba(200, 200, 200, 0.2)'
-								},
+								grid: { color: 'rgba(200, 200, 200, 0.2)' },
 								ticks: {
-									font: {
-										family: 'Open Sans',
-										size: 12
-									},
-									stepSize: 1 // 방문자 수는 정수이므로 1 단위로 설정
+									font: { family: 'Open Sans', size: 12 },
+									stepSize: 1
 								}
 							}
 						}
