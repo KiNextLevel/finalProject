@@ -29,7 +29,7 @@ public class ChatRoomCreateController {
         // 1. 디비에 채팅방이 이미 존재하는지 객체에 담아서 확인하기
         chatRoomVO.setUser1Email(myEmail);  // 객체에 본인 이메일 넣기
         chatRoomVO.setUser2Email(targetEmail); // 객체에 상대 이메일 넣기
-        chatRoomVO.setCondition("SELECT_CHATROOM_BETWEEN_TWO_USERS");  // 컨디션 설정한거 넣기
+        //chatRoomVO.setCondition("SELECTONE_CHATROOM_BETWEEN_TWO_MEMBERS");  // 컨디션 설정한거 넣기
 
         // DB에서 본인과 상대방 사이에 이미 존재하는 채팅방이 있는지 확인 (있으면 해당 방 정보를 반환)
         ChatRoomVO existingRoom = chatRoomService.getChatRoom(chatRoomVO);
@@ -39,12 +39,18 @@ public class ChatRoomCreateController {
         if (existingRoom == null) {
             chatRoomVO.setCondition("INSERT_CHAT_ROOM");  // 컨디션 설정
             chatRoomService.insert(chatRoomVO);  // 이때 ID 생성됨
-            //chatRoomService.getChatRoom(chatRoomVO); // 생성된 ID가져오기
-            // 생성된 채팅방 정보를 다시 DB에서 받아오기
-            chatRoomVO.setCondition("SELECT_CHATROOM_BETWEEN_TWO_USERS"); // 다시 SELECT용 조건 설정
-            ChatRoomVO createdRoom = chatRoomService.getChatRoom(chatRoomVO); // 반환값 받아오기
-            chatRoomId = createdRoom.getChatRoomId(); // 실제 생성된 ID 저장
             //chatRoomId = chatRoomVO.getChatRoomId(); // DB에서 생성된 ID 가져오기
+            // -> 여기서 문제점 발생
+            // 이렇게 바로 DB에서 ID를 가져오면, 방은 생겼는데 방 번호가 안담겨져 있음
+            // 다시 방 번호를 물어봐야함 -> DB호출
+
+            //chatRoomVO.setCondition("SELECTONE_CHATROOM_BETWEEN_TWO_MEMBERS"); // 다시 SELECT용 조건 설정
+
+            // 생성된 채팅방 번호의 정보를 알기 위해 다시 DB에서 받아와서
+            ChatRoomVO createdRoom = chatRoomService.getChatRoom(chatRoomVO); // 반환값(채팅방 번호) 받아오기
+            // chatRoomId에 저장하기
+            chatRoomId = createdRoom.getChatRoomId(); // 실제 생성된 ID 저장
+
         } // 만약 있다면?
         else {
             chatRoomId = existingRoom.getChatRoomId(); // 기존 ID
@@ -53,7 +59,6 @@ public class ChatRoomCreateController {
 
         // 3. 생성된 chatRoomId와 targetEmail을 가지고 화면으로 이동
         return "redirect:/chattingRoom.do?chatRoomId=" + chatRoomId + "&targetEmail=" + targetEmail;
-
 
 //        vo에 내 이메일 넣고
 //                상대방 이메일 넣고
