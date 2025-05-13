@@ -33,22 +33,46 @@
 
 <c:choose>
   <c:when test="${empty roomList}">
+    <!-- 채팅방이 하나도 없을 때 보여주는 문구 -->
     <p>진행 중인 채팅이 없습니다.</p>
   </c:when>
   <c:otherwise>
+    <!-- roomList에 들어있는 채팅방 목록을 반복 출력 -->
     <c:forEach var="room" items="${roomList}">
+
+      <!-- 각 채팅방 하나를 감싸는 박스 -->
       <div class="chat-room-box">
-        <a href="/chattingRoom.do?targetEmail=${room.opponentEmail}" style="text-decoration: none; color: inherit;">
+
+        <!-- 클릭하면 채팅방으로 이동. 상대 이메일을 파라미터로 보냄 -->
+        <a href="/chattingRoom.do?targetEmail=${room.opponentEmail}">
+
+          <!-- 닉네임과 마지막 메시지 시간 -->
           <div class="chat-header">
-            <span class="nickname">${room.opponentNickname}</span>
-            <span class="last-time">${room.lastTime}</span>
+            <span class="nickname">${room.opponentNickname}</span>  <!-- 상대방 닉네임 -->
+            <span class="last-time">${room.lastTime}</span>  <!-- 마지막 메시지 시간 -->
           </div>
+
+          <!-- 마지막 메시지 내용 -->
           <div class="last-message">${room.lastMessage}</div>
         </a>
       </div>
+
     </c:forEach>
   </c:otherwise>
 </c:choose>
 
 </body>
+<%--<script>--%>
+<%--  $.ajax({--%>
+<%--    url: "/chatHistory.do",--%>
+<%--    method: "GET",--%>
+<%--    data: { chatRoomId: chatRoomId },--%>
+<%--    success: function(messages) {--%>
+<%--      // 메시지를 반복해서 채팅창에 표시--%>
+<%--    }--%>
+<%--  });--%>
+
+
+
+</script>
 </html>
