@@ -31,21 +31,30 @@
     <!-- 메시지를 보여줄 공간 -->
     <div id="chat-box">
         <script>
-            // 🌟 과거 메시지 먼저 불러오기
+            // 웹페이지가 열리면 과거 채팅 메시지를 먼저 가져오자!
             window.onload = () => {
+                // 서버에서 chatRoomId에 해당하는 채팅 메시지들을 요청함
                 fetch(`/chat/messages?chatRoomId=${chatRoomId}`)
-                    .then(res => res.json())
+                    .then(res => res.json()) // 응답 받은 데이터를 JSON(문자처럼 생긴 데이터)으로 바꿔줌
                     .then(messages => {
+                        // 메시지를 거꾸로(옛날 → 최근 순으로) 정렬함
                         messages.reverse().forEach(msg => {
+                            // 내 메시지인지 확인 (내 이메일이랑 같으면 내 메시지!)
                             const isMine = msg.memberEmail1 === currentUser;
 
+                            // 메시지를 감싸는 큰 박스(div)를 만듦
                             const messageWrapper = document.createElement("div");
+                            // 내가 보낸 메시지면 'my-message-wrapper', 아니면 'other-message-wrapper' 클래스를 줌
                             messageWrapper.className = isMine ? "message-wrapper my-message-wrapper" : "message-wrapper other-message-wrapper";
 
+                            // 실제 메시지 내용이 들어가는 박스를 만들고, 안에 텍스트를 넣음
                             const messageElement = document.createElement("div");
+                            // 내가 보낸 건 sender-message, 받은 건 receiver-message 스타일로 꾸밈
                             messageElement.className = `message ${isMine ? 'sender-message' : 'receiver-message'}`;
-                            messageElement.textContent = msg.chatMessageContent;
-                            console.log("메시지 시간 값 확인", msg.chatMessageDate);
+                            messageElement.textContent = msg.messageContent;
+                            //console.log("메시지 시간 값 확인", msg.chatMessageDate);
+
+                            // 시간 표시할 박스를 만들어요
                             const timeElement = document.createElement("div");
                             timeElement.className = "message-time";
                             // const date = new Date(msg.chatMessageDate); // DB에서 오는 timestamp, 그런데 형식 안맞아서 오류
@@ -55,18 +64,20 @@
                             //     minute: '2-digit'
                             // });
 
+                            // DB에서 받은 시간 데이터로 날짜 객체 만들기
                             const date = new Date(msg.sentTime); // DB에서 오는 timestamp, 그런데 형식 안맞아서 오류
+                            // 한국식으로 시:분만 보여주기 (예: 오후 02:15)
                             timeElement.textContent = date.toLocaleTimeString('ko-KR', {
                                 hour: '2-digit',
                                 minute: '2-digit'
                             });
-
+                            // 메시지 박스에 메시지와 시간 박스를 넣기
                             messageWrapper.appendChild(messageElement);
                             messageWrapper.appendChild(timeElement);
-
+                            // 채팅창에 이 메시지 박스를 넣기
                             chatBox.appendChild(messageWrapper);
                         });
-
+                        // 채팅창을 제일 아래로 스크롤 (가장 최근 메시지 보이게)
                         chatBox.scrollTop = chatBox.scrollHeight; // 스크롤 맨 아래로
                     });
             };
@@ -89,7 +100,8 @@
     // 현재 로그인한 사용자의 이메일 (서버 세션에서 가져옴)
     // 서버에서 전달받은 실제 채팅방 ID
     const chatRoomId = ${chatRoomId};
-    const currentUser = "${sessionScope.userEmail}" || "이메일이 안나옴";
+    <%--const currentUser = "${sessionScope.userEmail}" || "이메일이 안나옴";--%>
+    const currentUser = "${userEmail}" || "이메일이 안나옴";
     const currentUserNickname = "${currentUserNickname}" || "닉네임이 안나옴";
     console.log("채팅방 아이디 잘 나오나 확인하기 로그 : " + chatRoomId)
     console.log("이메일 잘 나오나 확인하기 로그 : " + currentUser)
@@ -139,7 +151,7 @@
             receiver: targetEmail,
             senderNickname: currentUserNickname,  // 표시용으로 추가하기
             messageType: "JOIN",
-            message: "입장했습니다"
+           // message: "입장했습니다"
         };
         socket.send(JSON.stringify(joinMsg)); // JSON 형식으로 서버에 전송 / JS객체 → 문자열
 
@@ -159,34 +171,40 @@
     socket.onmessage = (event) => {
         console.log("수신된 메시지:", event.data);
         const data = JSON.parse(event.data); // JSON 문자열 → 객체로 변환
+
+        if (data.messageType === "JOIN" || data.messageType === "LEAVE") {
+            return; //카톡처럼 누가 입장했는지는 필요 없기때문에 화면 출력은 하지 않기 위해 추가
+        }
+
         // const sendTime = data.timestamp
         //         ? new Date(data.timestamp).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })
         //         : getCurrentTime(); // fallback
 
         //timeElement.textContent = sendTime;
 
-        if (data.messageType === "JOIN") {
-            // 누가 들어왔는지 채팅창에 표시
-            const joinElement = document.createElement("div");
-            joinElement.className = "join-message";
-            <%--// joinElement.innerHTML = `<i class="fas fa-user-plus"></i> ${data.sender}님이 ${data.message}`;--%>
-            <%-- joinElement.innerHTML = `<i class="fas fa-user-plus"></i> ${data.senderNickname}님이 ${data.message}`;--%>
-            joinElement.innerHTML = `<i class="fas fa-user-plus"></i> ${data.sender || data.senderNickname}님이 ${data.message}`;
-            console.log("수신 메시지:", data);
+        <%--if (data.messageType === "JOIN") {--%>
+        <%--    // 누가 들어왔는지 채팅창에 표시--%>
+        <%--    const joinElement = document.createElement("div");--%>
+        <%--    joinElement.className = "join-message";--%>
+        <%--    &lt;%&ndash;// joinElement.innerHTML = `<i class="fas fa-user-plus"></i> ${data.sender}님이 ${data.message}`;&ndash;%&gt;--%>
+        <%--    &lt;%&ndash; joinElement.innerHTML = `<i class="fas fa-user-plus"></i> ${data.senderNickname}님이 ${data.message}`;&ndash;%&gt;--%>
+        <%--    joinElement.innerHTML = `<i class="fas fa-user-plus"></i> \${data.sender || data.senderNickname}님이 ${data.message}`;--%>
+        <%--    console.log("수신 메시지:", data);--%>
 
-            chatBox.appendChild(joinElement);
+        <%--    chatBox.appendChild(joinElement);--%>
+        //     }
+        <%-- if (data.messageType === "LEAVE") {--%>
+        <%--    // 누가 나갔는지 표시--%>
+        <%--    const leaveElement = document.createElement("div");--%>
+        <%--    leaveElement.className = "join-message";--%>
+        <%--    &lt;%&ndash;//leaveElement.innerHTML = `<i class="fas fa-user-minus"></i> ${data.sender}님이 ${data.message}`;&ndash;%&gt;--%>
+        <%--    &lt;%&ndash;leaveElement.innerHTML = `<i class="fas fa-user-minus"></i> ${data.senderNickname}님이 ${data.message}`;&ndash;%&gt;--%>
+        <%--    leaveElement.innerHTML = `<i class="fas fa-user-plus"></i> ${data.sender || data.senderNickname}님이 ${data.message}`;--%>
+        <%--    console.log("발신 메시지:", data);--%>
+        <%--    chatBox.appendChild(leaveElement);--%>
 
-        } else if (data.messageType === "LEAVE") {
-            // 누가 나갔는지 표시
-            const leaveElement = document.createElement("div");
-            leaveElement.className = "join-message";
-            <%--//leaveElement.innerHTML = `<i class="fas fa-user-minus"></i> ${data.sender}님이 ${data.message}`;--%>
-            <%--leaveElement.innerHTML = `<i class="fas fa-user-minus"></i> ${data.senderNickname}님이 ${data.message}`;--%>
-            leaveElement.innerHTML = `<i class="fas fa-user-plus"></i> ${data.sender || data.senderNickname}님이 ${data.message}`;
-            console.log("발신 메시지:", data);
-            chatBox.appendChild(leaveElement);
-
-        } else {
+        <%--} --%>
+        if (data.messageType === "TALK") {
             // 일반 채팅 메시지일 때
             const isMine = data.sender === currentUser; // 내 메시지인지 확인
             //const currentTime = getCurrentTime(); // 현재 시간 가져오기
@@ -237,7 +255,7 @@
             receiver: targetEmail,
             senderNickname: currentUserNickname,  // ✅ 추가
             messageType: "LEAVE",
-            message: "퇴장했습니다"
+            //message: "퇴장했습니다"
         };
         try {
             socket.send(JSON.stringify(leaveMsg));
@@ -296,18 +314,18 @@
     setInterval(checkConnection, 5000);
 
     // 페이지를 나가기 전에 서버에 퇴장 메시지 보내기
-    window.addEventListener('beforeunload', () => {
-        if (socket.readyState === WebSocket.OPEN) {
-            const leaveMsg = {
-                chatRoomId: chatRoomId,
-                sender: currentUser,
-                receiver: targetEmail,
-                messageType: "LEAVE",
-                message: "퇴장했습니다"
-            };
-            socket.send(JSON.stringify(leaveMsg));
-        }
-    });
+    // window.addEventListener('beforeunload', () => {
+    //     if (socket.readyState === WebSocket.OPEN) {
+    //         const leaveMsg = {
+    //             chatRoomId: chatRoomId,
+    //             sender: currentUser,
+    //             receiver: targetEmail,
+    //             messageType: "LEAVE",
+    //             message: "퇴장했습니다"
+    //         };
+    //         socket.send(JSON.stringify(leaveMsg));
+    //     }
+    // });
     // 과거 메시지 불러오는 스크립트
     <%--  $.ajax({--%>
     <%--    url: "/chatHistory.do",--%>
