@@ -40,7 +40,7 @@ public class ChatMessageDAO {
                 data.setMessageId(rs.getInt("CHATMESSAGE_ID"));
                 data.setChatRoomId(rs.getInt("CHATMESSAGE_CHATROOM_ID"));
                 data.setMemberEmail1(rs.getString("CHATMESSAGE_MEMBER_EMAIL1"));
-                data.setMemberEmail1(rs.getString("CHATMESSAGE_MEMBER_EMAIL2"));
+                data.setMemberEmail2(rs.getString("CHATMESSAGE_MEMBER_EMAIL2"));
                 data.setMessageContent(rs.getString("CHATMESSAGE_CONTENT"));
                 data.setSentTime(rs.getTimestamp("CHATMESSAGE_DATE"));
                 datas.add(data);
