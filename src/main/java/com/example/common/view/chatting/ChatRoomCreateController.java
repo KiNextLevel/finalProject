@@ -39,7 +39,12 @@ public class ChatRoomCreateController {
         if (existingRoom == null) {
             chatRoomVO.setCondition("INSERT_CHAT_ROOM");  // 컨디션 설정
             chatRoomService.insert(chatRoomVO);  // 이때 ID 생성됨
-            chatRoomId = chatRoomVO.getChatRoomId(); // DB에서 생성된 ID 가져오기
+            //chatRoomService.getChatRoom(chatRoomVO); // 생성된 ID가져오기
+            // 생성된 채팅방 정보를 다시 DB에서 받아오기
+            chatRoomVO.setCondition("SELECT_CHATROOM_BETWEEN_TWO_USERS"); // 다시 SELECT용 조건 설정
+            ChatRoomVO createdRoom = chatRoomService.getChatRoom(chatRoomVO); // 반환값 받아오기
+            chatRoomId = createdRoom.getChatRoomId(); // 실제 생성된 ID 저장
+            //chatRoomId = chatRoomVO.getChatRoomId(); // DB에서 생성된 ID 가져오기
         } // 만약 있다면?
         else {
             chatRoomId = existingRoom.getChatRoomId(); // 기존 ID
