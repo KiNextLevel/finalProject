@@ -32,14 +32,14 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand waves-effect waves-dark" href="adminPage.do"><i class="large material-icons">track_changes</i> <strong>Next Love</strong></a>
+			<a class="navbar-brand waves-effect waves-dark" href="/adminPage.do"><i class="large material-icons">track_changes</i> <strong>Next Love</strong></a>
 
 			<div id="sideNav" href=""><i class="material-icons dp48">toc</i></div>
 		</div>
 
 		<ul class="nav navbar-top-links navbar-right">
-			<li><a class="dropdown-button waves-effect waves-dark" href="mainPage.do"> <b>메인 페이지</b></a></li>
-			<li><a class="dropdown-button waves-effect waves-dark" href="logout.do"><i class="fa fa-user fa-fw"></i> <b>Log out</b></a></li>
+			<li><a class="dropdown-button waves-effect waves-dark" href="/mainPage.do"> <b>메인 페이지</b></a></li>
+			<li><a class="dropdown-button waves-effect waves-dark" href="/logout.do"><i class="fa fa-user fa-fw"></i> <b>Log out</b></a></li>
 			<li></li>
 		</ul>
 	</nav>
@@ -49,13 +49,13 @@
 			<ul class="nav" id="main-menu">
 
 				<li>
-					<a class="waves-effect waves-dark" href="boardPage.do"><i class="fa fa-dashboard"></i> 이벤트 페이지</a>
+					<a class="waves-effect waves-dark" href="/boardPage.do"><i class="fa fa-dashboard"></i> 이벤트 페이지</a>
 				</li>
 				<li>
-					<a href="adminPaymentListPage.do" class="waves-effect waves-dark"><i class="fa fa-desktop"></i> 결제 내역 페이지</a>
+					<a href="/adminPaymentListPage.do" class="waves-effect waves-dark"><i class="fa fa-desktop"></i> 결제 내역 페이지</a>
 				</li>
 				<li>
-					<a href="adminReportPage.do" class="waves-effect waves-dark"><i class="fa fa-bar-chart-o"></i> 신고 회원 관리 페이지</a>
+					<a href="/adminReportPage.do" class="waves-effect waves-dark"><i class="fa fa-bar-chart-o"></i> 신고 회원 관리 페이지</a>
 				</li>
 			</ul>
 
