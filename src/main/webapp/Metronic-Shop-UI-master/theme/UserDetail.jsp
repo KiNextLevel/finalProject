@@ -9,6 +9,7 @@
 
 <html>
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-32x32.png">
     <meta charset="utf-8">
     <title>사용자 상세 페이지</title>
@@ -534,10 +535,24 @@
 
         // 채팅 버튼 클릭 이벤트
         $('#chatButton').on('click', function () {
-            if (confirm("대화를 시작하시겠습니까? ('확인'을 누르면 토큰이 1개 차감됩니다)")) {
-                // 단순히 이동만 시키면 됨 (토큰 체크와 차감은 서버에서 함)
-                window.location.href = '/deductToken.do?targetEmail=' + encodeURIComponent(targetEmail);
-            }
+            Swal.fire({
+                title: '대화를 시작하시겠습니까?',
+                text: "확인을 누르면 토큰이 1개 차감됩니다.",
+                icon: null,
+                showCancelButton: true,
+                confirmButtonText: '확인',
+                cancelButtonText: '취소',
+                customClass: {
+                    popup: 'custom-swal-popup',
+                    confirmButton: 'swal2-confirm-button',
+                    cancelButton: 'swal2-cancel-button'
+                },
+                buttonsStyling: false  // 기본 스타일 제거
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '/deductToken.do?targetEmail=' + encodeURIComponent(targetEmail);
+                }
+            });
         });
 
         // $('#chatButton').on('click', function () {

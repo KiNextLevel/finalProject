@@ -45,11 +45,15 @@ public class ChatRoomCreateController {
         if (existingRoom == null) {
             chatRoomVO.setCondition("INSERT_CHAT_ROOM");  // 컨디션 설정
             chatRoomService.insert(chatRoomVO);  // 이때 ID 생성됨
+
+            chatRoomVO.setCondition("SELECT_CHATROOM_BETWEEN_TWO_USERS"); // 다시 SELECT용 조건 설정
+            ChatRoomVO createdRoom = chatRoomService.getChatRoom(chatRoomVO); // 반환값 받아오기
+
             chatRoomId = chatRoomVO.getChatRoomId(); // DB에서 생성된 ID 가져오기
 
             alertVO.setUserEmail(targetEmail);
             alertVO.setAlertContent(newChatMessage);
-            alertService.insert(alertVO);
+            alertService.insert(alertVO);   //채팅 받은 사람에게 알림 추가
         } // 만약 있다면?
         else {
             chatRoomId = existingRoom.getChatRoomId(); // 기존 ID
