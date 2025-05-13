@@ -72,16 +72,18 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
         //디비에 저장될 수 있도록 추가 - 1번
         // WebSocket VO → DB 저장용 VO로 변환BOARD
         // CHAT_MESSAGE 테이블에 채팅 메시지 저장
-       ChatMessageVO dbVO = new ChatMessageVO();
-        dbVO.setChatRoomId(chatMessageWebsocketVO.getChatRoomId());
-        dbVO.setMemberEmail1(chatMessageWebsocketVO.getSender());
-        dbVO.setMemberEmail2(chatMessageWebsocketVO.getReceiver());
-        dbVO.setMessageContent(chatMessageWebsocketVO.getMessage());
-        dbVO.setSentTime(new Timestamp(System.currentTimeMillis())); // 서버 시간 기준으로 디비에 저장
-        //시간 보내는 것도 저장
+        if (chatMessageWebsocketVO.getMessageType().equals(ChatMessageWebsocketVO.MessageType.TALK)) {
+            ChatMessageVO dbVO = new ChatMessageVO();
+            dbVO.setChatRoomId(chatMessageWebsocketVO.getChatRoomId());
+            dbVO.setMemberEmail1(chatMessageWebsocketVO.getSender());
+            dbVO.setMemberEmail2(chatMessageWebsocketVO.getReceiver());
+            dbVO.setMessageContent(chatMessageWebsocketVO.getMessage());
+            dbVO.setSentTime(new Timestamp(System.currentTimeMillis())); // 서버 시간 기준으로 디비에 저장
+            //시간 보내는 것도 저장
 
-        // DB에 채팅 내용을 저장
-        chatMessageService.insert(dbVO);
+            // DB에 채팅 내용을 저장
+            chatMessageService.insert(dbVO);
+        }
 
 //
 //        // 디비에 저장될 수 있도록 추가 - 2번
@@ -98,17 +100,17 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
             chatRoomSessionMap.put(chatMessageWebsocketVO.getChatRoomId(), new HashSet<>());
         }
 
-        // 메세지 타입에 따라 분기
+        //메세지 타입에 따라 분기
         if (chatMessageWebsocketVO.getMessageType().equals(ChatMessageWebsocketVO.MessageType.JOIN)) {
             // 입장 메세지
             chatRoomSessionMap.get(chatMessageWebsocketVO.getChatRoomId()).add(session);
             //chatMessageVO.setMessage(chatMessageVO.getSender() + "님이 입장하셨습니다.");
-            chatMessageWebsocketVO.setMessage(chatMessageWebsocketVO.getSenderNickname() + "님이 입장하셨습니다.");
+            //chatMessageWebsocketVO.setMessage(chatMessageWebsocketVO.getSenderNickname() + "님이 입장하셨습니다.");
         } else if (chatMessageWebsocketVO.getMessageType().equals(ChatMessageWebsocketVO.MessageType.LEAVE)) {
             // 퇴장 메세지
             chatRoomSessionMap.get(chatMessageWebsocketVO.getChatRoomId()).remove(session);
             //chatMessageVO.setMessage(chatMessageVO.getSender() + "님이 퇴장하셨습니다.");
-            chatMessageWebsocketVO.setMessage(chatMessageWebsocketVO.getSenderNickname() + "님이 퇴장하셨습니다.");
+            //chatMessageWebsocketVO.setMessage(chatMessageWebsocketVO.getSenderNickname() + "님이 퇴장하셨습니다.");
         }
 
         // NPE 방지를 위한 안전 장치
@@ -127,6 +129,13 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
         // TODO Auto-generated method stub
         log.info("{} 연결 끊김", session.getId());
         sessions.remove(session);
-       session.sendMessage(new TextMessage("WebSocket 연결 종료"));
+
+
+        // 채팅방에서도 세션 제거
+        for (Set<WebSocketSession> chatRoomSessions : chatRoomSessionMap.values()) {
+            chatRoomSessions.remove(session);
+
+            //session.sendMessage(new TextMessage("WebSocket 연결 종료"));
+        }
     }
 }
