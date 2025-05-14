@@ -64,7 +64,7 @@
                             messageElement.textContent = msg.messageContent;
                             //console.log("메시지 시간 값 확인", msg.chatMessageDate);
 
-                            // 시간 표시할 박스를 만들어요
+                            // 시간 표시할 박스를 만들기
                             const timeElement = document.createElement("div");
                             timeElement.className = "message-time";
                             // const date = new Date(msg.chatMessageDate); // DB에서 오는 timestamp, 그런데 형식 안맞아서 오류
