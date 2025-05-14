@@ -54,7 +54,7 @@
                             messageElement.textContent = msg.messageContent;
                             //console.log("메시지 시간 값 확인", msg.chatMessageDate);
 
-                            // 시간 표시할 박스를 만들어요
+                            // 시간 표시할 박스를 만들기
                             const timeElement = document.createElement("div");
                             timeElement.className = "message-time";
                             // const date = new Date(msg.chatMessageDate); // DB에서 오는 timestamp, 그런데 형식 안맞아서 오류
@@ -154,7 +154,6 @@
            // message: "입장했습니다"
         };
         socket.send(JSON.stringify(joinMsg)); // JSON 형식으로 서버에 전송 / JS객체 → 문자열
-
         // 사용자 닉네임 표시 (JSP 세션에서 가져옴)
         <%--const userNickname = "${sessionScope.userNickname}" || "상대방"; -> 상대방이 아닌, 자신의 닉네임을 가지고 오고 있었음--%>
         const targetNickname = "${targetNickname}" || "상대방";     //ChattingRestController에서 가져오기
