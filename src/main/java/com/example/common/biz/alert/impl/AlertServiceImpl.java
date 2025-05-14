@@ -10,7 +10,7 @@ import java.util.List;
 @Service("alertService")
 public class AlertServiceImpl implements AlertService {
     @Autowired
-    private AlertDAO2 alertDAO;
+    private AlertTemplateDAO alertDAO;
 
     @Override
     public boolean insert(AlertVO vo) {

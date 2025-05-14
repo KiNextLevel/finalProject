@@ -9,7 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-@Repository
+//@Repository
 public class AlertDAO {
     // 00유저의 알림번호, 알림내용, 알림 날짜, 알림여부 불러오기
     // 사용자의 알림이 여러개가 있을 수 있으니까 SELECTALL

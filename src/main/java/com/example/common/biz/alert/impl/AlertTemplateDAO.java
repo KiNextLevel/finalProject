@@ -10,8 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-@Repository()
-public class AlertDAO2 {
+@Repository("alertDAO")
+public class AlertTemplateDAO {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -39,8 +39,7 @@ public class AlertDAO2 {
         return (ArrayList<AlertVO>) jdbcTemplate.query(SELECTALL, args, new AlertRowMapper() {});
     }
     // 기능 없음
-    private
-    AlertVO selectOne(AlertVO AlertVO) {
+    private AlertVO selectOne(AlertVO AlertVO) {
         throw new UnsupportedOperationException("단일 알림 조회는 제공되지 않습니다.");
     }
 
@@ -49,24 +48,6 @@ public class AlertDAO2 {
     }
 
     public boolean update(AlertVO AlertVO) {
-//        Connection conn = null;
-//        PreparedStatement pstmt = null;
-//
-//        try {
-//            conn = JDBCUtil.connect();
-//            pstmt = conn.prepareStatement(UPDATE_ISWATCH);
-//            //pstmt.setBoolean(1, AlertVO.isAlertIsWatch()); // 0 (안 읽음) 또는 1 (읽음)
-//            pstmt.setInt(1, AlertVO.getAlertNumber()); //  ALERT_NUM (PK)로 특정 알림 지정
-//
-//            int result = pstmt.executeUpdate();
-//            return result > 0; // 1개 이상 업데이트되면 true
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return false;
-//        } finally {
-//            JDBCUtil.disconnect(conn, pstmt);
-//        }
         return jdbcTemplate.update(UPDATE_ISWATCH, AlertVO.getAlertNumber()) == 1;
     }
 
@@ -90,3 +71,4 @@ class AlertRowMapper implements RowMapper<AlertVO> {
         return data;
     }
 }
+

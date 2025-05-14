@@ -1,5 +1,7 @@
 package com.example.common.view.chatting;
 
+import com.example.common.biz.alert.AlertService;
+import com.example.common.biz.alert.AlertVO;
 import com.example.common.biz.chatRoom2.ChatRoomService;
 import com.example.common.biz.chatRoom2.ChatRoomVO;
 import com.example.common.biz.user.UserVO;
@@ -15,14 +17,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 // 만약 있다면 바로 채팅방으로 입장
 @Controller
 public class ChatRoomCreateController {
+
+    private final String newChatMessage = "누군가 채팅을 보냈습니다";
     @Autowired
     private ChatRoomService chatRoomService;
+    @Autowired
+    private AlertService alertService;
 
     // 순서 변경
     // 원래는 토큰 확인이 먼저였지만, 채팅방 유무 확인후 -> 토큰 확인하고, 있으면? -> 채팅방 생성
     @GetMapping("/prepareChatRoom.do")
-    public String ChatRoom(@RequestParam String targetEmail, HttpSession session, ChatRoomVO chatRoomVO) {
-        System.out.println("채팅방 컨트롤러 진입 성공 : ChatRoomController");
+
+    public String ChatRoom(@RequestParam String targetEmail, HttpSession session, ChatRoomVO chatRoomVO, AlertVO alertVO) {
+        System.out.println( "채팅방 컨트롤러 진입 성공 : ChatRoomController" );
+
         //System.out.println("채팅방 번호 : " + chatRoomId);  // 채팅방 번호 받아오기 ( 채팅방 리스트에서)
         // 먼저 세션에서 내 이메일 꺼내오고
         String myEmail = (String) session.getAttribute("userEmail");
@@ -35,7 +43,19 @@ public class ChatRoomCreateController {
 
         // DB에서 본인과 상대방 사이에 이미 존재하는 채팅방이 있는지 확인 (있으면 해당 방 정보를 반환)
         ChatRoomVO existingRoom = chatRoomService.getChatRoom(chatRoomVO);
-        System.out.println("두 사람 사이에 방이 있니?(있으면 ChatRoomVO 객체 출력)  : " + existingRoom);
+
+        System.out.println("두 사람 사이에 방이 있니?(있으면 ChatRoomVO 객체 출력)  : " +existingRoom);
+        int chatRoomId;
+        // 만약 방이 없다면?
+        if (existingRoom == null) {
+            chatRoomVO.setCondition("INSERT_CHAT_ROOM");  // 컨디션 설정
+            chatRoomService.insert(chatRoomVO);  // 이때 ID 생성됨
+
+            //chatRoomId = chatRoomVO.getChatRoomId(); // DB에서 생성된 ID 가져오기
+            // -> 여기서 문제점 발생
+            // 이렇게 바로 DB에서 ID를 가져오면, 방은 생겼는데 방 번호가 안담겨져 있음
+            // 다시 방 번호를 물어봐야함 -> DB호출
+
 
         // 만약 채팅방이 있다면?
         if (existingRoom != null) {

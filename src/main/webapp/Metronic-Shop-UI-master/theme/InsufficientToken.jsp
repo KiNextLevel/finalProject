@@ -19,7 +19,7 @@
     </div>
     <h2 style="margin-bottom: 15px; color: #333;">토큰이 부족합니다</h2>
     <p>채팅을 시작하기 위한 토큰이 부족합니다.<br>토큰을 충전한 후 다시 시도해주세요.</p>
-    <a href="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/ProductPage.jsp" class="btn">
+    <a href="/productPage.do" class="btn">
       <i class="fas fa-plus-circle"></i> 토큰 충전하기
     </a>
   </div>

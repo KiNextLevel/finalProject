@@ -620,6 +620,7 @@
                         const preference = response.preferenceVO;
                         const paymentList = response.paymentList;
                         const participantList = response.participantList;
+                        console.log("participantList", participantList);
 
                         // ----------- 기본 정보 -----------
                         $("#userName").text(user.userName || '이름 없음');
@@ -669,7 +670,7 @@
                             participantList.forEach(event => {
                                 eventTable.append(`
                             <tr>
-                                <td>${event.boardTitle}</td>
+                                <td>\${event.boardTitle}</td>
                             </tr>
                         `);
                             });
@@ -684,10 +685,11 @@
                             paymentList.forEach(payment => {
                                 paymentTable.append(`
                             <tr>
-                                <td>${payment.productName}</td>
-                                <td>${payment.productPrice}</td>
+                                <td>\${payment.productName}</td>
+                                <td>\${payment.productPrice}</td>
                                 <%--<td>${new Date(payment.paymentDate).toLocaleDateString('ko-KR')}</td>--%>
-                                <td><fmt:formatDate value="${payment.paymentDate}" pattern="yyyy-MM-dd" /></td>   <%--  JSTL fmt 사용 --%>
+                                <%--<td><fmt:formatDate value="${payment.paymentDate}" pattern="yyyy-MM-dd" /></td>     JSTL fmt 사용 --%>
+                                <td>\${payment.paymentDate}</td>
 
                             </tr>
                         `);

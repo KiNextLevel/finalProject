@@ -87,6 +87,12 @@
                         <div class="card-action">
                             Advanced Tables
                         </div>
+                        <div class="card-action" style="display: flex; justify-content: space-between; align-items: center;">
+                            <span>Advanced Tables</span>
+                            <a href="/excel.do" class="btn waves-effect waves-light green">
+                                <i class="fa fa-file-excel-o"></i> Excel로 내보내기
+                            </a>
+                        </div>
                         <div class="card-content">
                             <div class="table-responsive">                                            <!-- 이게 정렬 -->
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
