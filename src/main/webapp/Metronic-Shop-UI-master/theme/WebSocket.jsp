@@ -52,10 +52,13 @@
                             // 내가 보낸 메시지면 'my-message-wrapper', 아니면 'other-message-wrapper' 클래스를 줌
                             messageWrapper.className = isMine ? "message-wrapper my-message-wrapper" : "message-wrapper other-message-wrapper";
 
+                            //메시지 가져올 때 상대방 닉네임 출력
+                            if (!isMine) {
                                 const nicknameElement = document.createElement("div");
                                 nicknameElement.className = "message-nickname";
-                                nicknameElement.textContent = targetNickname; // 서버에서 JSP로 전달된 값 사용
+                                nicknameElement.textContent = targetNickname;
                                 messageWrapper.appendChild(nicknameElement);
+                            }
 
                             // 실제 메시지 내용이 들어가는 박스를 만들고, 안에 텍스트를 넣음
                             const messageElement = document.createElement("div");
