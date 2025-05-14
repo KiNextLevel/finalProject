@@ -42,6 +42,42 @@ public class PaymentTemplateDAO {
                     " WHERE M.PAYMENT_MEMBER_EMAIL = ? " +
                     " ORDER BY M.PAYMENT_DATE DESC";
 
+    // 상품별 매출액 출력
+    private final String SELECTALL_PRODUCT_PRICE =
+            "SELECT" +
+                    " PRODUCT_NUM," +
+                    " SUM(PAYMENT_PRICE) AS TOTAL_SALES " +
+                    " FROM PAYMENT " +
+                    " GROUP BY PRODUCT_NUM " +
+                    " ORDER BY PRODUCT_NUM ";
+
+    //일별 매출액
+    private final String SELECTALL_DAY =
+            "SELECT" +
+                    " TO_CHAR(PAYMENT_DATE, 'YYYY-MM-DD') AS PERIOD," +
+                    " SUM(PAYMENT_PRICE) AS TOTAL_SALES" +
+                    " FROM PAYMENT" +
+                    " GROUP BY TO_CHAR(PAYMENT_DATE, 'YYYY-MM-DD')" +
+                    " ORDER BY PERIOD";
+
+    //주별 매출액
+    private final String SELECTALL_WEEK =
+            "SELECT" +
+                    " TO_CHAR(PAYMENT_DATE, 'IYYY-IW') AS PERIOD," +
+                    " SUM(PAYMENT_PRICE) AS TOTAL_SALES" +
+                    " FROM PAYMENT" +
+                    " WHERE PAYMENT_DATE >= ADD_MONTHS(SYSDATE, -2) " +
+                    " GROUP BY TO_CHAR(PAYMENT_DATE, 'IYYY-IW')" +
+                    " ORDER BY PERIOD";
+
+    //월별 매출액
+    private final String SELECTALL_MONTH =
+            "SELECT" +
+                    " TO_CHAR(PAYMENT_DATE, 'YYYY-MM') AS PERIOD," +
+                    " SUM(PAYMENT_PRICE) AS TOTAL_SALES" +
+                    " FROM PAYMENT" +
+                    " GROUP BY TO_CHAR(PAYMENT_DATE, 'YYYY-MM')" +
+                    " ORDER BY PERIOD";
 
     // 사용자 결제 내역 저장하기
     // 유저 이메일, 금액, 결제 날짜, 결제 방법, 상품 번호
@@ -49,6 +85,12 @@ public class PaymentTemplateDAO {
             " (PAYMENT_NUM, PAYMENT_MEMBER_EMAIL, PAYMENT_PRICE, PAYMENT_DATE, PAYMENT_TYPE, PRODUCT_NUM) " +
             " VALUES (NVL((SELECT MAX(PAYMENT_NUM) + 1 FROM PAYMENT), 1), ?, ?, CURRENT_TIMESTAMP, ?, ?)";
 
+    // 결제한 회원 수
+    private final String SELECTONE_PAID_USER =
+            "SELECT COUNT(DISTINCT PAYMENT_MEMBER_EMAIL) AS PAID_MEMBER_CNT FROM PAYMENT";
+
+    //총 매출액
+    private final String SELECTONE_TOTAL_PRICE = "SELECT SUM(PAYMENT_PRICE) AS PAID_MEMBER_CNT FROM PAYMENT";
 
     private final String UPDATE = "";
     private final String DELETE = "";
@@ -60,9 +102,27 @@ public class PaymentTemplateDAO {
         } else if ("SELECTALL_PRODUCTLIST".equals(PaymentVO.getCondition())) {
             Object[] args = {PaymentVO.getUserEmail()};
             return jdbcTemplate.query(SELECTALL_PRODUCTLIST, args, new UserPaymentRowMapper());
+        } else if ("SELECTALL_PRODUCT_PRICE".equals(PaymentVO.getCondition())) {
+            return jdbcTemplate.query(SELECTALL_PRODUCT_PRICE, new selectProductPrice());
+        } else if ("SELECTALL_DAY".equals(PaymentVO.getCondition())) {
+            return jdbcTemplate.query(SELECTALL_DAY, new getPrice());
+        } else if ("SELECTALL_WEEK".equals(PaymentVO.getCondition())) {
+            return jdbcTemplate.query(SELECTALL_WEEK, new getDatePrice());
+        } else if ("SELECTALL_MONTH".equals(PaymentVO.getCondition())) {
+            return jdbcTemplate.query(SELECTALL_MONTH, new getDatePrice());
         } else {
             throw new IllegalArgumentException("알 수 없는 condition입니다: " + PaymentVO.getCondition());
         }
+    }
+
+    public PaymentVO getPayment(PaymentVO paymentVO) {
+        if(paymentVO.getCondition().equals("SELECTONE_PAID_USER")) {
+            return jdbcTemplate.queryForObject(SELECTONE_PAID_USER, new getPaidUser());
+        }
+        else if(paymentVO.getCondition().equals("SELECTONE_TOTAL")){
+            return jdbcTemplate.queryForObject(SELECTONE_TOTAL_PRICE, new getPaidUser());
+        }
+        return null;
     }
 
     public boolean insert(PaymentVO PaymentVO) {
@@ -83,8 +143,8 @@ public class PaymentTemplateDAO {
     }
 }
 
+// 관리자 결제 내역 페이지
 class PaymentRowMapper implements RowMapper<PaymentVO> {
-
     @Override
     public PaymentVO mapRow(ResultSet rs, int rowNum) throws SQLException {
         PaymentVO data = new PaymentVO();
@@ -98,6 +158,8 @@ class PaymentRowMapper implements RowMapper<PaymentVO> {
     }
 
 }
+
+//마이페이지에서 내 결제 내역
 class UserPaymentRowMapper implements RowMapper<PaymentVO> {
     @Override
     public PaymentVO mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -105,6 +167,59 @@ class UserPaymentRowMapper implements RowMapper<PaymentVO> {
         data.setProductName(rs.getString("PRODUCT_NAME"));
         data.setProductPrice(rs.getInt("PRODUCT_PRICE"));
         data.setPaymentDate(rs.getDate("PAYMENT_DATE"));
+        return data;
+    }
+}
+
+//관리자 메인페이지 상품별 매출액
+class selectProductPrice implements RowMapper<PaymentVO> {
+    @Override
+    public PaymentVO mapRow(ResultSet rs, int rowNum) throws SQLException {
+        PaymentVO data = new PaymentVO();
+        data.setProductNumber(rs.getInt("PRODUCT_NUM"));
+        data.setProductPrice(rs.getInt("TOTAL_SALES"));
+        return data;
+    }
+}
+
+//날짜별(일) 매출액
+class getPrice implements RowMapper<PaymentVO> {
+    @Override
+    public PaymentVO mapRow(ResultSet rs, int rowNum) throws SQLException {
+        PaymentVO data = new PaymentVO();
+        data.setPaymentDate(rs.getDate("PERIOD"));
+        data.setProductPrice(rs.getInt("TOTAL_SALES"));
+        return data;
+    }
+}
+
+//날짜별(일) 매출액
+class getDatePrice implements RowMapper<PaymentVO> {
+    @Override
+    public PaymentVO mapRow(ResultSet rs, int rowNum) throws SQLException {
+        PaymentVO data = new PaymentVO();
+        data.setSearchKeyword(rs.getString("PERIOD"));
+        data.setProductPrice(rs.getInt("TOTAL_SALES"));
+        return data;
+    }
+}
+
+//회원 중 결제 한 회원
+class getPaidUser implements RowMapper<PaymentVO> {
+    @Override
+    public PaymentVO mapRow(ResultSet rs, int rowNum) throws SQLException {
+        PaymentVO data = new PaymentVO();
+        data.setPaymentNumber(rs.getInt("PAID_MEMBER_CNT"));
+        return data;
+    }
+}
+
+//총 매출액
+class getTotalPrice implements RowMapper<PaymentVO> {
+    @Override
+    public PaymentVO mapRow(ResultSet rs, int rowNum) throws SQLException {
+        PaymentVO data = new PaymentVO();
+        data.setProductPrice(rs.getInt("TOTAL_PRICE"));
         return data;
     }
 }

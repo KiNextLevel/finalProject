@@ -1,9 +1,12 @@
 package com.example.common.view.mainPage;
 
+import com.example.common.biz.payment.PaymentVO;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.Map;
 
 @Controller
 public class AdminMainPageController {
@@ -19,4 +22,5 @@ public class AdminMainPageController {
     public String adminMainPage() {
         return "/target-free-admin-template/AdminMainPage";
     }
+
 }

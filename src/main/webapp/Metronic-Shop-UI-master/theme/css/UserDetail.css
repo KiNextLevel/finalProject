@@ -156,3 +156,28 @@
     border-radius: 5px;
     margin-top: 20px;
 }
+
+/* 채팅 보낼 때 확인 메시지 */
+.custom-swal-popup {
+    width: 500px !important;  /* 기본은 32rem (약 512px) */
+    padding: 30px 20px !important;
+    font-size: 18px !important;
+}
+.swal2-confirm-button {
+    background-color: #28a745; /* 초록색 */
+    color: white;
+    padding: 8px 20px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    margin: 0 10px;
+}
+.swal2-cancel-button {
+    background-color: #dc3545; /* 빨강색 */
+    color: white;
+    padding: 8px 20px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    margin: 0 10px;
+}

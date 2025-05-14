@@ -3,6 +3,7 @@ package com.example.common.view.auth;
 import com.example.common.biz.user.UserService;
 import com.example.common.biz.user.UserVO;
 import com.example.common.view.asyn.RandomPassword;
+import com.example.common.view.logic.CheckVisit;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.json.simple.JSONObject;
@@ -23,9 +24,10 @@ import java.net.URL;
 
 @Controller
 public class KakaoCallBackController {
-
     @Autowired
     private UserService userService;
+    @Autowired
+    private CheckVisit checkVisit;
 
     // ID 보안
     @Value("${kakao.client_id}")
@@ -34,7 +36,7 @@ public class KakaoCallBackController {
     private static final String REDIRECT_URI = "http://localhost:8088/Metronic-Shop-UI-master/theme/kakaoCallBack.do";
 
     @GetMapping("/Metronic-Shop-UI-master/theme/kakaoCallBack.do")
-    public String kakaoCallback(@RequestParam("code") String code, HttpServletRequest request, Model model, UserVO userVO) {
+    public String kakaoCallback(@RequestParam("code") String code, HttpServletRequest request, Model model, UserVO userVO, RandomPassword rp) {
         System.out.println("kakaoCallBack log - code = [" + code + "]");
 
         try {
@@ -71,7 +73,7 @@ public class KakaoCallBackController {
                 System.out.println("KakaoLogin Log: userEmail: [" + email + "]");
                 session.setAttribute("userName", name);
                 // 비밀번호는 랜덤하게 생성
-                String randomPassword = RandomPassword.generateRandomPassword();
+                String randomPassword = rp.generateRandomPassword();
                 session.setAttribute("userPassword", randomPassword);
                 // 소셜 로그인 타입 저장
                 session.setAttribute("socialType", "kakao");
@@ -86,6 +88,9 @@ public class KakaoCallBackController {
 
                 // 회원이나 관리자일 경우만 로그인
                 if (user.getUserRole() == 0 || user.getUserRole() == 1) {
+                    if (user.getUserRole() == 0) { // 방문
+                        checkVisit.checkVisitIfFirstLogin(user);
+                    }
                     // 세션에 로그인 정보 저장
                     HttpSession session = request.getSession();
                     session.setAttribute("userEmail", user.getUserEmail());
