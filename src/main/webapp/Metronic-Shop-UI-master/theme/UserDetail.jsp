@@ -446,7 +446,7 @@
         $.ajax({
             url: '/userDetailData.do',
             type: 'GET',
-            data: {userEmail: userEmail},
+            data: {userEmail: userEmail},  // '이 이메일에 대한 정보 주세요~' 하고 보내는 거
             dataType: 'json',
             timeout: 10000,
             success: function (data) {
@@ -458,8 +458,8 @@
                     return;
                 }
 
-                renderUserData(data);
-                $('#user-profile-container').show();
+                renderUserData(data); // 사용자 데이터 렌더링 함수 호출
+                $('#user-profile-container').show(); // 숨겨진 영역 보여주기
             },
             error: function (xhr, status, error) {
                 clearTimeout(loadingTimeout);
@@ -535,6 +535,7 @@
 
         // 채팅 버튼 클릭 이벤트
         $('#chatButton').on('click', function () {
+
             Swal.fire({
                 title: '대화를 시작하시겠습니까?',
                 text: "확인을 누르면 토큰이 1개 차감됩니다.",
@@ -553,6 +554,7 @@
                     window.location.href = '/deductToken.do?targetEmail=' + encodeURIComponent(targetEmail);
                 }
             });
+
         });
 
         // $('#chatButton').on('click', function () {
