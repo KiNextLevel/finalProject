@@ -31,6 +31,11 @@
     <!-- 메시지를 보여줄 공간 -->
     <div id="chat-box">
         <script>
+            // 사용자 닉네임 표시 (JSP 세션에서 가져옴)
+            <%--const userNickname = "${sessionScope.userNickname}" || "상대방"; -> 상대방이 아닌, 자신의 닉네임을 가지고 오고 있었음--%>
+            const targetNickname = "${targetNickname}" || "상대방";     //ChattingRestController에서 가져오기
+            console.log("상대방 이메일 나오나 확인 : " + targetNickname);
+
             // 웹페이지가 열리면 과거 채팅 메시지를 먼저 가져오자!
             window.onload = () => {
                 // 서버에서 chatRoomId에 해당하는 채팅 메시지들을 요청함
@@ -46,6 +51,11 @@
                             const messageWrapper = document.createElement("div");
                             // 내가 보낸 메시지면 'my-message-wrapper', 아니면 'other-message-wrapper' 클래스를 줌
                             messageWrapper.className = isMine ? "message-wrapper my-message-wrapper" : "message-wrapper other-message-wrapper";
+
+                                const nicknameElement = document.createElement("div");
+                                nicknameElement.className = "message-nickname";
+                                nicknameElement.textContent = targetNickname; // 서버에서 JSP로 전달된 값 사용
+                                messageWrapper.appendChild(nicknameElement);
 
                             // 실제 메시지 내용이 들어가는 박스를 만들고, 안에 텍스트를 넣음
                             const messageElement = document.createElement("div");
@@ -154,11 +164,6 @@
            // message: "입장했습니다"
         };
         socket.send(JSON.stringify(joinMsg)); // JSON 형식으로 서버에 전송 / JS객체 → 문자열
-
-        // 사용자 닉네임 표시 (JSP 세션에서 가져옴)
-        <%--const userNickname = "${sessionScope.userNickname}" || "상대방"; -> 상대방이 아닌, 자신의 닉네임을 가지고 오고 있었음--%>
-        const targetNickname = "${targetNickname}" || "상대방";     //ChattingRestController에서 가져오기
-        console.log("상대방 이메일 나오나 확인 : " + targetNickname);
 
         // 채팅창 상단에 "누구와 대화 중" 표시
         const roomInfoElement = document.createElement("div");
