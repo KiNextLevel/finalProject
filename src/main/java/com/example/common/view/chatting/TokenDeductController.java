@@ -1,6 +1,8 @@
 package com.example.common.view.chatting;
 //  채팅 시작 전, 토큰 1개를 차감하는 컨트롤러
 //  로그인 사용자, 토큰, 입장 흐름 담당
+import com.example.common.biz.alert.AlertService;
+import com.example.common.biz.alert.AlertVO;
 import com.example.common.biz.chatRoom2.ChatRoomService;
 import com.example.common.biz.chatRoom2.ChatRoomVO;
 import com.example.common.biz.user.UserService;
@@ -14,13 +16,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class TokenDeductController {
+
+    private final String newChatMessage = "채팅 도착";
     @Autowired
     private UserService userService;
     @Autowired
     private ChatRoomService chatRoomService;
+    @Autowired
+    private AlertService alertService;
 
     @GetMapping("/deductToken.do")
-    public String deductToken(HttpSession session, @RequestParam String targetEmail, Model model, UserVO userVO, ChatRoomVO chatRoomVO) {
+    public String deductToken(HttpSession session, @RequestParam String targetEmail,
+                              Model model, UserVO userVO, ChatRoomVO chatRoomVO, AlertVO alertVO) {
         System.out.println( "토큰 차감하는 컨트롤러 진입 성공 : deductToken" );
         // 현재 로그인된 사용자의 이메일 가져오기 (세션에서 가져옴)
         String userEmail = (String) session.getAttribute("userEmail");
@@ -57,6 +64,12 @@ public class TokenDeductController {
 
             chatRoomVO.setCondition("INSERT_CHAT_ROOM");
             chatRoomService.insert(chatRoomVO);
+
+            //새로운 채팅방 생성되면 alert 테이블에 추가
+            alertVO.setUserEmail(targetEmail);
+            alertVO.setAlertContent(newChatMessage);
+            alertService.insert(alertVO);
+
             // 생성된 방 ID 재조회
             ChatRoomVO createdRoom = chatRoomService.getChatRoom(chatRoomVO);
             int chatRoomId = createdRoom.getChatRoomId();
