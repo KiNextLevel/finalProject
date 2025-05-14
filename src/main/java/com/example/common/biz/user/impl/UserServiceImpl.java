@@ -16,6 +16,7 @@ public class UserServiceImpl implements UserService {
         return userDAO.insert(vo);
     }
 
+    //사용자 정보 업데이트
     @Override
     public boolean update(UserVO vo) {
         return userDAO.update(vo);
