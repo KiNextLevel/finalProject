@@ -436,14 +436,14 @@
 		});
 	});
 
-	// 오늘 기준 최근 10일 날짜 리스트 생성(일간 매출)
+	// 오늘 기준 최근 n일 날짜 리스트 생성(일간 매출, 일별 방문자)
 	function getLastNDays(n) {
 		let dates = [];
 		let today = new Date();
 		for (let i = n - 1; i >= 0; i--) {
 			let d = new Date(today);
 			d.setDate(today.getDate() - i);
-			let formatted = d.toISOString().slice(0, 10); // YYYY-MM-DD 형식
+			let formatted = d.toISOString().slice(0, 10); // 2025-00-00 형식으로 변환
 			dates.push(formatted);
 		}
 		return dates;
@@ -546,10 +546,8 @@
 			success: function(data) {
 				console.log(data);
 
-				// 날짜 레이블 배열 생성 (중복 제거)
-				var labels = [...new Set(data.visitors.map(item => item.visitorDate))].sort();
-				// 최근 10개만 사용하도록 잘라내기
-				labels = labels.slice(-10);
+				// 오늘 기준 최근 10일 생성
+				const labels = getLastNDays(10);
 
 				// 남자(0)와 여자(1) 데이터 분리
 				var maleData = new Array(labels.length).fill(0); // 남자 방문자 수
@@ -679,12 +677,12 @@
 				gradient.addColorStop(1, 'rgba(54, 162, 235, 0.2)');
 
 				var myBarChart = new Chart(ctx, {
-					type: 'bar',
+					type: 'bar',	//bar 타입 차트
 					data: {
-						labels: labels,
+						labels: labels,	//x축: 월
 						datasets: [{
 							label: '주별 매출',
-							data: salesData,
+							data: salesData,  //y축: 매출
 							backgroundColor: gradient,
 							borderColor: 'rgba(54, 162, 235, 1)',
 							borderWidth: 2,

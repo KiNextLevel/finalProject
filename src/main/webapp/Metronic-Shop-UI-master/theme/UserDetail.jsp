@@ -9,6 +9,7 @@
 
 <html>
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-32x32.png">
     <meta charset="utf-8">
     <title>사용자 상세 페이지</title>
@@ -100,7 +101,7 @@
                         <li><a href="/adminPage.do">관리자페이지</a></li>
                     </c:if>
                     <li><a href="/myPage.do">마이페이지</a></li>
-                    <li>메시지</li>
+                    <li><a href="/myChatRoomList.do">메시지</li>
                     <li><a href="/logout.do">로그아웃</a></li>
                 </ul>
             </div>
@@ -445,7 +446,7 @@
         $.ajax({
             url: '/userDetailData.do',
             type: 'GET',
-            data: {userEmail: userEmail},
+            data: {userEmail: userEmail},  // '이 이메일에 대한 정보 주세요~' 하고 보내는 거
             dataType: 'json',
             timeout: 10000,
             success: function (data) {
@@ -457,8 +458,8 @@
                     return;
                 }
 
-                renderUserData(data);
-                $('#user-profile-container').show();
+                renderUserData(data); // 사용자 데이터 렌더링 함수 호출
+                $('#user-profile-container').show(); // 숨겨진 영역 보여주기
             },
             error: function (xhr, status, error) {
                 clearTimeout(loadingTimeout);
@@ -534,10 +535,26 @@
 
         // 채팅 버튼 클릭 이벤트
         $('#chatButton').on('click', function () {
-            if (confirm("대화를 시작하시겠습니까? ('확인'을 누르면 토큰이 1개 차감됩니다)")) {
-                // 단순히 이동만 시키면 됨 (토큰 체크와 차감은 서버에서 함)
-                window.location.href = '/deductToken.do?targetEmail=' + encodeURIComponent(targetEmail);
-            }
+
+            Swal.fire({
+                title: '대화를 시작하시겠습니까?',
+                text: "확인을 누르면 토큰이 1개 차감됩니다.",
+                icon: null,
+                showCancelButton: true,
+                confirmButtonText: '확인',
+                cancelButtonText: '취소',
+                customClass: {
+                    popup: 'custom-swal-popup',
+                    confirmButton: 'swal2-confirm-button',
+                    cancelButton: 'swal2-cancel-button'
+                },
+                buttonsStyling: false  // 기본 스타일 제거
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '/deductToken.do?targetEmail=' + encodeURIComponent(targetEmail);
+                }
+            });
+
         });
 
         // $('#chatButton').on('click', function () {

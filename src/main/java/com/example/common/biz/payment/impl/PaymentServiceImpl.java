@@ -12,6 +12,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Autowired
     private PaymentTemplateDAO paymentDAO;
 
+    //결제 내역 저장
     @Override
     public boolean insert(PaymentVO vo) {
         return paymentDAO.insert(vo);
