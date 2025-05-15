@@ -19,7 +19,10 @@ public class LoginController {
     private UserService userService;
     @Autowired
     private CheckVisit checkVisit;
-
+    private final static int USER = 0;
+    private final static int ADMIN = 1;
+    private final static int BLACK = 2;
+    private final static int WITHDRAW = 3;
     // 로그인페이지로 이동. 파라미터에 userEmail 담아서 이동
     @GetMapping("/loginPage.do")
     public String loginPage(@RequestParam(value = "userEmail", required = false) String userEmail,
@@ -53,21 +56,21 @@ public class LoginController {
         if (userVO != null) {
             // url, flag, msg 요청단위 저장
             // alert.jsp에 url, true, msg 보내기
-            if (userVO.getUserRole() == 0) { //유저
+            if (userVO.getUserRole() == USER) { //유저
                 model.addAttribute("msg", "로그인 성공!");
                 model.addAttribute("url", "mainPage.do");
                 model.addAttribute("flag", true);
                 checkVisit.checkVisitIfFirstLogin(userVO);
                 setSession(userVO, request); // 세션에 정보 저장
-            } else if (userVO.getUserRole() == 1) { // 관리자
+            } else if (userVO.getUserRole() == ADMIN) { // 관리자
                 model.addAttribute("msg", "관리자 로그인 성공!");
                 model.addAttribute("url", "adminPage.do");
                 model.addAttribute("flag", true);
                 setSession(userVO, request); // 세션에 정보 저장
-            } else if (userVO.getUserRole() == 2) { // 블랙
+            } else if (userVO.getUserRole() == BLACK) { // 블랙
                 model.addAttribute("msg", "블랙당한 계정입니다");
                 model.addAttribute("flag", false);
-            } else if (userVO.getUserRole() == 3) { // 탈퇴
+            } else if (userVO.getUserRole() == WITHDRAW) { // 탈퇴
                 model.addAttribute("msg", "탈퇴한 계정입니다");
                 model.addAttribute("flag", false);
             }
