@@ -23,7 +23,7 @@ $(document).ready(function() {
         success: function(response) {
             if (response.status === 'success') {
                 const userDTO = response.userVO;
-                const preferenceDTO = response.preferenceDTO;
+                const preferenceDTO = response.preferenceVO;
 
                 // 가져온 데이터로 form 채우기
                 $('#userDescription').val(userDTO.userDescription || '');
