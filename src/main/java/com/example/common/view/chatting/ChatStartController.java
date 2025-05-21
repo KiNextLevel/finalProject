@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class TokenDeductController {
+public class ChatStartController {
     @Autowired
     private UserService userService;
     @Autowired
@@ -50,14 +50,15 @@ public class TokenDeductController {
             // 채팅방 생성해줬으면? +1 됐으니까
             // 다시 조회해주기
 
-            // 채팅방 생성
+            // 채팅방 생성 요청
             chatRoomVO.setUser1Email(userEmail);    // 본인
             chatRoomVO.setUser2Email(targetEmail);  // 대화하고자 하는 상대방
             // 이거 두개 안넣었더니 null이 나와버려서 추가
 
             chatRoomVO.setCondition("INSERT_CHAT_ROOM");
             chatRoomService.insert(chatRoomVO);
-            // 생성된 방 ID 재조회
+
+            // 생성된 방 ID 재조회 (여기 안하면 ID는 0!)
             ChatRoomVO createdRoom = chatRoomService.getChatRoom(chatRoomVO);
             int chatRoomId = createdRoom.getChatRoomId();
 
