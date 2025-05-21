@@ -27,14 +27,14 @@ public class CheckEmailController {
     }
 
     // POST 요청 처리
-    @PostMapping(value = "/checkEmailDuplicate.do", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public String checkEmailDuplicatePost(
-            @RequestParam("userEmail") String userEmail,
-            @RequestParam(value = "socialType", required = false, defaultValue = "normal") String socialType) {
-
-        return processEmailCheck(userEmail, socialType);
-    }
+//    @PostMapping(value = "/checkEmailDuplicate.do", produces = MediaType.APPLICATION_JSON_VALUE)
+//    @ResponseBody
+//    public String checkEmailDuplicatePost(
+//            @RequestParam("userEmail") String userEmail,
+//            @RequestParam(value = "socialType", required = false, defaultValue = "normal") String socialType) {
+//
+//        return processEmailCheck(userEmail, socialType);
+//    }
 
     // 이메일 중복 체크 처리 로직
     private String processEmailCheck(String userEmail, String socialType) {
