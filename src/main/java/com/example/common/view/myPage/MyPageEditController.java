@@ -20,8 +20,8 @@ public class MyPageEditController {
 
     @PostMapping("/updateProfile.do")
     public String updateProfile(HttpSession session,
-                                @ModelAttribute UserVO userVO,
-                                @ModelAttribute PreferenceVO preferenceVO) {
+                                UserVO userVO,
+                                PreferenceVO preferenceVO) {
         String userEmail = (String) session.getAttribute("userEmail");
 
         if (userEmail == null) {
