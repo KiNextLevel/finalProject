@@ -269,7 +269,7 @@
             <label class="col-md-2 control-label" for="preferenceHeight">선호 키 <span class="require">*</span></label>
             <div class="col-md-8">
                 <input type="number" id="preferenceHeight" name="preferenceHeight" class="form-control"
-                       value="${preferenceDTO.preferenceHeight}" placeholder="선호 키를 입력하세요"
+                       value=\"${preferenceVO.preferenceHeight}" placeholder="선호 키를 입력하세요"
                        step="1" min="100" max="200" onkeydown="return event.keyCode !== 190" required>
             </div>
         </div>
