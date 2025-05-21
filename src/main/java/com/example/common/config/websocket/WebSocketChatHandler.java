@@ -69,7 +69,7 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
         log.info("현재 요청 chatRoomId: {}", chatMessageWebsocketVO.getChatRoomId());
         log.info("chatRoomSessions: {}", chatRoomSessionMap.get(chatMessageWebsocketVO.getChatRoomId()));
 
-        //디비에 저장될 수 있도록 추가 - 1번
+        //디비에 저장될 수 있도록 추가
         // WebSocket VO → DB 저장용 VO로 변환BOARD
         // CHAT_MESSAGE 테이블에 채팅 메시지 저장
         if (chatMessageWebsocketVO.getMessageType().equals(ChatMessageWebsocketVO.MessageType.TALK)) {
@@ -114,10 +114,14 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
         }
 
         // NPE 방지를 위한 안전 장치
+        // 채팅방 ID를 기준으로, 해당 채팅방에 연결된 모든 WebSocket 세션(Set)을 가져온다.
         Set<WebSocketSession> chatRoomSessions = chatRoomSessionMap.get(chatMessageWebsocketVO.getChatRoomId());
-        if (chatRoomSessions != null) {
+        if (chatRoomSessions != null) {   // 만약 해당 채팅방에 접속 중인 사용자가 하나라도 있다면
             // 채팅 메세지 전송
+            // 채팅방에 접속해 있는 모든 세션에 대해 반복
             for (WebSocketSession webSocketSession : chatRoomSessions) {
+                // 보낼 메시지 객체(chatMessageWebsocketVO)를 JSON 문자열로 변환하여
+                // 해당 세션의 클라이언트에게 메시지를 전송한다.
                 webSocketSession.sendMessage(new TextMessage(mapper.writeValueAsString(chatMessageWebsocketVO)));
             }
         }
