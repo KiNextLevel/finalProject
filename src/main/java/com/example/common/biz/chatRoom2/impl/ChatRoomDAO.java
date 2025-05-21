@@ -14,23 +14,25 @@ import java.util.ArrayList;
 @Repository
 public class ChatRoomDAO {
     // 로그인한 사용자가 참여 중인 모든 채팅방을 조회하는 쿼리문
-    private final String SELECTALL_CHAT_ROOMS = "SELECT * FROM CHATROOM WHERE CHATROOM_MEMBER_EMAIL1 = ? or CHATROOM_MEMBER_EMAIL2 = ? ORDER BY CHATROOM_ID DESC";
+    private final String SELECTALL_CHAT_ROOMS = "SELECT * FROM CHATROOM WHERE CHATROOM_MEMBER_EMAIL1 = ? " +
+                        "or CHATROOM_MEMBER_EMAIL2 = ? ORDER BY CHATROOM_ID DESC";
     // 또는 이렇게 바꿔줘도 됨 (자신이 먼저 채팅하기를 시작하면 자신의 메시지 리스트에는 나오지만 상대방에서는 안나왔음)
     // SELECT * FROM CHATROOM
     // WHERE ? IN (CHATROOM_MEMBER_EMAIL1, CHATROOM_MEMBER_EMAIL2)
     // ORDER BY CHATROOM_ID DESC
 
-
     //서로의 채팅방이 존재하는지
     private final String SELECTONE_CHATROOM_BETWEEN_TWO_MEMBERS =
-            "SELECT * FROM CHATROOM " +
-                    "WHERE (CHATROOM_MEMBER_EMAIL1 = ? AND CHATROOM_MEMBER_EMAIL2 = ?) " +
-                    "OR (CHATROOM_MEMBER_EMAIL1 = ? AND CHATROOM_MEMBER_EMAIL2 = ?)";
+                        "SELECT * FROM CHATROOM " +
+                        "WHERE (CHATROOM_MEMBER_EMAIL1 = ? AND CHATROOM_MEMBER_EMAIL2 = ?) " +
+                        "OR (CHATROOM_MEMBER_EMAIL1 = ? AND CHATROOM_MEMBER_EMAIL2 = ?)";
 
     // 새로운 채팅방을 생성하는 쿼리문
-    private final String INSERT_CHAT_ROOM = "INSERT INTO CHATROOM (CHATROOM_ID, CHATROOM_MEMBER_EMAIL1, CHATROOM_MEMBER_EMAIL2) VALUES ((SELECT NVL(MAX(CHATROOM_ID), 0) + 1 FROM CHATROOM), ?, ?)";
-//    // 채팅방 나가기
-//    private final String DELETE_ROOM = "DELETE FROM CHATROOM WHERE CHAT_ROOM_ID = ?";
+    private final String INSERT_CHAT_ROOM = "INSERT INTO CHATROOM (CHATROOM_ID, CHATROOM_MEMBER_EMAIL1, " +
+                        "CHATROOM_MEMBER_EMAIL2) VALUES ((SELECT NVL(MAX(CHATROOM_ID), 0) + 1 FROM CHATROOM), ?, ?)";
+
+    // 채팅방 나가기
+//   private final String DELETE_ROOM = "DELETE FROM CHATROOM WHERE CHAT_ROOM_ID = ?";
 
     Connection conn = null;
     PreparedStatement pstmt = null;
@@ -49,8 +51,8 @@ public class ChatRoomDAO {
             while (rs.next()) {
                 ChatRoomVO data = new ChatRoomVO();
                 data.setChatRoomId(rs.getInt("CHATROOM_ID"));
-                data.setUser1Email(rs.getString("CHATROOM_MEMBER_EMAIL1"));
-                data.setUser2Email(rs.getString("CHATROOM_MEMBER_EMAIL2"));
+                data.setUser1Email(rs.getString("CHATROOM_MEMBER_EMAIL1"));  // 내가 MEMBER1인 채팅방 찾기
+                data.setUser2Email(rs.getString("CHATROOM_MEMBER_EMAIL2"));  // 내가 MEMBER2인 채팅방도 같이 찾기
                 datas.add(data);
             }
             return datas;
@@ -147,6 +149,9 @@ public class ChatRoomDAO {
 //        }
 //    }
         return false;
+
+
+
     }
 }
 
