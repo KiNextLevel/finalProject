@@ -14,12 +14,14 @@ import java.util.ArrayList;
 public class ChatMessageDAO {
     // 특정 채팅방(CHAT_ROOM_ID)에 속한 모든 메시지를 보낸 시간(SENT_TIME) 기준으로 오름차순 정렬하여 조회하는 쿼리문
     // 채팅방에 입장했을 때 과거부터 현재까지의 메시지를 시간 순서대로 출력하기 위해 사용됨
-    private final String SELECTALL_CHAT_MESSAGES = "SELECT * FROM CHATMESSAGE WHERE CHATMESSAGE_CHATROOM_ID = ? ORDER BY CHATMESSAGE_DATE DESC ";
+    private final String SELECTALL_CHAT_MESSAGES = "SELECT * FROM CHATMESSAGE WHERE CHATMESSAGE_CHATROOM_ID = ? " +
+                        "ORDER BY CHATMESSAGE_DATE DESC ";
     // 새로운 채팅 메시지를 CHAT_MESSAGE 테이블에 삽입하는 쿼리문
     // 채팅메시지 번호, 채팅방 번호, 이메일1, 이메일2, 채팅 내용, 채팅 보낸 시간
     private final String INSERT_CHAT_MESSAGE =
-            "INSERT INTO CHATMESSAGE (CHATMESSAGE_ID, CHATMESSAGE_CHATROOM_ID, CHATMESSAGE_MEMBER_EMAIL1, CHATMESSAGE_MEMBER_EMAIL2, CHATMESSAGE_CONTENT, CHATMESSAGE_DATE) " +
-                    "VALUES ((SELECT NVL(MAX(CHATMESSAGE_ID), 0) + 1 FROM CHATMESSAGE), ?, ?, ?, ?, ?)";
+                        "INSERT INTO CHATMESSAGE (CHATMESSAGE_ID, CHATMESSAGE_CHATROOM_ID, CHATMESSAGE_MEMBER_EMAIL1, " +
+                        "CHATMESSAGE_MEMBER_EMAIL2, CHATMESSAGE_CONTENT, CHATMESSAGE_DATE) " +
+                        "VALUES ((SELECT NVL(MAX(CHATMESSAGE_ID), 0) + 1 FROM CHATMESSAGE), ?, ?, ?, ?, ?)";
 
 
     Connection conn = null;
