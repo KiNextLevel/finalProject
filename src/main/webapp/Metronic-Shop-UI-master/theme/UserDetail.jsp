@@ -551,7 +551,8 @@
                 buttonsStyling: false  // 기본 스타일 제거
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = '/deductToken.do?targetEmail=' + encodeURIComponent(targetEmail);
+                    window.location.href = '/prepareChatRoom.do?targetEmail=' + encodeURIComponent(targetEmail);
+                   // window.location.href = '/deductToken.do?targetEmail=' + encodeURIComponent(targetEmail);
                 }
             });
 
