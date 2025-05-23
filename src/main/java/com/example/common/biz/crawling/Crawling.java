@@ -5,6 +5,7 @@ import com.example.common.biz.preference.PreferenceVO;
 import com.example.common.biz.user.UserService;
 import com.example.common.biz.user.UserVO;
 import com.example.common.view.asyn.RandomPassword;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -79,11 +80,8 @@ public class Crawling {
 
     @EventListener(ApplicationReadyEvent.class)
     public void crawl() {
-        // JVM 인코딩을 UTF-8로 설정 (문자 깨짐 방지)ㅁ
-        System.setProperty("file.encoding", "UTF-8");
-
         // ChromeDriver 경로 설정
-        System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
+        WebDriverManager.chromedriver().setup();
 
         // ChromeOptions 설정 (Headless 모드 활성화)
         ChromeOptions options = new ChromeOptions();
@@ -108,7 +106,6 @@ public class Crawling {
             List<String> actorNames = new ArrayList<>();
             List<WebElement> actorLinks = driver.findElements(By.xpath("//div[@id='mw-content-text']//ul/li/a"));
             for (WebElement link : actorLinks) {
-                System.out.println("배우 목록 링크" + link);
                 actorUrls.add(link.getAttribute("href"));
                 actorNames.add(link.getText());
             }
@@ -152,10 +149,10 @@ public class Crawling {
                                 if ("본명".equals(headerText)) {
                                     name = valueText.split("\n")[0];
                                 }
-                                if ("출생".equals(headerText)) {
+                                else if ("출생".equals(headerText)) {
                                     birthDate = valueText.split("\n")[0];
                                 }
-                                if ("성별".equals(headerText)) {
+                                else if ("성별".equals(headerText)) {
                                     gender = valueText.split("\n")[0];
                                 }
                             }

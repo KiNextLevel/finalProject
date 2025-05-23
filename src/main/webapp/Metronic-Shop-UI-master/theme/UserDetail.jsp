@@ -538,7 +538,10 @@
 
             Swal.fire({
                 title: '대화를 시작하시겠습니까?',
-                text: "확인을 누르면 토큰이 1개 차감됩니다.",
+                html: `
+    확인을 누르면 토큰이 1개 차감됩니다.<br>
+    (이미 채팅방이 있으면 차감되지 않습니다.)
+  `,
                 icon: null,
                 showCancelButton: true,
                 confirmButtonText: '확인',
@@ -564,7 +567,6 @@
                     document.body.appendChild(form);
                     form.submit();
                 }
-
             });
 
         });

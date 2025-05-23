@@ -26,7 +26,7 @@ jQuery(document).ready(function () {
 function markAsRead(alertNumber) {
     console.log("로그: 알림 번호 [" + alertNumber + "]");
     $.ajax({
-        url: "/updateAlertStatus",
+        url: "/updateAlertStatus.do",
         type: "POST",
         data: { alertNumber: alertNumber },
         dataType: 'json',

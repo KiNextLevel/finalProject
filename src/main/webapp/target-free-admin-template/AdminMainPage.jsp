@@ -76,6 +76,29 @@
 				margin-bottom: 10px;
 			}
 		}
+		#chartButton {
+			background-color: #ff6f61;
+			color: white;
+			font-family: 'Open Sans', sans-serif;
+			font-size: 14px;
+			font-weight: 600;
+			padding: 6px 12px;
+			border: none;
+			border-radius: 8px;
+			cursor: pointer;
+			transition: all 0.3s ease;
+			box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+			margin: 10px 0;
+		}
+
+		#chartButton:hover {
+			background-color: #e65c50;        /* hover 시 진한 색 */
+			box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+		}
+
+		#chartButton:active {
+			transform: scale(0.97);
+		}
 	</style>
 </head>
 
@@ -175,7 +198,7 @@
 			<!-- Sales Charts -->
 			<div class="row">
 				<div class="col-md-6">
-					<h4>일간 매출</h4>
+					<h4>일간 매출 <button id="chartButton">다시 불러오기</button> </h4>
 					<div class="chart-container">
 						<canvas id="day-line-chart"></canvas>
 					</div>
@@ -449,8 +472,15 @@
 		return dates;
 	}
 
-	// 일간 매출
+	let dayLineChart = null; //기존 차트를 저장할 변수 선언
+
 	$(document).ready(function() {
+		// 페이지 처음 로딩할 때도 차트 1회 자동 실행
+		$("#chartButton").trigger("click");
+	});
+
+	// 일간 매출
+	$("#chartButton").on("click", function() {
 		$.ajax({
 			url: '/getDayPrice.do',
 			type: 'GET',
@@ -469,13 +499,18 @@
 				gradient.addColorStop(0, 'rgba(255, 99, 132, 0.8)');
 				gradient.addColorStop(1, 'rgba(255, 99, 132, 0.2)');
 
-				new Chart(ctx, {
-					type: 'line',
-					data: {
-						labels: labels,
-						datasets: [{
-							label: '일별 매출',
-							data: salesData,
+		// 기존 차트가 있으면 제거
+		if (dayLineChart !== null) {
+			dayLineChart.destroy();
+		}
+
+		dayLineChart = new Chart(ctx, {
+			type: 'line',
+			data: {
+				labels: labels,
+				datasets: [{
+					label: '일별 매출',
+					data: salesData,
 							backgroundColor: gradient,
 							borderColor: 'rgba(255, 99, 132, 1)',
 							borderWidth: 3,

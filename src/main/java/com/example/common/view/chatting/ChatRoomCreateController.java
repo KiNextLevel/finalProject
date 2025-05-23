@@ -70,7 +70,8 @@
 //    }
 //
 ////    @GetMapping("/prepareChatRoom.do")
-////    public String ChatRoom(@RequestParam String targetEmail, HttpSession session, ChatRoomVO chatRoomVO) {
+////
+////    public String ChatRoom(@RequestParam String targetEmail, HttpSession session, ChatRoomVO chatRoomVO, AlertVO alertVO) {
 ////        System.out.println( "채팅방 컨트롤러 진입 성공 : ChatRoomController" );
 ////        //System.out.println("채팅방 번호 : " + chatRoomId);  // 채팅방 번호 받아오기 ( 채팅방 리스트에서)
 ////        // 먼저 세션에서 내 이메일 꺼내오고
