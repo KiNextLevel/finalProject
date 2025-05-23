@@ -551,8 +551,20 @@
                 buttonsStyling: false  // 기본 스타일 제거
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = '/deductToken.do?targetEmail=' + encodeURIComponent(targetEmail);
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '/prepareChatRoom.do';
+
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'targetEmail';
+                    input.value = targetEmail;
+
+                    form.appendChild(input);
+                    document.body.appendChild(form);
+                    form.submit();
                 }
+
             });
 
         });
