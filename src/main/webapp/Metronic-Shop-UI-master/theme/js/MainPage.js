@@ -123,9 +123,9 @@ function equalizeCardHeights() {
 function initSliders() {
     $('#age-slider-range').slider({
         range: true,
-        min: 0,
-        max: 100,
-        values: [0, 100],
+        min: 18,
+        max: 90,
+        values: [18, 90],
         slide: function (event, ui) {
             $('#ageAmount').val(ui.values[0] + ' - ' + ui.values[1]);
         },
