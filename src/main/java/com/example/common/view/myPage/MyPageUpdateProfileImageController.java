@@ -124,7 +124,7 @@ public class MyPageUpdateProfileImageController {
 
         String result = "/Metronic-Shop-UI-master/theme/Alert";
         String userEmail = (String) session.getAttribute("userEmail");
-//        model.addAttribute("url", "myPage.do");
+        model.addAttribute("url", "myPage.do");
         if (userEmail == null) {
             model.addAttribute("flag", false);
             model.addAttribute("msg", "로그인이 필요합니다.");
@@ -175,7 +175,7 @@ public class MyPageUpdateProfileImageController {
 
             if (updateResult) {
                 session.setAttribute("userProfile", webPath);
-                model.addAttribute("flag", false);
+                model.addAttribute("flag", true);
                 model.addAttribute("msg", "프로필 이미지가 성공적으로 업데이트되었습니다.");
             } else {
                 model.addAttribute("flag", false);

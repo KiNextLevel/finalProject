@@ -609,7 +609,7 @@
         $(document).ready(function() {
             // 페이지 로딩될 때 실행
             $.ajax({
-                url: '/api/getUserInfo', // RestController에서 만든 API 주소
+                url: '/api/getUserInfo.do', // RestController에서 만든 API 주소
                 method: 'GET',
                 dataType: 'json',
                 success: function(response) {

@@ -16,7 +16,7 @@ public class ChatMessageRestController {
     private ChatMessageService chatMessageService;
 
     // 과거 메시지 불러오기 (chatRoomId로)
-    @GetMapping("/chat/messages")
+    @GetMapping("/chat/messages.do")
     public List<ChatMessageVO> getChatHistory( @RequestParam int chatRoomId, ChatMessageVO chatMessagevo) {
         System.out.println(" 과거 채팅 내역 불러오는 컨트롤러 진입 : ChatMessageRestController ");
         System.out.println(" 과거 메시지 불러오기: chatRoomId(채팅방 아이디 필요) = " + chatRoomId);

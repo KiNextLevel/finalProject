@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Data //getter, setter, toString 대체
 @NoArgsConstructor //기본생성자 자동 생성
@@ -14,13 +13,11 @@ import java.util.Date;
 public class AlertEntity {
 
     @Id //PK
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //PK 자동증가
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //PK 자동생성
     @Column(name = "ALERT_NUM", nullable = false)   //테이블 칼럼과 매핑
     private int alertNumber;
 
-    //Date 타입을 oracle의 DATE 타입에 매핑
     @Column(name = "ALERT_DATE", nullable = false)
-    @Temporal(TemporalType.DATE)
     private LocalDate alertDate;
 
     @Column(name = "ALERT_CONTENT", nullable = false, length = 225)
