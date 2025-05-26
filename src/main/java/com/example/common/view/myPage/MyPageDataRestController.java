@@ -226,7 +226,7 @@ public class MyPageDataRestController {
     @Autowired
     private ParticipantService participantService;
 
-    @GetMapping("/api/getUserInfo")
+    @GetMapping("/api/getUserInfo.do")
     public Map<String, Object> getUserInfo(HttpSession session, UserVO userVO, PreferenceVO preferenceVO) {
         Map<String, Object> result = new HashMap<>();
         String userEmail = (String) session.getAttribute("userEmail");

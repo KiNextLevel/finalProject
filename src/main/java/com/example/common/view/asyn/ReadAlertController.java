@@ -18,7 +18,7 @@ public class ReadAlertController {
     @Autowired
     private AlertJPAService alertJPAService;
 
-    @PostMapping("/updateAlertStatus")
+    @PostMapping("/updateAlertStatus.do")
     public Map<String, Object> updateAlertStatus(@RequestParam("alertNumber") String alertNumber) {
         System.out.println("===============test===============");
         boolean updateSuccess = updateAlertStatusInDatabase(alertNumber);

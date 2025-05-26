@@ -5,10 +5,12 @@
     <!--alias 설정-->
     <typeAliases>
         <typeAlias type="com.example.common.biz.report.ReportVO" alias="report"/>
+        <typeAlias type="com.example.common.biz.alert.AlertVO" alias="alert"/>
     </typeAliases>
 
     <!--mapper 설정 알려주기-->
     <mappers>
+        <mapper resource="mybatis/alert-mapping.xml"/>
         <mapper resource="mybatis/report-mapping.xml"/>
     </mappers>
 

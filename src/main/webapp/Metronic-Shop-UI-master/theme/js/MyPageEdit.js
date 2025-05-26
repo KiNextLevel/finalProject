@@ -18,12 +18,12 @@ function openAddressPopup() {
 
 $(document).ready(function() {
     $.ajax({
-        url: '/api/getUserInfo',  // 서버에서 정보 가져옴
+        url: '/api/getUserInfo.do',  // 서버에서 정보 가져옴
         type: 'GET',
         success: function(response) {
             if (response.status === 'success') {
                 const userDTO = response.userVO;
-                const preferenceDTO = response.preferenceDTO;
+                const preferenceDTO = response.preferenceVO;
 
                 // 가져온 데이터로 form 채우기
                 $('#userDescription').val(userDTO.userDescription || '');

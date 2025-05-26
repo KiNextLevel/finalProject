@@ -39,7 +39,7 @@
             // 웹페이지가 열리면 과거 채팅 메시지를 먼저 가져오자!
             window.onload = () => {
                 // 서버에서 chatRoomId에 해당하는 채팅 메시지들을 요청함
-                fetch(`/chat/messages?chatRoomId=${chatRoomId}`)
+                fetch(`/chat/messages.do?chatRoomId=${chatRoomId}`)
                     .then(res => res.json()) // 응답 받은 데이터를 JSON(문자처럼 생긴 데이터)으로 바꿔줌
                     .then(messages => {
                         // 메시지를 거꾸로(옛날 → 최근 순으로) 정렬함

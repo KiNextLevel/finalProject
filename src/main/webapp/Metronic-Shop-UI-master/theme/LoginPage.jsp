@@ -520,7 +520,7 @@
         // AJAX 요청
         $.ajax({
             url: '/checkEmailDuplicate.do', // 서블릿 URL
-            type: 'POST',
+            type: 'GET',
             data: {
                 userEmail: userEmail,
                 socialType: socialType
