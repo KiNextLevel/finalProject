@@ -49,7 +49,6 @@
 <div class="error-container">
   <h1>로그인이 필요합니다</h1>
   <p>이 페이지에 접근하려면 로그인해야 합니다.</p>
-  <a href="<c:url value='/login.do' />">로그인 페이지로 이동</a>
 </div>
 
 </body>
