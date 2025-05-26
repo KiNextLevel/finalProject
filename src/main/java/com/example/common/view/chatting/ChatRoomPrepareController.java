@@ -52,11 +52,13 @@ public class ChatRoomPrepareController {
         // 만약 로그인상태가 아니라면?
         if (myEmail == null) {
             // 에러페이지로 가기
+            return "/Metronic-Shop-UI-master/theme/errorPage";
+
         }
 
         // 1. 디비에 채팅방이 이미 존재하는지 객체에 담아서 확인하기
-        chatRoomVO.setUser1Email(myEmail);  // 객체에 본인 이메일 넣기
-        chatRoomVO.setUser2Email(targetEmail); // 객체에 상대 이메일 넣기
+        //chatRoomVO.setUser1Email(myEmail);  // 객체에 본인 이메일 넣기
+        //chatRoomVO.setUser2Email(targetEmail); // 객체에 상대 이메일 넣기
         //chatRoomVO.setCondition("SELECTONE_CHATROOM_BETWEEN_TWO_MEMBERS");  // 컨디션 설정한거 넣기
 
         // DB에서 본인과 상대방 사이에 이미 존재하는 채팅방이 있는지만 확인 (있으면 해당 방 정보를 반환)
@@ -92,10 +94,6 @@ public class ChatRoomPrepareController {
             else {
                 // 토큰 차감하기
                 tokenService.tokenDeduct(userVO, myEmail);
-
-                // 토큰 차감됐나 확인하기
-                //int tokenAfter = tokenService.tokenCheckNumber(userVO, myEmail); // 차감된 후
-                //System.out.println("-1한 토큰 개수 확인하기(이게 맞아야함) : [" + tokenAfter + "]");
 
                 // 채팅방 생성하기
                 chattingRoomService.chatRoomCreate(chatRoomVO, myEmail, targetEmail);

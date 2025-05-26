@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 public class TokenService {
     @Autowired
     UserService userService;
-    @Autowired
-    ChatRoomService chatRoomService;
 
     //토큰 확인 메서드
     public int tokenCheckNumber(UserVO userVO, String userEmail) {
@@ -55,7 +53,7 @@ public class TokenService {
         System.out.println("[토큰 차감 로직 진입]");
 
         userVO.setUserEmail(userEmail);
-        userVO.setCondition("UPDATE_MINUS_TOKEN");
+        userVO.setCondition("UPDATE_MINUS_TOKEN"); // 토큰 1개 차감 쿼리
 
         boolean result = userService.update(userVO);
 
