@@ -57,9 +57,9 @@ public class ChatRoomPrepareController {
         }
 
         // 1. 디비에 채팅방이 이미 존재하는지 객체에 담아서 확인하기
-        //chatRoomVO.setUser1Email(myEmail);  // 객체에 본인 이메일 넣기
-        //chatRoomVO.setUser2Email(targetEmail); // 객체에 상대 이메일 넣기
-        //chatRoomVO.setCondition("SELECTONE_CHATROOM_BETWEEN_TWO_MEMBERS");  // 컨디션 설정한거 넣기
+        chatRoomVO.setUser1Email(myEmail);  // 객체에 본인 이메일 넣기
+        chatRoomVO.setUser2Email(targetEmail); // 객체에 상대 이메일 넣기
+        chatRoomVO.setCondition("SELECTONE_CHATROOM_BETWEEN_TWO_MEMBERS");  // 컨디션 설정한거 넣기
 
         // DB에서 본인과 상대방 사이에 이미 존재하는 채팅방이 있는지만 확인 (있으면 해당 방 정보를 반환)
         ChatRoomVO existingRoom = chatRoomService.getChatRoom(chatRoomVO);
