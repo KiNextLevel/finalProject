@@ -23,7 +23,7 @@ public class ChattingRoomService {
         // 이거 두개 안넣었더니 null이 나와버려서 추가
 
         chatRoomVO.setCondition("INSERT_CHAT_ROOM");
-        result=chatRoomService.insert(chatRoomVO);
+        result = chatRoomService.insert(chatRoomVO);
 
         return result;
     }
@@ -32,7 +32,7 @@ public class ChattingRoomService {
     // 채팅방 재조회 → chatRoomId 반환
     public int chatRoomIdCheck(ChatRoomVO chatRoomVO, UserVO userVO) {
 
-        ChatRoomVO createdRoom =chatRoomService.getChatRoom(chatRoomVO);
+        ChatRoomVO createdRoom = chatRoomService.getChatRoom(chatRoomVO);
         int chatRoomId = createdRoom.getChatRoomId();
 
         // DB에 업데이트 요청
@@ -40,5 +40,4 @@ public class ChattingRoomService {
 
         return chatRoomId;
     }
-
 }
