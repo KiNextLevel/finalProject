@@ -21,7 +21,6 @@ public class ChattingRoomService {
         chatRoomVO.setUser1Email(userEmail);    // 객체에 본인 넣기
         chatRoomVO.setUser2Email(targetEmail);  // 객체에 대화하고자 하는 상대방
         // 이거 두개 안넣었더니 null이 나와버려서 추가
-
         chatRoomVO.setCondition("INSERT_CHAT_ROOM");
         result=chatRoomService.insert(chatRoomVO);
 
