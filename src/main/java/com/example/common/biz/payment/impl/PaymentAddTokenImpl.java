@@ -20,8 +20,8 @@ public class PaymentAddTokenImpl implements PaymentAddTokenService {
     public boolean paymentAddToken(PaymentVO paymentVO, UserVO userVO) {
         paymentDAO.insert(paymentVO);   //결제 내역 저장
         System.out.println("트랜잭션 로그: insert 성공");
-        UserVO uservo = new UserVO();    // 테스트용
-        if (!userDAO.update(uservo)) throw new RuntimeException("강제 예외"); // 테스트용
+//        UserVO uservo = new UserVO();    // 테스트용
+//        if (!userDAO.update(uservo)) throw new RuntimeException("강제 예외"); // 테스트용
         userDAO.update(userVO); //사용자 정보 업데이트
         return true;
     }
