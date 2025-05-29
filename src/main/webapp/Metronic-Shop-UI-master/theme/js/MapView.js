@@ -9,11 +9,6 @@ function initUserMap(lat, lng) {
 
     });
 
-    // 지도가 정상적으로 보이도록 크기 재조정
-    setTimeout(() => {
-        map.relayout();
-        map.setCenter(new kakao.maps.LatLng(lat, lng)); // relayout() 이후 중심 재설정
-    }, 100); //딜레이 주기
 
     // 사용자 위치를 중심으로 반경 원(circle) 표시
     const circle = new kakao.maps.Circle({
