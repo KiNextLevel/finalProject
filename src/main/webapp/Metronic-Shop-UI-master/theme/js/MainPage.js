@@ -270,7 +270,7 @@ function updateProductList(users, append) {
                     <div class="pi-img-wrapper">
                         <img src="${data.userProfile || 'default.jpg'}" class="img-responsive" alt="userImage">
                         <div class="product-page-cart">
-                            <button id="chatButton" type="submit" type="button">메시지 보내기</button>-->
+<!--                            <button class="btn btn-primary" type="submit">메시지 보내기</button>-->
                             <a href="userDetailPage.do?userEmail=${data.userEmail}" class="btn btn-default">프로필 보기</a>
                         </div>
                     </div>

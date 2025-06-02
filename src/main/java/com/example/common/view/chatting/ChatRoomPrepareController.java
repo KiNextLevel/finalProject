@@ -1,7 +1,5 @@
 package com.example.common.view.chatting;
 
-import com.example.common.biz.alert.AlertService;
-import com.example.common.biz.alert.AlertVO;
 import com.example.common.biz.chatRoom2.ChatRoomService;
 import com.example.common.biz.chatRoom2.ChatRoomVO;
 
@@ -11,7 +9,6 @@ import com.example.common.biz.user.UserService;
 import com.example.common.biz.user.UserVO;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,15 +30,13 @@ public class ChatRoomPrepareController {
     private ChattingRoomService chattingRoomService;
     @Autowired
     private AlertService alertService;
-
-    private String alertMessage = "누군가 채팅을 보냈습니다.";
+    private final String newChatMessage = "새로운 채팅방이 생성됐습니다!";
 
     // 순서 변경
     // 원래는 토큰 확인이 먼저였지만, 채팅방 유무 확인후 -> 토큰 확인하고, 있으면? -> 채팅방 생성
     //@GetMapping("/prepareChatRoom.do")
     @PostMapping("/prepareChatRoom.do")
-    public String ChatRoom(@RequestParam String targetEmail, HttpSession session, ChatRoomVO chatRoomVO,
-                           UserVO userVO, Model model, AlertVO alertVO) {
+    public String ChatRoom(@RequestParam String targetEmail, HttpSession session, ChatRoomVO chatRoomVO, UserVO userVO, Model model, AlertVO alertVO) {
         System.out.println("채팅방 컨트롤러 진입 성공 : ChatRoomController");
 
         //System.out.println("채팅방 번호 : " + chatRoomId);  // 채팅방 번호 받아오기 ( 채팅방 리스트에서)
@@ -95,12 +90,17 @@ public class ChatRoomPrepareController {
                 // 토큰 차감하기
                 tokenService.tokenDeduct(userVO, myEmail);
 
+                // 토큰 차감됐나 확인하기
+                //int tokenAfter = tokenService.tokenCheckNumber(userVO, myEmail); // 차감된 후
+                //System.out.println("-1한 토큰 개수 확인하기(이게 맞아야함) : [" + tokenAfter + "]");
+
                 // 채팅방 생성하기
                 chattingRoomService.chatRoomCreate(chatRoomVO, myEmail, targetEmail);
-                //채팅방 생성 알림 보내기
+
                 alertVO.setUserEmail(targetEmail);
-                alertVO.setAlertContent(alertMessage);
+                alertVO.setAlertContent(newChatMessage);
                 alertService.insert(alertVO);
+
                 // 채팅방 조회하기
                 int chatRoomId = chattingRoomService.chatRoomIdCheck(chatRoomVO, userVO);
 
