@@ -20,6 +20,8 @@ public class ChatRoomCreateController {
 
     @Autowired
     private ChatRoomService chatRoomService;
+    @Autowired
+    private AlertService alertService;
 
     // 순서 변경
     // 원래는 토큰 확인이 먼저였지만, 채팅방 유무 확인후 -> 토큰 확인하고, 있으면? -> 채팅방 생성
@@ -59,6 +61,9 @@ public class ChatRoomCreateController {
             int chatRoomId = existingRoom.getChatRoomId(); //채팅방 아이디 가져오기
             System.out.println("채팅방 생성 컨트롤러- 기존 채팅방 ID: " + chatRoomId);
             System.out.println("채팅방 생성 컨트롤러- 상대방 이메일: " + targetEmail);
+
+            //채팅방 생성되면 알림 보내기
+            alertService.insert(alertVO);
             return "redirect:/chattingRoom.do?chatRoomId=" + chatRoomId + "&targetEmail=" + targetEmail;
         } else {
             // 채팅방이 없으므로, 토큰 확인 로직으로 먼저 이동
