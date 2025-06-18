@@ -57,41 +57,22 @@
     padding: 20px;
     border-bottom: 1px solid #eee;
     position: relative;
-    cursor: pointer;
 }
 
 .event-header h4 {
     margin: 0;
     font-weight: 600;
     color: #333;
-    padding-right: 30px;
 }
 
-.event-header:after {
-    content: '\f078';
-    font-family: 'FontAwesome';
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #e94d1c;
-    transition: transform 0.3s ease;
+.event-number {
+    color: #777;
+    margin-right: 5px;
 }
 
-.event-header.active:after {
-    transform: translateY(-50%) rotate(180deg);
-}
-
+/* 내용 영역 - 토글 제거 후 항상 표시 */
 .event-content {
-    padding: 0;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.5s ease, padding 0.3s ease;
-}
-
-.event-content.active {
     padding: 20px;
-    max-height: 1000px; /* 충분히 큰 값 */
 }
 
 .event-body {
@@ -142,6 +123,11 @@
 
 .btn-participate:hover {
     background-color: #d23c0d;
+}
+
+.btn-participate:disabled {
+    background-color: #999;
+    cursor: not-allowed;
 }
 
 .admin-actions {
@@ -212,6 +198,7 @@
     color: white;
     text-decoration: none;
 }
+
 .event-titles {
     display: flex;
     justify-content: space-between;
@@ -227,4 +214,40 @@
     padding: 3px 8px;
     border-radius: 5px;
     white-space: nowrap; /* 줄바꿈 방지 */
+}
+
+/* 로딩 스타일 */
+.loading-events {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.loading-events i {
+    font-size: 36px;
+    color: #e94d1c;
+    margin-bottom: 15px;
+}
+
+/* 에러 메시지 스타일 */
+.error-message {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.error-message i {
+    font-size: 50px;
+    color: #e35b5a;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.error-message h2 {
+    color: #555;
+    font-weight: 400;
 }

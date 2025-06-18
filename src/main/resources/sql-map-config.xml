@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!--alias 설정-->
+    <typeAliases>
+        <typeAlias type="com.example.common.biz.report.ReportVO" alias="report"/>
+        <typeAlias type="com.example.common.biz.alert.AlertVO" alias="alert"/>
+    </typeAliases>
+
+    <!--mapper 설정 알려주기-->
+    <mappers>
+        <mapper resource="mybatis/alert-mapping.xml"/>
+        <mapper resource="mybatis/report-mapping.xml"/>
+    </mappers>
+
+</configuration>
