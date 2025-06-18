@@ -53,7 +53,7 @@
         <div class="row">
             <div class="col-md-6 col-sm-6 additional-nav">
                 <ul class="list-unstyled list-inline pull-right">
-                    <li><a href="indexPage.do">로그인 화면으로</a></li>
+                    <li><a href="/index.do">로그인 화면으로</a></li>
                 </ul>
             </div>
         </div>
@@ -97,7 +97,7 @@
                     </div>
                 </div>
 
-                <form action="joinPage.do" method="post" id="userInfoForm" enctype="multipart/form-data">
+                <form action="/joinNext.do" method="post" id="userInfoForm" enctype="multipart/form-data">
                     <!-- 소셜 로그인 타입 히든 필드 -->
                     <c:if test="${not empty socialType}">
                         <input type="hidden" name="socialType" value="${socialType}">
@@ -312,7 +312,7 @@
 
                         <div class="form-group">
                             <label for="profile">프로필 사진</label>
-                            <input type="file" class="form-control" id="profile" name="userProfile" required>
+                            <input type="file" class="form-control" id="profile" name="profile" required>
                             <small class="form-text text-muted">JPG, PNG 형식의 파일만 가능합니다. 최대 5MB.</small>
                         </div>
 
@@ -426,6 +426,6 @@
 
 
 </script>
-<script src="${pageContext.request.contextPath}js/JoinPage.js"></script>
+<script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/js/JoinPage.js"></script>
 </body>
 </html>

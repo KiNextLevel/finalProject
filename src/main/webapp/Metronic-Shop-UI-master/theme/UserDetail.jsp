@@ -1,5 +1,5 @@
-<%@ page import="org.example.webapp.model.dto.UserDTO" %>
-<%@ page import="org.example.webapp.model.dto.PreferenceDTO" %>
+<%@ page import="com.example.common.biz.user.UserVO" %>
+<%@ page import="com.example.common.biz.preference.PreferenceVO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -9,9 +9,10 @@
 
 <html>
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-32x32.png">
     <meta charset="utf-8">
-    <title>사용자 상세 페이지${param.userEmail}</title>
+    <title>사용자 상세 페이지</title>
     <link href="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/css/UserDetail.css" rel="stylesheet">
 
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -31,137 +32,6 @@
     <link rel="shortcut icon" href="favicon.ico">
     <!-- Font Awesome 5 추가 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
-    <style>
-        /* Information 탭 스타일 */
-        .user-info-container {
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            padding: 20px;
-            margin-top: 15px;
-        }
-
-        .user-info-row {
-            margin-bottom: 15px;
-        }
-
-        .info-item {
-            padding: 12px 15px;
-            margin-bottom: 10px;
-            background-color: white;
-            border-radius: 6px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .info-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .info-item i {
-            margin-right: 10px;
-            color: #e84d1c;
-            font-size: 18px;
-            width: 20px;
-            text-align: center;
-        }
-
-        .info-label {
-            font-weight: 600;
-            color: #555;
-            margin-right: 8px;
-        }
-
-        .info-value {
-            color: #333;
-        }
-
-        /* Favorite 탭 스타일 */
-        .user-preference-container {
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            padding: 20px;
-            margin-top: 15px;
-        }
-
-        .preference-header {
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .preference-header h3 {
-            color: #e84d1c;
-            font-size: 22px;
-            margin: 0;
-        }
-
-        .preference-row {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-        }
-
-        .preference-item {
-            background-color: white;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            height: 100%;
-        }
-
-        .preference-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .preference-icon {
-            background-color: #f5f5f5;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-        }
-
-        .preference-icon i {
-            font-size: 24px;
-            color: #e84d1c;
-        }
-
-        .preference-content h4 {
-            margin-top: 0;
-            margin-bottom: 5px;
-            color: #333;
-            font-size: 16px;
-        }
-
-        .preference-content p {
-            margin: 0;
-            font-size: 18px;
-            color: #e84d1c;
-            font-weight: 600;
-        }
-
-        /* 반응형 스타일 */
-        @media (max-width: 767px) {
-            .preference-row .col-md-4 {
-                width: 100%;
-            }
-
-            .preference-item {
-                margin-bottom: 15px;
-            }
-        }
-
-    </style>
-
     <!-- Fonts START -->
     <link
             href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|PT+Sans+Narrow|Source+Sans+Pro:200,300,400,600,700,900&amp;subset=all"
@@ -202,8 +72,6 @@
     <link href="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/corporate/css/custom.css"
           rel="stylesheet">
     <!-- Theme styles END -->
-
-
 </head>
 <!-- Head END -->
 
@@ -220,7 +88,7 @@
                     <li><i class="fa fa-phone"></i><span>010 - 1234 - 1234</span></li>
                     <!-- BEGIN LANGS -->
                     <li class="langs-block">
-                        <a href="productPage.do" class="current"> 플러스샵 </a>
+                        <a href="/productPage.do" class="current"> 플러스샵 </a>
                     </li>
                     <!-- END LANGS -->
                 </ul>
@@ -230,11 +98,11 @@
             <div class="col-md-6 col-sm-6 additional-nav">
                 <ul class="list-unstyled list-inline pull-right">
                     <c:if test="${userRole==1}">
-                        <li><a href="adminPage.do">관리자페이지</a></li>
+                        <li><a href="/adminPage.do">관리자페이지</a></li>
                     </c:if>
-                    <li><a href="myPage.do">마이페이지</a></li>
-                    <li>메시지</li>
-                    <li><a href="logout.do">로그아웃</a></li>
+                    <li><a href="/myPage.do">마이페이지</a></li>
+                    <li><a href="/myChatRoomList.do">메시지</li>
+                    <li><a href="/logout.do">로그아웃</a></li>
                 </ul>
             </div>
             <!-- END TOP BAR MENU -->
@@ -246,7 +114,7 @@
 <!-- BEGIN HEADER -->
 <div class="header">
     <div class="container">
-        <a class="site-logo" href="mainPage.do"><img
+        <a class="site-logo" href="/mainPage.do"><img
                 src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/corporate/img/logos/3.png"
                 alt="Metronic Shop UI"></a>
 
@@ -261,147 +129,131 @@
     </div>
 </div>
 <!-- Header END -->
-
 <div class="main">
     <div class="container">
         <!-- BEGIN CONTENT -->
         <div class="col-md-9 col-sm-7">
             <div class="product-page">
                 <div class="row">
-                    <div class="col-md-6 col-sm-6">
-                        <div class="product-main-image">
-                            <img src="${userDTO.userProfile}" alt="User Profile"
-                                 class="img-responsive" data-BigImgsrc="${userDTO.userProfile}">
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-sm-6">
-                        <h1>${userDTO.userNickname}의 프로필</h1>
-                        <div class="price-availability-block clearfix">
-                            <div class="price">
-                                <strong>이름 : ${userDTO.userName}</strong><br>
-                                <p>닉네임 : ${userDTO.userNickname}</p>
-                            </div>
-                            <div class="availability">
-                                <!-- 앞에 2글자만 자르기 -->
-                                지역 : <strong>${fn:split(userDTO.userRegion, ' ')[0]}</strong>
-                            </div>
-
-                        </div>
-                        <div class="description">
-                            <p>${userDTO.userDescription}</p>
-                        </div>
-                        <div class="product-page-cart">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <!-- 채팅 구현은 NOT YET -->
-                                    <button class="btn btn-primary btn-block" type="submit">1:1 채팅하기</button>
-                                </div>
-                                <div class="col-md-6">
-                                    <a href="reportPage.do?userEmail=${userDTO.userEmail}"
-                                       class="btn btn-danger btn-block">
-                                        ${userDTO.userNickname} 신고하기
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 지도 div -->
-                        <div id="map" style="width: 100%; height: 400px;"></div>
-
-                        <!-- 스크립트 파일 불러오기 -->
-                        <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=16e5b4c908303629d0e034ffce98abc8&libraries=services"></script>
-                        <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/js/MapView.js"></script>
-
-                        <script>
-                            initUserMap(${userDTO.userLatitude}, ${userDTO.userLongitude});
-                            console.log("위도:", ${userDTO.userLatitude});
-                            console.log("경도:", ${userDTO.userLongitude});
-                        </script>
+                    <!-- 초기 로딩 상태 표시 -->
+                    <div id="loading-container" class="loading-container">
+                        <div class="spinner"></div>
                     </div>
 
-                    <div class="product-page-content">
-                        <ul id="myTab" class="nav nav-tabs">
-                            <li><a href="#Information" data-toggle="tab">Information</a></li>
-                            <li class="active"><a href="#favorite" data-toggle="tab">Favorite</a></li>
-                        </ul>
-                        <div id="myTabContent" class="tab-content">
-                            <div class="tab-pane fade" id="Information">
-                                <div class="user-info-container">
-                                    <c:if test="${not empty userDTO}">
+                    <!-- 에러 메시지 표시 영역 -->
+                    <div id="error-container" style="display: none;">
+                        <div class="error-message">
+                            <h3><i class="fas fa-exclamation-triangle"></i> 오류 발생</h3>
+                            <p id="error-message-text">사용자 정보를 불러오는 중 오류가 발생했습니다.</p>
+                        </div>
+                    </div>
+
+                    <!-- 사용자 정보 표시 영역 - 초기에는 숨김 -->
+                    <div id="user-profile-container" style="display: none;">
+                        <div class="col-md-6 col-sm-6">
+                            <div class="product-main-image">
+                                <img id="user-profile-image" src="" alt="User Profile"
+                                     class="img-responsive">
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <h1 id="user-nickname-title"></h1>
+                            <div class="price-availability-block clearfix">
+                                <div class="price">
+                                    <strong>이름: <span id="user-name"></span></strong><br>
+                                    <p>닉네임: <span id="user-nickname"></span></p>
+                                </div>
+                                <div class="availability">
+                                    지역: <strong id="user-region"></strong>
+                                </div>
+                            </div>
+                            <div class="description">
+                                <p id="user-description"></p>
+                            </div>
+                            <div class="product-page-cart">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <!-- 1:1 채팅하기 버튼  id추가 -->
+                                        <button id="chatButton" class="btn btn-primary btn-block" type="button">1:1
+                                            채팅하기
+                                        </button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a id="report-link" href="" class="btn btn-danger btn-block">
+                                            <span id="report-nickname"></span> 신고하기
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 지도 div -->
+                            <div id="map" style="width: 100%; height: 400px; margin-top: 20px;"></div>
+                        </div>
+
+                        <div class="product-page-content">
+                            <ul id="myTab" class="nav nav-tabs">
+                                <li><a href="#Information" data-toggle="tab">Information</a></li>
+                                <li class="active"><a href="#favorite" data-toggle="tab">Favorite</a></li>
+                            </ul>
+                            <div id="myTabContent" class="tab-content">
+                                <div class="tab-pane fade" id="Information">
+                                    <div class="user-info-container">
                                         <div class="row user-info-row">
                                             <div class="col-md-6">
                                                 <div class="info-item">
                                                     <i class="fas fa-birthday-cake"></i>
                                                     <span class="info-label">생년월일:</span>
-                                                    <span class="info-value">${userDTO.userBirth}</span>
+                                                    <span id="user-birth" class="info-value"></span>
                                                 </div>
                                                 <div class="info-item">
                                                     <i class="fas fa-arrows-alt-v"></i>
                                                     <span class="info-label">키:</span>
-                                                    <span class="info-value">${userDTO.userHeight}</span>
+                                                    <span id="user-height" class="info-value"></span>
                                                 </div>
                                                 <div class="info-item">
                                                     <i class="fas fa-user"></i>
                                                     <span class="info-label">체형:</span>
-                                                    <span class="info-value">${userDTO.userBody}</span>
+                                                    <span id="user-body" class="info-value"></span>
                                                 </div>
                                                 <div class="info-item">
                                                     <i class="fas fa-brain"></i>
                                                     <span class="info-label">MBTI:</span>
-                                                    <span class="info-value">${userDTO.userMbti}</span>
+                                                    <span id="user-mbti" class="info-value"></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="info-item">
                                                     <i class="fas fa-graduation-cap"></i>
                                                     <span class="info-label">학력:</span>
-                                                    <span class="info-value">${userDTO.userEducation}</span>
+                                                    <span id="user-education" class="info-value"></span>
                                                 </div>
                                                 <div class="info-item">
                                                     <i class="fas fa-heart"></i>
                                                     <span class="info-label">종교:</span>
-                                                    <span class="info-value">${userDTO.userReligion}</span>
+                                                    <span id="user-religion" class="info-value"></span>
                                                 </div>
                                                 <div class="info-item">
                                                     <i class="fas fa-glass-cheers"></i>
                                                     <span class="info-label">음주:</span>
-                                                    <span class="info-value">
-                            <c:choose>
-                                <c:when test="${userDTO.userDrink == 0}">전혀 안함</c:when>
-                                <c:when test="${userDTO.userDrink == 1}">가끔</c:when>
-                                <c:when test="${userDTO.userDrink == 2}">자주</c:when>
-                                <c:otherwise>입력 안됨</c:otherwise>
-                            </c:choose>
-                        </span>
+                                                    <span id="user-drink" class="info-value"></span>
                                                 </div>
                                                 <div class="info-item">
                                                     <i class="fas fa-smoking"></i>
                                                     <span class="info-label">흡연:</span>
-                                                    <span class="info-value">
-                            <c:choose>
-                                <c:when test="${userDTO.userSmoke}">흡연</c:when>
-                                <c:otherwise>비흡연</c:otherwise>
-                            </c:choose>
-                        </span>
+                                                    <span id="user-smoke" class="info-value"></span>
                                                 </div>
                                                 <div class="info-item">
                                                     <i class="fas fa-briefcase"></i>
                                                     <span class="info-label">직업:</span>
-                                                    <span class="info-value">${userDTO.userJob}</span>
+                                                    <span id="user-job" class="info-value"></span>
                                                 </div>
                                             </div>
                                         </div>
-                                    </c:if>
-
-                                    <c:if test="${empty userDTO}">
-                                        <div class="alert alert-info">사용자 정보를 찾을 수 없습니다.</div>
-                                    </c:if>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="tab-pane fade in active" id="favorite">
-                                <div class="user-preference-container">
-                                    <c:choose>
-                                        <c:when test="${not empty preferenceDTO}">
+                                <div class="tab-pane fade in active" id="favorite">
+                                    <div class="user-preference-container">
+                                        <div id="preference-content">
                                             <div class="preference-header">
                                                 <h3>선호하는 조건</h3>
                                             </div>
@@ -413,7 +265,7 @@
                                                         </div>
                                                         <div class="preference-content">
                                                             <h4>선호 키</h4>
-                                                            <p>${preferenceDTO.preferenceHeight}</p>
+                                                            <p id="preference-height"></p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -424,7 +276,7 @@
                                                         </div>
                                                         <div class="preference-content">
                                                             <h4>선호 체형</h4>
-                                                            <p>${preferenceDTO.preferenceBody}</p>
+                                                            <p id="preference-body"></p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -435,19 +287,18 @@
                                                         </div>
                                                         <div class="preference-content">
                                                             <h4>선호 나이</h4>
-                                                            <p>${preferenceDTO.preferenceAge}</p>
+                                                            <p id="preference-age"></p>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </c:when>
-                                        <c:otherwise>
+                                        </div>
+                                        <div id="no-preference-message" style="display: none;">
                                             <div class="alert alert-info">사용자의 선호 정보를 찾을 수 없습니다.</div>
-                                        </c:otherwise>
-                                    </c:choose>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -457,7 +308,7 @@
     </div>
     <!-- END SIDEBAR & CONTENT -->
 </div>
-</div>
+
 <!-- BEGIN PRE-FOOTER -->
 <div class="pre-footer">
     <div class="container">
@@ -510,81 +361,8 @@
             </div>
             <!-- END COPYRIGHT -->
         </div>
-        <!-- END BOTTOM CONTACTS -->
-    </div>
-    <hr>
-    <div class="row">
-        <!-- Load javascripts at bottom, this will reduce page load time -->
-        <!-- BEGIN CORE PLUGINS(REQUIRED FOR ALL PAGES) -->
-        <!--[if lt IE 9]>
-            <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/plugins/respond.min.js"></script>
-            <![endif]-->
-        <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/plugins/jquery.min.js"
-                type="text/javascript"></script>
-        <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/plugins/jquery-migrate.min.js"
-                type="text/javascript"></script>
-        <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/plugins/bootstrap/js/bootstrap.min.js"
-                type="text/javascript"></script>
-        <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js"
-                type="text/javascript"></script>
-        <!-- END CORE PLUGINS -->
-
-        <!-- BEGIN PAGE LEVEL JAVASCRIPTS (REQUIRED ONLY FOR CURRENT PAGE) -->
-        <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/plugins/fancybox/source/jquery.fancybox.pack.js"
-                type="text/javascript"></script>
-        <!-- pop up -->
-        <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/plugins/owl.carousel/owl.carousel.min.js"
-                type="text/javascript"></script>
-        <!-- slider for products -->
-
-        <script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/corporate/scripts/layout.js"
-                type="text/javascript"></script>
-        <script type="text/javascript">
-            jQuery(document).ready(function () {
-                Layout.init();
-                Layout.initOWL();
-                Layout.initTwitter();
-            });
-        </script>
-        <!-- END PAGE LEVEL JAVASCRIPTS -->
     </div>
 </div>
-</div>
-
-<!-- BEGIN fast view of a product -->
-<div id="product-pop-up" style="display: none; width: 700px;">
-    <div class="product-page product-pop-up">
-        <div class="row">
-            <div class="col-md-6 col-sm-6 col-xs-3">
-                <div class="product-main-image">
-                    <img src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/pages/img/products/model7.jpg"
-                         alt="Cool green dress with red bell"
-                         class="img-responsive">
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-6 col-xs-9">
-                <h2>Cool green dress with red bell</h2>
-                <div class="description">
-                    <p>Lorem ipsum dolor ut sit ame dolore adipiscing elit, sed nonumy nibh sed euismod laoreet dolore
-                        magna
-                        aliquarm erat volutpat
-                        Nostrud duis molestie at dolore.</p>
-                </div>
-            </div>
-            <div class="product-page-cart">
-                <div class="product-quantity">
-                    <input id="product-quantity2" type="text" value="1" readonly class="form-control input-sm">
-                </div>
-                <button class="btn btn-primary" type="submit">Add to cart</button>
-                <a href="shop-item.html" class="btn btn-default">More details</a>
-            </div>
-        </div>
-
-        <div class="sticker sticker-sale"></div>
-    </div>
-</div>
-</div>
-<!-- END fast view of a product -->
 
 <!-- Load javascripts at bottom, this will reduce page load time -->
 <!-- BEGIN CORE PLUGINS(REQUIRED FOR ALL PAGES) -->
@@ -623,8 +401,199 @@
         type="text/javascript"></script>
 <!-- END PAGE LEVEL JAVASCRIPTS -->
 
+<!-- 카카오맵 API -->
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=16e5b4c908303629d0e034ffce98abc8&libraries=services"></script>
+<script src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/js/MapView.js"></script>
 
-</body>
-<!-- END BODY -->
+<script type="text/javascript">
+    // 채팅 대상 이메일 전역 변수 선언
+    let targetEmail = "";
 
-</html>
+    // URL에서 파라미터 값을 추출하는 함수 정의
+    function getParameterByName(name) {
+        const url = window.location.href;   // 현재 URL 가져오기
+        name = name.replace(/[\[\]]/g, "\\$&"); // 이름에 특수문자 있으면 escape 처리
+        const regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"); // 파라미터 찾는 정규식
+        const results = regex.exec(url);  // 정규식 실행
+        if (!results) return null;
+        if (!results[2]) return "";
+        return decodeURIComponent(results[2].replace(/\+/g, " "));  // 디코딩해서 반환
+    }
+
+    jQuery(document).ready(function () {
+        Layout.init();
+        Layout.initOWL();
+        Layout.initTwitter();
+
+        // 로딩 타임아웃 설정
+        const loadingTimeout = setTimeout(function () {
+            $('#loading-container').hide();
+            showError("데이터 로딩 시간이 초과되었습니다. 페이지를 새로고침 해주세요.");
+        }, 15000);
+
+        // URL에서 userEmail 파라미터 가져오기
+        const userEmail = getParameterByName('userEmail');
+
+        // userEmail이 없으면 에러 처리
+        if (!userEmail) {
+            clearTimeout(loadingTimeout);
+            $('#loading-container').hide();
+            showError("사용자 이메일 정보가 없습니다.");
+            return;
+        }
+
+        // 사용자 정보 가져오기
+        $.ajax({
+            url: '/userDetailData.do',
+            type: 'GET',
+            data: {userEmail: userEmail},  // '이 이메일에 대한 정보 주세요~' 하고 보내는 거
+            dataType: 'json',
+            timeout: 10000,
+            success: function (data) {
+                clearTimeout(loadingTimeout);
+                $('#loading-container').hide();
+
+                if (!data || data.flag === false) {
+                    showError(data && data.msg ? data.msg : "사용자 정보를 찾을 수 없습니다.");
+                    return;
+                }
+
+                renderUserData(data); // 사용자 데이터 렌더링 함수 호출
+                $('#user-profile-container').show(); // 숨겨진 영역 보여주기
+            },
+            error: function (xhr, status, error) {
+                clearTimeout(loadingTimeout);
+                $('#loading-container').hide();
+                showError("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+            }
+        });
+
+        // 에러 메시지 표시 함수
+        function showError(message) {
+            $('#error-message-text').text(message);
+            $('#error-container').show();
+        }
+
+        // 사용자 데이터 렌더링 함수
+        function renderUserData(data) {
+            try {
+                const userVO = data.userVO;
+                const preferenceVO = data.preferenceVO;
+
+                if (!userVO) {
+                    showError("사용자 정보를 찾을 수 없습니다.");
+                    return;
+                }
+
+                // 채팅 대상 이메일 저장
+                targetEmail = userVO.userEmail;
+
+                $('#user-profile-image').attr('src', userVO.userProfile || '/default-profile.jpg');
+                $('#user-nickname-title').text((userVO.userNickname || '사용자') + '의 프로필');
+                $('#user-name').text(userVO.userName || '정보 없음');
+                $('#user-nickname').text(userVO.userNickname || '정보 없음');
+
+                const regionParts = (userVO.userRegion || '').split(' ');
+                $('#user-region').text(regionParts[0] || '정보 없음');
+
+                $('#user-description').text(userVO.userDescription || '자기소개가 없습니다.');
+                $('#report-link').attr('href', '/reportPage.do?userEmail=' + userVO.userEmail);
+                $('#report-nickname').text(userVO.userNickname || '사용자');
+
+                $('#user-birth').text(userVO.userBirth || '정보 없음');
+                $('#user-height').text(userVO.userHeight || '정보 없음');
+                $('#user-body').text(userVO.userBody || '정보 없음');
+                $('#user-mbti').text(userVO.userMbti || '정보 없음');
+                $('#user-education').text(userVO.userEducation || '정보 없음');
+                $('#user-religion').text(userVO.userReligion || '정보 없음');
+                $('#user-job').text(userVO.userJob || '정보 없음');
+
+                const drinkText = userVO.userDrink === 0 ? '전혀 안함' : userVO.userDrink === 1 ? '가끔' : userVO.userDrink === 2 ? '자주' : '정보 없음';
+                $('#user-drink').text(drinkText);
+
+                const smokeText = userVO.userSmoke === 1 ? '흡연' : '비흡연';
+                $('#user-smoke').text(smokeText);
+
+                if (preferenceVO) {
+                    $('#preference-height').text(preferenceVO.preferenceHeight || '정보 없음');
+                    $('#preference-body').text(preferenceVO.preferenceBody || '정보 없음');
+                    $('#preference-age').text(preferenceVO.preferenceAge || '정보 없음');
+                    $('#preference-content').show();
+                    $('#no-preference-message').hide();
+                } else {
+                    $('#preference-content').hide();
+                    $('#no-preference-message').show();
+                }
+
+                if (userVO.userLatitude && userVO.userLongitude) {
+                    initUserMap(userVO.userLatitude, userVO.userLongitude);
+                }
+            } catch (e) {
+                showError("데이터 표시 중 오류가 발생했습니다.");
+            }
+        }
+
+        // 채팅 버튼 클릭 이벤트
+        $('#chatButton').on('click', function () {
+
+            Swal.fire({
+                title: '대화를 시작하시겠습니까?',
+                html: `
+    확인을 누르면 토큰이 1개 차감됩니다.<br>
+    (이미 채팅방이 있으면 차감되지 않습니다.)
+  `,
+                icon: null,
+                showCancelButton: true,
+                confirmButtonText: '확인',
+                cancelButtonText: '취소',
+                customClass: {
+                    popup: 'custom-swal-popup',
+                    confirmButton: 'swal2-confirm-button',
+                    cancelButton: 'swal2-cancel-button'
+                },
+                buttonsStyling: false  // 기본 스타일 제거
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '/prepareChatRoom.do';
+
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'targetEmail';
+                    input.value = targetEmail;
+
+                    form.appendChild(input);
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            });
+
+        });
+
+        // $('#chatButton').on('click', function () {
+        //     $.ajax({
+        //         url: '/checkToken.do',
+        //         type: 'POST',
+        //         dataType: 'json',
+        //         success: function (response) {
+        //             if (response.status === 'success') {
+        //                 // 확인 창 띄우고, '확인' 누르면 채팅방으로 이동 (토큰 차감)
+        //                 if (confirm("대화를 시작하시겠습니까? ('확인'을 누르면 토큰이 1개 차감됩니다)")) {
+        //                     // 채팅방 이동 시 targetEmail을 파라미터로 포함
+        //                     window.location.href = '/deductToken.do?targetEmail=' + encodeURIComponent(targetEmail);
+        //                 }
+        //                 // 토큰 보유 0개이면
+        //             } else {
+        //                 alert(response.message);  // 실패 시 메시지 출력
+        //                 window.location.href = "/insufficientToken.do";  // 토큰 수 부족하면 이동하게 하기
+        //             }
+        //         },
+        //         error: function () {
+        //             alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
+        //         }
+        //     });
+        // });
+    });
+
+</script>
