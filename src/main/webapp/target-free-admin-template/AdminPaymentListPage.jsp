@@ -34,14 +34,14 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand waves-effect waves-dark" href="/adminPage.do"><i class="large material-icons">track_changes</i> <strong>Next Love</strong></a>
+            <a class="navbar-brand waves-effect waves-dark" href="adminPage.do"><i class="large material-icons">track_changes</i> <strong>Next Love</strong></a>
 
             <div id="sideNav" href=""><i class="material-icons dp48">toc</i></div>
         </div>
 
         <ul class="nav navbar-top-links navbar-right">
-            <li><a class="dropdown-button waves-effect waves-dark" href="/mainPage.do"> <b>메인 페이지</b></a></li>
-            <li><a class="dropdown-button waves-effect waves-dark" href="/logout.do"><i class="fa fa-user fa-fw"></i> <b>Log out</b></a></li>
+            <li><a class="dropdown-button waves-effect waves-dark" href="mainPage.do"> <b>메인 페이지</b></a></li>
+            <li><a class="dropdown-button waves-effect waves-dark" href="logout.do"><i class="fa fa-user fa-fw"></i> <b>Log out</b></a></li>
             <li></li>
         </ul>
     </nav>
@@ -51,13 +51,13 @@
             <ul class="nav" id="main-menu">
 
                 <li>
-                    <a class="waves-effect waves-dark" href="/boardPage.do"><i class="fa fa-dashboard"></i> 이벤트 페이지</a>
+                    <a class="waves-effect waves-dark" href="boardPage.do"><i class="fa fa-dashboard"></i> 이벤트 페이지</a>
                 </li>
                 <li>
-                    <a href="/adminPaymentListPage.do" class="waves-effect waves-dark"><i class="fa fa-desktop"></i> 결제 내역 페이지</a>
+                    <a href="adminPaymentListPage.do" class="waves-effect waves-dark"><i class="fa fa-desktop"></i> 결제 내역 페이지</a>
                 </li>
                 <li>
-                    <a href="/adminReportPage.do" class="waves-effect waves-dark"><i class="fa fa-bar-chart-o"></i> 신고 회원 관리 페이지</a>
+                    <a href="adminReportPage.do" class="waves-effect waves-dark"><i class="fa fa-bar-chart-o"></i> 신고 회원 관리 페이지</a>
                 </li>
             </ul>
 
@@ -87,12 +87,6 @@
                         <div class="card-action">
                             Advanced Tables
                         </div>
-                        <div class="card-action" style="display: flex; justify-content: space-between; align-items: center;">
-                            <span>Advanced Tables</span>
-                            <a href="/excel.do" class="btn waves-effect waves-light green">
-                                <i class="fa fa-file-excel-o"></i> Excel로 내보내기
-                            </a>
-                        </div>
                         <div class="card-content">
                             <div class="table-responsive">                                            <!-- 이게 정렬 -->
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
@@ -104,8 +98,15 @@
                                         <th>결제 상품</th>
                                     </tr>
                                     </thead>
-                                    <tbody id="paymentTableBody">
-                                    <!-- JavaScript로 동적 데이터 삽입 -->
+                                    <tbody>
+                                    <c:forEach var="data" items="${datas}">
+                                        <tr class="odd gradeX">
+                                            <td>${data.paymentDate}</td>
+                                            <td>${data.userEmail}</td>
+                                            <td>${data.paymentPrice}</td>
+                                            <td class="center">${data.productName}</td>
+                                        </tr>
+                                    </c:forEach>
                                     </tbody>
                                 </table>
                             </div>
@@ -149,12 +150,12 @@
     <script src="${pageContext.request.contextPath}/target-free-admin-template/assets/js/dataTables/dataTables.bootstrap.js"></script>
     <script>
         $(document).ready(function () {
-            var table = $('#dataTables-example').DataTable({
+            $('#dataTables-example').dataTable({
                 "order": [[0, "desc"]], // 첫 번째 열(결제 날짜) 내림차순
                 "language": {
-                    "zeroRecords": "일치하는 검색 결과가 없습니다.",
-                    "emptyTable": "테이블에 데이터가 없습니다.",
-                    "info": "총 _TOTAL_건 중 _START_ - _END_건 표시",
+                    "zeroRecords": "일치하는 검색 결과가 없습니다.",  // 필터링 후 데이터가 없을 때 메시지
+                    "emptyTable": "테이블에 데이터가 없습니다.",   // 테이블이 완전히 비어 있을 때 메시지
+                    "info": "총 _TOTAL_건 중 _START_ - _END_건 표시", // 페이지 정보
                     "infoEmpty": "데이터 없음",
                     "infoFiltered": "(총 _MAX_건 중 필터링됨)",
                     "search": "검색:",
@@ -165,41 +166,6 @@
                         "next": "다음",
                         "previous": "이전"
                     }
-                }
-            });
-
-            // Ajax로 데이터를 가져와서 테이블에 추가하는 부분
-            $.ajax({
-                url: "/getPaymentList.do",
-                method: "GET",
-                dataType: "json",
-                success: function (response) {
-                    console.log("받아온 데이터:", response);
-                    console.log("paymentList: ", response.list);
-                    const paymentList = response.list;
-                    const tbody = $("#paymentTableBody");
-                    tbody.empty(); // 기존 내용 초기화
-
-                    if (paymentList && paymentList.length > 0) {
-                        paymentList.forEach(function (payment) {
-                            const row = `
-                            <tr class="odd gradeX">
-                                <td>\${payment.paymentDate}</td>
-                                <td>\${payment.userEmail}</td>
-                                <td>\${payment.paymentPrice}</td>
-                                <td class="center">\${payment.productName}</td>
-                            </tr>
-                        `;
-                            tbody.append(row);
-                        });
-                        table.rows.add(tbody.find('tr')).draw(); // 테이블에 새로운 데이터 추가
-                    } else {
-                        tbody.append(`<tr><td colspan="4" class="text-center">결제 내역이 없습니다.</td></tr>`);
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error("에러 발생:", error);
-                    alert("결제 내역을 불러오는 중 오류가 발생했습니다.");
                 }
             });
         });

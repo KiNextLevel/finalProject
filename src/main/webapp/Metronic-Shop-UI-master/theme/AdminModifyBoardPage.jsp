@@ -205,7 +205,7 @@
                     <li><i class="fa fa-phone"></i><span>010 - 1234 - 1234</span></li>
                     <!-- BEGIN LANGS -->
                     <li class="langs-block">
-                        <a href="/productPage.do" class="current"> 플러스샵 </a>
+                        <a href="productPage.do" class="current"> 플러스샵 </a>
                     </li>
                     <!-- END LANGS -->
                 </ul>
@@ -215,11 +215,11 @@
             <div class="col-md-6 col-sm-6 additional-nav">
                 <ul class="list-unstyled list-inline pull-right">
                     <c:if test="${userRole==1}">
-                        <li><a href="/adminPage.do">관리자페이지</a></li>
+                        <li><a href="adminPage.do">관리자페이지</a></li>
                     </c:if>
-                    <li><a href="/myPage.do">마이페이지</a></li>
+                    <li><a href="myPage.do">마이페이지</a></li>
                     <li>메시지</li>
-                    <li><a href="/logout.do">로그아웃</a></li>
+                    <li><a href="logout.do">로그아웃</a></li>
                 </ul>
             </div>
             <!-- END TOP BAR MENU -->
@@ -231,7 +231,7 @@
 <!-- BEGIN HEADER -->
 <div class="header">
     <div class="container">
-        <a class="site-logo" href="/mainPage.do"><img src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/corporate/img/logos/3.png" alt="mainPage"></a>
+        <a class="site-logo" href="mainPage.do"><img src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/corporate/img/logos/3.png" alt="mainPage"></a>
         <a href="javascript:void(0);" class="mobi-toggler"><i class="fa fa-bars"></i></a>
     </div>
 </div>
@@ -246,7 +246,7 @@
                 <div class="report-container">
                     <h2 class="report-title">이벤트 수정</h2>
 
-                    <form action="/adminModifyBoard.do" method="POST" role="form" class="form-horizontal">
+                    <form action="adminModifyBoard.do" method="POST" role="form" class="form-horizontal">
                         <input type="hidden" name="boardNum" value="${data.boardNumber}">
 
                         <div class="form-group">

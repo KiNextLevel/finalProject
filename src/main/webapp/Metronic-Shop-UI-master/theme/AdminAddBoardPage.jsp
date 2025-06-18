@@ -91,7 +91,7 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
                     <li><i class="fa fa-phone"></i><span>010 - 1234 - 1234</span></li>
                     <!-- BEGIN LANGS -->
                     <li class="langs-block">
-                        <a href="/productPage.do" class="current"> 플러스샵 </a>
+                        <a href="productPage.do" class="current"> 플러스샵 </a>
                     </li>
                     <!-- END LANGS -->
                 </ul>
@@ -101,11 +101,11 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
             <div class="col-md-6 col-sm-6 additional-nav">
                 <ul class="list-unstyled list-inline pull-right">
                     <c:if test="${userRole==1}">
-                        <li><a href="/adminPage.do">관리자페이지</a></li>
+                        <li><a href="adminPage.do">관리자페이지</a></li>
                     </c:if>
-                    <li><a href="/myPage.do">마이페이지</a></li>
+                    <li><a href="myPage.do">마이페이지</a></li>
                     <li>메시지</li>
-                    <li><a href="/logout.do">로그아웃</a></li>
+                    <li><a href="logout.do">로그아웃</a></li>
                 </ul>
             </div>
             <!-- END TOP BAR MENU -->
@@ -117,7 +117,7 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
 <!-- BEGIN HEADER -->
 <div class="header">
     <div class="container">
-        <a class="site-logo" href="/mainPage.do"><img
+        <a class="site-logo" href="mainPage.do"><img
                 src="${pageContext.request.contextPath}/Metronic-Shop-UI-master/theme/assets/corporate/img/logos/3.png"
                 alt="mainPage"></a>
 
@@ -136,8 +136,8 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
 <div class="main event-add-page">
     <div class="container">
         <ul class="breadcrumb">
-            <li><a href="/mainPage.do">메인페이지</a></li>
-            <li><a href="/boardPage.do">이벤트 페이지</a></li>
+            <li><a href="mainPage.do">메인페이지</a></li>
+            <li><a href="boardPage.do">이벤트 페이지</a></li>
             <li class="active">이벤트 추가</li>
         </ul>
 
@@ -153,7 +153,7 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
             <div class="col-md-8">
                 <div class="form-container">
                     <h2 class="form-title">이벤트 정보 입력</h2>
-                    <form action="/adminAddBoard.do" method="POST" role="form" class="form-horizontal">
+                    <form action="adminAddBoard.do" method="POST" role="form" class="form-horizontal">
                         <input type="hidden" name="command" value="ADMINADDBOARD">
 
                         <div class="form-group">
@@ -168,8 +168,8 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
                         <div class="form-group">
                             <label class="col-lg-3 control-label" for="event-content">이벤트 내용<span class="require">*</span></label>
                             <div class="col-lg-9">
-                        <textarea id="event-content" class="form-control" rows="10" name="boardContent"
-                                placeholder="이벤트 내용과 날짜를 입력하세요"></textarea>
+        <textarea id="event-content" class="form-control" rows="10" name="boardContent"
+                  placeholder="이벤트 내용과 날짜를 입력하세요"></textarea>
                                 <span class="help-block">이벤트 내용, 진행 기간, 참여 방법, 혜택 등을 자세히 설명해주세요.</span>
                             </div>
                         </div>
@@ -187,7 +187,7 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
 
                         <div class="form-group">
                             <div class="col-lg-9 col-lg-offset-3">
-                                <a href="/boardPage.do" class="btn btn-event-cancel">
+                                <a href="boardPage.do" class="btn btn-event-cancel">
                                     <i class="fa fa-times"></i> 취소하기
                                 </a>
                                 <button class="btn btn-event-add" type="submit">

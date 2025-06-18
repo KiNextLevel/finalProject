@@ -103,10 +103,10 @@
                     const encodedProductNum = encodeURIComponent(productNum);  // 인코딩된 값
                     console.log("전송할 데이터:", `productNum=`+encodedProductNum);
 
-                    fetch("/payment.do", {
+                    fetch("payment.do", {
                         method: "POST",
                         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                        body: `productNumber=`+encodedProductNum   //
+                        body: `productNum=`+encodedProductNum   //
                     })
                         .then(response => response.text())
                         .then(data => console.log("결제 성공 처리 완료:", data))
@@ -138,7 +138,7 @@
                         <!--
                         <button class="button p-grid-col5" onclick="location.href='https://docs.tosspayments.com/guides/payment/integration';">연동 문서</button>
                         -->
-                        <button class="button p-grid-col5" onclick="location.href='/mainPage.do';" style="background-color: #e8f3ff; color: #1b64da">메인으로 돌아가기</button>
+                        <button class="button p-grid-col5" onclick="location.href='mainPage.do';" style="background-color: #e8f3ff; color: #1b64da">메인으로 돌아가기</button>
                     </div>
                 </div>
 <!--
@@ -172,7 +172,7 @@
                         <!--
                         <button class="button p-grid-col5" onclick="location.href='https://docs.tosspayments.com/guides/payment/integration';">연동 문서</button>
                         -->
-                        <button class="button p-grid-col5" onclick="location.href='/mainPage.do';" style="background-color: #e8f3ff; color: #1b64da">메인으로</button>
+                        <button class="button p-grid-col5" onclick="location.href='mainPage.do';" style="background-color: #e8f3ff; color: #1b64da">메인으로</button>
                     </div>
                 </div>
             </c:otherwise>
