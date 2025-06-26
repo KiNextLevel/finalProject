@@ -21,13 +21,13 @@ import java.util.Map;
 public class MainPageRestController {
     @Autowired
     private UserService userService;
-    @Autowired
-    private AlertService alertService;
+//    @Autowired
+//    private AlertService alertService;
     @Autowired
     private AlertJPAService alertJPAService;
 
     @GetMapping("/api/mainPageData")
-    public Map<String, Object> mainPage(HttpSession session, AlertVO alertVO, UserVO userVO , Model model) {
+    public Map<String, Object> mainPage(HttpSession session, AlertVO alertVO, UserVO userVO) {
         System.out.println("CONT 로그: MAINPAGEDATA ACTION 도착");
 
         Map<String, Object> result = new HashMap<>();

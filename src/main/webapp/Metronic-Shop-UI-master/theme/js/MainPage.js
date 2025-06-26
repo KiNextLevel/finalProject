@@ -1,4 +1,4 @@
-// 전역 변수 (window 객체를 직접 참조)
+//변수 (window 객체를 직접 참조)
 const currentUserEmail = window.currentUserEmail;
 const currentYear = new Date().getFullYear();
 let filteredUsers = [];
@@ -15,11 +15,12 @@ jQuery(document).ready(function () {
 
     initSliders();
 
+    $('input[name="gender"], input[name="distance"], input[name="religion"], input[name="smoking"]').on('change', applyFilters);
+
     $('#load-more-btn').on('click', function () {
         loadMoreUsers();
     });
 
-    $('input[name="gender"], input[name="distance"], input[name="religion"], input[name="smoking"]').on('change', applyFilters);
 });
 
 // 알림 번호를 받아 읽음 상태로 업데이트하는 함수
@@ -129,7 +130,7 @@ function initSliders() {
         slide: function (event, ui) {
             $('#ageAmount').val(ui.values[0] + ' - ' + ui.values[1]);
         },
-        change: function (event, ui) {
+        change: function () {
             applyFilters();
         }
     });
@@ -143,7 +144,7 @@ function initSliders() {
         slide: function (event, ui) {
             $('#heightAmount').val(ui.values[0] + ' - ' + ui.values[1]);
         },
-        change: function (event, ui) {
+        change: function () {
             applyFilters();
         }
     });
@@ -168,6 +169,12 @@ function applyFilters() {
     const currentUserLatitude = parseFloat(window.currentUserLatitude);
     const currentUserLongitude = parseFloat(window.currentUserLongitude);
 
+    console.log('Selected Genders:', selectedGenders);
+    console.log('Selected Distance:', selectedDistance);
+    console.log('Age Range:', ageRange);
+    console.log('Height Range:', heightRange);
+    console.log('Selected Religions:', selectedReligions);
+    console.log('Selected Smoking:', selectedSmoking);
     console.log("Current User Lat/Lon:", currentUserLatitude, currentUserLongitude);
 
     filteredUsers = window.allUsers.filter(user => {
@@ -242,9 +249,9 @@ function loadMoreUsers() {
 
 function updateLoadMoreButton() {
     if (start >= filteredUsers.length) {
-        $('#load-more-btn').text('더 이상 없습니다').prop('disabled', true);
+        $('#load-more-btn').text('회원이 더 이상 없습니다').prop('disabled', true);
     } else {
-        $('#load-more-btn').text('더 보기').prop('disabled', false).show();
+        $('#load-more-btn').text('더 보기').prop('disabled', false);
     }
 }
 
@@ -260,9 +267,9 @@ function updateProductList(users, append) {
             console.log("Invalid user data:", data);
             return;
         }
-        console.log("Rendering user:", data.userEmail, data.userNickname, data.userHeight, data.userDescription);
+        // console.log("Rendering user:", data.userEmail, data.userNickname, data.userHeight, data.userDescription);
         let year = currentYear - parseInt(data.userBirth);
-        console.log("나이 출력" + year);
+        // console.log("나이 출력" + year);
 
         productListHtml += `
             <div class="col-md-4 col-sm-6 col-xs-12">

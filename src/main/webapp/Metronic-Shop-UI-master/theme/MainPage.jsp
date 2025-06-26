@@ -262,35 +262,6 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
                         <a href="javascript:"><i class="fa fa-th-large"></i></a>
                         <a href="javascript:"><i class="fa fa-th-list"></i></a>
                     </div>
-                    <!--
-                    최프때 추후 사용 가능
-                    <div class="col-md-10 col-sm-10">
-                        <div class="pull-right">
-                            <label class="control-label">Show:</label>
-                            <select class="form-control input-sm">
-                                <option value="#?limit=24" selected="selected">24</option>
-                                <option value="#?limit=25">25</option>
-                                <option value="#?limit=50">50</option>
-                                <option value="#?limit=75">75</option>
-                                <option value="#?limit=100">100</option>
-                            </select>
-                        </div>
-                        <div class="pull-right">
-                            <label class="control-label">Sort&nbsp;By:</label>
-                            <select class="form-control input-sm">
-                                <option value="#?sort=p.sort_order&amp;order=ASC" selected="selected">Default</option>
-                                <option value="#?sort=pd.name&amp;order=ASC">Name (A - Z)</option>
-                                <option value="#?sort=pd.name&amp;order=DESC">Name (Z - A)</option>
-                                <option value="#?sort=p.price&amp;order=ASC">Price (Low &gt; High)</option>
-                                <option value="#?sort=p.price&amp;order=DESC">Price (High &gt; Low)</option>
-                                <option value="#?sort=rating&amp;order=DESC">Rating (Highest)</option>
-                                <option value="#?sort=rating&amp;order=ASC">Rating (Lowest)</option>
-                                <option value="#?sort=p.model&amp;order=ASC">Model (A - Z)</option>
-                                <option value="#?sort=p.model&amp;order=DESC">Model (Z - A)</option>
-                            </select>
-                        </div>
-                    </div>
-                    -->
                 </div>
                 <!-- BEGIN PRODUCT LIST -->
                 <div class="row product-list" id="product-list">
@@ -413,13 +384,6 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
             cache: false,
             success: function(response) {
                 console.log("MainPage 데이터:", response);
-
-                // 선호취향 입력 여부 확인
-                if (response.flag) {
-                    alert(response.msg);
-                    window.location.href = response.url; // userPreferencePage.do로 이동
-                    return;
-                }
 
                 // 전역 변수 업데이트
                 window.allUsers = response.userDatas || [];

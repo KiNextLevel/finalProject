@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Random;
 
 @Service
-public class Crawling {
+public class Crawling2 {
     @Autowired
     private UserService userService;
     @Autowired
@@ -39,6 +39,8 @@ public class Crawling {
     private static final String[] mbti = {"ISFJ", "ISTJ", "INFJ", "INTJ", "ISTP", "ISFP", "INFP", "INTP", "ESTP", "ESFP", "ENFP", "ENTP", "ESTJ", "ESFJ", "ENFJ", "ENTJ"};
     private static final String[] edu = {"고등학교 졸업", "전문대 졸업", "대학교 재학", "대학교 졸업", "대학원 재학", "대학원 졸업"};
     private static final String[] religion = {"무교", "기독교", "천주교", "불교", "이슬람교", "힌두교", "기타"};
+
+
     private static final String[] addresses = {
             "서울특별시 강남구 테헤란로 123",
             "부산광역시 해운대구 해운대로 456",
@@ -92,105 +94,126 @@ public class Crawling {
         options.addArguments("--window-size=1920,1080");
 
         WebDriver driver = new ChromeDriver(options);
-
-        String mainUrl = "https://ko.wikipedia.org/wiki/%EB%8C%80%ED%95%9C%EB%AF%BC%EA%B5%AD%EC%9D%98_%EC%97%AC%EC%9E%90_%EB%B0%B0%EC%9A%B0_%EB%AA%A9%EB%A1%9D";
+        // DOM 로딩이 오래 걸리면 요소를 다 못 받아오거나 오류 발생 가능 -> 대기 시간: 최대 10초로 설정
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
         try {
-            // 메인 페이지로 이동
-            driver.get(mainUrl);
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-            wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='mw-content-text']//ul/li/a")));
+            // 여성, 남성 배우 목록 링크 수집
+            List<String> femaleNames = new ArrayList<>();
+            List<String> femaleUrls = new ArrayList<>();
+            List<String> maleNames = new ArrayList<>();
+            List<String> maleUrls = new ArrayList<>();
+            getLinksFromPage(driver, wait, femaleUrls, femaleNames, maleNames, maleUrls);
 
-            // 링크와 이름 먼저 수집
-            List<String> actorUrls = new ArrayList<>();
-            List<String> actorNames = new ArrayList<>();
-            List<WebElement> actorLinks = driver.findElements(By.xpath("//div[@id='mw-content-text']//ul/li/a"));
-            for (WebElement link : actorLinks) {
-                actorUrls.add(link.getAttribute("href"));
-                actorNames.add(link.getText());
-            }
-
-            // 첫 100명만 저장
-            int limit = Math.min(100, actorUrls.size());
+            // 남자 목록, 여자 목록, 50 중 가장 적은 분량 만큼만 조회
+            int limit = Math.min(50, Math.min(femaleUrls.size(), maleUrls.size()));
             for (int i = 0; i < limit; i++) {
-                try {
-                    String actorName = actorNames.get(i);
-                    String actorUrl = actorUrls.get(i);
-                    System.out.println("크롤링 중: " + actorName + " (" + actorUrl + ")");
-                    // 배우 페이지로 이동
-                    driver.get(actorUrl);
-                    wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1[@id='firstHeading']")));
-
-                    String nickName = driver.findElement(By.xpath("//h1[@id='firstHeading']")).getText().split("\\(")[0];
-                    String name = nickName;
-                    String birthDate = "N/A";
-                    String gender = "N/A";
-                    String profilePhotoUrl;
-
-                    try {
-                        WebElement infoTable = driver.findElement(By.xpath("//table[contains(@class, 'infobox')]"));
-                        List<WebElement> rows = infoTable.findElements(By.xpath(".//tr"));
-
-                        // 프로필 사진 URL 추출
-                        List<WebElement> images = infoTable.findElements(By.xpath(".//td[contains(@class, 'infobox-image')]//img"));
-                        if (!images.isEmpty()) {
-                            profilePhotoUrl = images.getFirst().getAttribute("src"); // infobox-image 내 첫 번째 이미지의 src 속성
-                            System.out.println("프로필 사진 URL: " + profilePhotoUrl);
-                        } else {
-                            continue;
-                        }
-
-                        for (WebElement row : rows) {
-                            List<WebElement> headers = row.findElements(By.xpath(".//th"));
-                            List<WebElement> values = row.findElements(By.xpath(".//td"));
-                            if (!headers.isEmpty() && !values.isEmpty()) {
-                                String headerText = headers.getFirst().getText();
-                                String valueText = values.getFirst().getText();
-                                if ("본명".equals(headerText)) {
-                                    name = valueText.split("\\(")[0];
-                                }
-                                else if ("출생".equals(headerText)) {
-                                    birthDate = valueText.split("\n")[0];
-                                }
-                                else if ("성별".equals(headerText)) {
-                                    gender = valueText.split("\n")[0];
-                                }
-                            }
-                        }
-                    } catch (Exception e) {
-                        System.out.println(nickName + "의 정보를 찾을 수 없습니다: " + e.getMessage());
-                        continue;
-                    }
-
-                    // 콘솔에 결과 출력
-                    System.out.printf("활동명: %s, 생년월일: %s, 성별: %s, 이름: %s, 프로필 사진 URL: %s%n",
-                            nickName, birthDate, gender, name, profilePhotoUrl);
-
-                    // UserVO 생성 및 랜덤 데이터 추가
-                    UserVO userVO = new UserVO();
-                    userVO.setUserName(name);
-                    userVO.setUserNickname(nickName);
-                    userVO.setUserProfile(profilePhotoUrl);
-                    userVO.setUserGender(gender.contains("남") ? 1 : 0);
-                    userVO.setUserBirth(convertToIsoDateString(birthDate));
-
-                    // 랜덤 사용자 정보 생성 및 DB 저장
-                    if (createRandomUserInfo(userVO)) {
-                        userService.insert(userVO);
-                        System.out.println("사용자 정보가 DB에 저장되었습니다: " + userVO.getUserNickname());
-                    } else {
-                        System.out.println("사용자 정보 저장 실패 (중복 이메일): " + userVO.getUserNickname());
-                    }
-                } catch (Exception e) {
-                    System.out.println("에러 발생: " + e.getMessage());
-                }
+                processActor(driver, wait, femaleNames.get(i), femaleUrls.get(i), "여");
+                processActor(driver, wait, maleNames.get(i), maleUrls.get(i), "남");
             }
-
+        } catch (Exception e) {
+            System.out.println("크롤링 중 에러 발생: " + e.getMessage());
+            e.printStackTrace();
         } finally {
             driver.quit();
         }
 
         System.out.println("크롤링 완료!");
+    }
+
+    // 링크 수집 메서드
+    public void getLinksFromPage(WebDriver driver, WebDriverWait wait,
+                                 List<String> femaleUrls, List<String> femaleNames,
+                                 List<String> maleNames, List<String> maleUrls) {
+        try {
+            //여자, 남자 배우 목록 페이지
+            String femaleUrl = "https://ko.wikipedia.org/wiki/%EB%8C%80%ED%95%9C%EB%AF%BC%EA%B5%AD%EC%9D%98_%EC%97%AC%EC%9E%90_%EB%B0%B0%EC%9A%B0_%EB%AA%A9%EB%A1%9D";
+            String maleUrl = "https://ko.wikipedia.org/wiki/%EB%8C%80%ED%95%9C%EB%AF%BC%EA%B5%AD%EC%9D%98_%EB%82%A8%EC%9E%90_%EB%B0%B0%EC%9A%B0_%EB%AA%A9%EB%A1%9D";
+
+            // 여성 배우 링크 수집
+            driver.get(femaleUrl);
+            // 페이지에서 링크가 DOM에 나타날 때까지 기다림
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='mw-content-text']//ul/li/a")));
+            List<WebElement> femaleLinks = driver.findElements(By.xpath("//div[@id='mw-content-text']//ul/li/a"));
+            for (WebElement link : femaleLinks) {
+                femaleNames.add(link.getText().split("\\(")[0]);
+                femaleUrls.add(link.getAttribute("href"));
+            }
+
+            // 남성 배우 링크 수집
+            driver.get(maleUrl);
+            // 페이지에서 링크가 DOM에 나타날 때까지 기다림
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='mw-content-text']//ul/li/a")));
+            List<WebElement> maleLinks = driver.findElements(By.xpath("//div[@id='mw-content-text']//ul/li/a"));
+            for (WebElement link : maleLinks) {
+                maleNames.add(link.getText().split("\\(")[0]);
+                maleUrls.add(link.getAttribute("href"));
+            }
+
+        } catch (Exception e) {
+            System.out.println("링크 수집 실패: ");
+        }
+    }
+
+    // 배우 정보 수집 메서드
+    private void processActor(WebDriver driver, WebDriverWait wait, String nickName, String actorUrl, String gender) {
+        try {
+            System.out.println("Crawling Log - 크롤링 중: " + nickName + " (" + actorUrl + ")");
+            driver.get(actorUrl);
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1[@id='firstHeading']")));
+
+            String name = nickName;
+            String birthDate = "N/A";
+//            String gender = "N/A";
+            String profilePhotoUrl;
+
+            WebElement infoTable = driver.findElement(By.xpath("//table[contains(@class, 'infobox')]"));
+            List<WebElement> images = infoTable.findElements(By.xpath(".//td[contains(@class, 'infobox-image')]//img"));
+
+            if (images.isEmpty()) {
+                System.out.println(nickName + " - 프로필 사진 없음, 스킵");
+                return;
+            }
+
+            profilePhotoUrl = images.getFirst().getAttribute("src");
+
+            for (WebElement row : infoTable.findElements(By.xpath(".//tr"))) {
+                List<WebElement> headers = row.findElements(By.xpath(".//th"));
+                List<WebElement> values = row.findElements(By.xpath(".//td"));
+                if (!headers.isEmpty() && !values.isEmpty()) {
+                    String headerText = headers.getFirst().getText();
+                    String valueText = values.getFirst().getText();
+                    if ("본명".equals(headerText)) {
+                        name = valueText.split("\\(")[0];
+                    }
+                    else if ("출생".equals(headerText)) {
+                        birthDate = valueText.split("\n")[0];
+                    }
+//                    else if ("성별".equals(headerText)) {
+//                        gender = valueText.split("\n")[0];
+//                    }
+                }
+            }
+
+            // UserVO 객체 생성
+            UserVO userVO = new UserVO();
+            userVO.setUserName(name);
+            userVO.setUserNickname(nickName);
+            userVO.setUserProfile(profilePhotoUrl);
+            userVO.setUserGender(gender.contains("남") ? 1 : 0);
+            userVO.setUserBirth(convertToIsoDateString(birthDate));
+
+            // 저장 시도
+            if (createRandomUserInfo(userVO)) {
+                userService.insert(userVO);
+                System.out.println("DB 저장 완료: " + userVO.getUserNickname());
+            } else {
+                System.out.println("중복으로 저장 실패: " + userVO.getUserNickname());
+            }
+
+        } catch (Exception e) {
+            System.out.println("에러 - " + nickName + ": " + e.getMessage());
+        }
     }
 
     private boolean createRandomUserInfo(UserVO vo) {
